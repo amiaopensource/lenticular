@@ -23,7 +23,7 @@ Linux: install libtiff-dev using your package manager
 Mac: install fink and use it to install libtiff-dev
 Windows: install MinGW and use it to install libtiff-dev
 
-1. Howto install
+1. How to install
 - 'unzip' the compressed folder, 'cd' into it
 - build the program from the shell by running 'make' in that directory
 - run the program on the shell by './doLCE'
@@ -40,12 +40,12 @@ Windows: install MinGW and use it to install libtiff-dev
  3. delete_...() releases memory and sets pointers on data containing fields to NULL
  4. methods do not allocate or release memory (reentrance safe?)
  5. pixel coordinates are ordered as in mathematics: x,y
- 6. using a memState_objectXY varibale to keep track of allocation and freeing memory in the main() is advised!
+ 6. using a memState_objectXY variable to keep track of allocation and freeing memory in the main() is advised!
  7. return value 0 <-> OK, other <-> ERROR
  8. methods only report in case of problems, they are quiet in case of success (main() shall decide when to report success) 
  
 Remarks.
-1. The concept of the code is based on the one used for the "Monolith 2" project conducted IML, University of Basel. However, the "doLCE" code was rewritten from scratch. In particular the order of the pixel coordinartes in Monolith 2 code is y, x.
+1. The concept of the code is based on the one used for the "Monolith 2" project conducted IML, University of Basel. However, the "doLCE" code was rewritten from scratch. In particular the order of the pixel coordinates in Monolith 2 code is y, x.
 2. The program is in an experimental state, there are hard coded parameters, such as the default number of pixels making up one lenticular lens, see line 114 in "lenticularFilmColorReconstruction.c":
  float subPixelPrecisionRasterSpacing = 19.2;
 Set this number to a value that fits the resolution of your scans.
