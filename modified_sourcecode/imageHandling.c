@@ -12,16 +12,22 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// _______________________________________________________________________
+// _______________________________________________________________________ 
 
-/* 2018-02-05 purge code */
+/******************************************************************************
+ *
+ * HISTORY
+ *   2018-02-05 purge code
+ *
+ ******************************************************************************/
 
 
 
 // imageHandling.c
 // - implementation of allocation and freeing of memory for gray level and rgb images
 // - implementation of reading and writing TIFF images
-//
+
+
 
 #include "imageHandling.h"
 
@@ -35,7 +41,6 @@
 // *** gray level and rgb image types ***
 // **************************************
 
-// new gray level image
 int new_glImage( glImage_t *glImage, int width, int height ) {
   int status = 0;
   int j;
@@ -47,7 +52,6 @@ int new_glImage( glImage_t *glImage, int width, int height ) {
     status = -1;
     printf( "ERROR: new_glImage(): Invalid argumment 'width<1 || heigth<1'\n" );
   } 
-
   if ( status == 0 ) {
     glImage->width = width;
     glImage->height = height;
@@ -64,7 +68,6 @@ int new_glImage( glImage_t *glImage, int width, int height ) {
       }
     }
   }
-
   if ( status == 0 ) {
     glImage->memState = 1;
   } else {
@@ -76,21 +79,19 @@ int new_glImage( glImage_t *glImage, int width, int height ) {
 
 
 
-// delete gray level image
 int delete_glImage( glImage_t *glImage ){
   int status = 0;
   int j;
 
-  if ( glImage->img==NULL || glImage->memState==0 ) {
+  if ( glImage->img==NULL || glImage->memState==0 ){
     status = -1;
     printf( "ERROR: delete_glImage(): Nothing to do 'glImage->img==NULL || glImage->memState==0'.\n" ); 
   } else if ( glImage->width<1 || glImage->height<1 ) {
     status = -1;
     printf( "ERROR: delete_glImage(): Invalid argument 'glImage->width<1 || glImage->height<1'.\n" ); 
-  }
-
+  } 
   if ( status == 0 ) {
-    for ( j=0; j<glImage->height; j++ ) {
+    for ( j=0; j<glImage->height; j++ ){
       free( glImage->img[j] ); 
     }
     free( glImage->img );
@@ -104,7 +105,7 @@ int delete_glImage( glImage_t *glImage ){
 
 
 // new rgb image
-int new_rgbImage( rgbImage_t *rgbImage, int width, int height ) {
+int new_rgbImage( rgbImage_t *rgbImage, int width, int height ){
   int status = 0;
   int c,j;
 
@@ -114,8 +115,7 @@ int new_rgbImage( rgbImage_t *rgbImage, int width, int height ) {
   } else if ( width<1 || height<1 ) {
     status = -1;
     printf( "ERROR: Won't allocate memory because width<1 || heigth<1\n" );
-  }
-
+  } 
   if ( status == 0 ) {
     rgbImage->width = width;
     rgbImage->height = height;
@@ -129,7 +129,7 @@ int new_rgbImage( rgbImage_t *rgbImage, int width, int height ) {
       if ( rgbImage->img[c] == NULL ) {
         printf( "ERROR: new_bitstore_rgbImage(): Failed to allocate memory for rgbImage->img[%d]\n", c );
       }
-      for ( j=0; j<rgbImage->height && status==0; j++ ) {
+      for ( j=0; j<rgbImage->height && status==0; j++ ){
         rgbImage->img[c][j] = malloc( (long)(rgbImage->width)*sizeof(int) );
         if ( rgbImage->img[c][j] == NULL ) {
           status = -1;
@@ -138,7 +138,6 @@ int new_rgbImage( rgbImage_t *rgbImage, int width, int height ) {
       }
     }
   }
-
   if ( status == 0 ) {
     rgbImage->memState = 1;
   } else {
@@ -153,22 +152,21 @@ int new_rgbImage( rgbImage_t *rgbImage, int width, int height ) {
 // delete rgb image
 int delete_rgbImage( rgbImage_t *rgbImage ){
   int status = 0;
-  int c,j; 
+  int c,j;
 
   if ( rgbImage->img==NULL && rgbImage->memState==0 ){
     status = -1;
-    printf( "ERROR: delete_rgbImage(): Nothing to do 'rgbImage->img==NULL && rgbImage->memState==0'.\n" ); 
+    printf( "ERROR: delete_rgbImage(): Nothing to do 'rgbImage->img==NULL && rgbImage->memState==0'.\n" );
   } else if ( rgbImage->width<1 || rgbImage->height<1 ) {
     status = -1;
-    printf( "ERROR: delete_rgbImage():Invalid argument 'rgbImage->width<1 || rgbImage->height<1'.\n" ); 
+    printf( "ERROR: delete_rgbImage():Invalid argument 'rgbImage->width<1 || rgbImage->height<1'.\n" );
   } else if ( rgbImage->memState != 1 ) {
     status = -1;
     printf( "ERROR: delete_rgbImage(): Invalid argument 'rgbImage->memState!=1'.\n" );
   }
-
   if ( status == 0 ) {
     for ( c=0; c<3; c++ ){
-      for ( j=0; j<rgbImage->height; j++ ) {
+      for ( j=0; j<rgbImage->height; j++ ){
         free( rgbImage->img[c][j] );
       }
       free( rgbImage->img[c] );
@@ -188,17 +186,16 @@ int delete_rgbImage( rgbImage_t *rgbImage ){
 // **********************
 
 // check  TIFF 
-int check_TIFF( char *fileName, short *spp, short *bps, int *width, int *height ) {
+int check_TIFF( char *fileName, short *spp, short *bps, int *width, int *height ){
   int status = 0;
   *spp = *bps = -1;
   TIFF *inTIFF;
   inTIFF = NULL;
 
-  if( (inTIFF = TIFFOpen( fileName, "r" )) == NULL ) {
+  if( (inTIFF = TIFFOpen( fileName, "r" )) == NULL ){
     status = -1;
     printf( "ERROR: check_TIFF(): Failed to open '%s'.\n", fileName );
   }
-
   if ( status == 0 ){
     TIFFGetField( inTIFF, TIFFTAG_SAMPLESPERPIXEL, spp );
     TIFFGetField( inTIFF, TIFFTAG_BITSPERSAMPLE, bps );
@@ -212,13 +209,11 @@ int check_TIFF( char *fileName, short *spp, short *bps, int *width, int *height 
   if( inTIFF != NULL ){
     TIFFClose( inTIFF );
   }
-
   return status;
 }
 
 
 
-// read gray level TIFF into memory
 int read_glTIFF( char *inputTIFFname, glImage_t *glImage ){
   int status = 0;
   int i, j;
@@ -238,32 +233,30 @@ int read_glTIFF( char *inputTIFFname, glImage_t *glImage ){
       printf( "ERROR: failed to open TIFF.\n" );
     }
   }
-
   if ( status == 0 ){
     TIFFGetField( inTIFF, TIFFTAG_SAMPLESPERPIXEL, &spp );
     TIFFGetField( inTIFF, TIFFTAG_BITSPERSAMPLE, &bps );
     TIFFGetField( inTIFF, TIFFTAG_IMAGEWIDTH, &width );
     TIFFGetField( inTIFF, TIFFTAG_IMAGELENGTH, &height );
-    if( spp!=1 || bps!=8 || glImage->width!=width || glImage->height!=height ) {
+    if( spp!=1 || bps!=8 || glImage->width!=width || glImage->height!=height ){
       status = -1;
       printf( "ERROR: Can't read '%s' because input parameters are inconsistent.\n", inputTIFFname );
       printf( "/tActual parameters  : spp=%d, bps=%d, width=%d, height%d\n", spp, bps, width, height );
       printf( "/tExpected parameters: spp=%d, bps=%d, width=%d, heigth%d\n", 1, 8, glImage->width, glImage->height );
     }
   }
-
   if ( status == 0 ){
     lineBuffer = malloc( (long)(glImage->width)*sizeof(unsigned char) );
     if ( lineBuffer == NULL ) {
       status = -1;
-      printf( "ERROR: Failed to allocate memory for lineBuffer \n" );
+      printf( "ERROR: Failed to allocate memory for lineBuffer \n" );   
     } else {
-      for ( j=0; j<glImage->height; j++ ) {
-        if ( TIFFReadScanline( inTIFF, lineBuffer, j, 0 ) == -1 ) {
+      for ( j=0; j<glImage->height; j++ ){
+        if ( TIFFReadScanline( inTIFF, lineBuffer, j, 0 ) == -1 ){
           printf( "ERROR: Failed to read scanline %d from %s.\n", j, inputTIFFname );
           status = -1;
         } else {
-          for( i=0; i<glImage->width; i++ ) {
+          for( i=0; i<glImage->width; i++ ){
             glImage->img[j][i] = (int)lineBuffer[i];
           }
         }
@@ -271,8 +264,7 @@ int read_glTIFF( char *inputTIFFname, glImage_t *glImage ){
       free( lineBuffer );
     }
   }
-
-  if ( inTIFF != NULL ) {
+  if ( inTIFF != NULL ){
     TIFFClose( inTIFF );
   }
 
@@ -282,77 +274,73 @@ int read_glTIFF( char *inputTIFFname, glImage_t *glImage ){
 
 
 int read_16bitTIFF_glImage( char *TIFFname, glImage_t *glImage ) {
-    int status = 0;
-    int i, j;
-    uint16 *lineBuffer;
-    int width, height;
-    short spp, bps;
-    TIFF *inTIFF;
-    inTIFF = NULL;
+  int status = 0;
+  int i, j;
+  uint16 *lineBuffer; // here changes will be done and accordingly below
+  int width, height;
+  short spp, bps;
+  TIFF *inTIFF;
+  inTIFF = NULL;
 
-    if ( glImage->img==NULL || glImage->memState!=1 ){
-        status = -1;
-        printf( "ERROR: read_16bitTIFF_glImage(): Invalid argument 'glImage->img==NULL || glImage->memState!=1'.\n" );
+  if ( glImage->img==NULL || glImage->memState!=1 ){
+    status = -1;
+    printf( "ERROR: read_16bitTIFF_glImage(): Invalid argument 'glImage->img==NULL || glImage->memState!=1'.\n" );
+  }
+  if ( status == 0 ){
+    if ( (inTIFF = TIFFOpen( TIFFname, "r" )) == NULL ){
+      status = -1;
+      printf( "ERROR: failed to open TIFF.\n" );
     }
-    if ( status == 0 ){
-        if ( (inTIFF = TIFFOpen( TIFFname, "r" )) == NULL ){
-            status = -1;
-            printf( "ERROR: failed to open TIFF.\n" );
-        }
+  }
+  if ( status == 0 ){
+    TIFFGetField( inTIFF, TIFFTAG_SAMPLESPERPIXEL, &spp );
+    TIFFGetField( inTIFF, TIFFTAG_BITSPERSAMPLE, &bps );
+    TIFFGetField( inTIFF, TIFFTAG_IMAGEWIDTH, &width );
+    TIFFGetField( inTIFF, TIFFTAG_IMAGELENGTH, &height );
+    if( spp!=1 || bps!=16 || glImage->width!=width || glImage->height!=height ){
+      status = -1;
+      printf( "ERROR: read_16bitTIFF_glImage(): Can't read '%s' because input parameters are inconsistent.\n", TIFFname );
+      printf( "/tActual parameters  : spp=%d, bps=%d, width=%d, height%d\n", spp, bps, width, height );
+      printf( "/tExpected parameters: spp=%d, bps=%d, width=%d, heigth%d\n", 1, 16, glImage->width, glImage->height );
     }
-
-    if ( status == 0 ){
-        TIFFGetField( inTIFF, TIFFTAG_SAMPLESPERPIXEL, &spp );
-        TIFFGetField( inTIFF, TIFFTAG_BITSPERSAMPLE, &bps );
-        TIFFGetField( inTIFF, TIFFTAG_IMAGEWIDTH, &width );
-        TIFFGetField( inTIFF, TIFFTAG_IMAGELENGTH, &height );
-        if( spp!=1 || bps!=16 || glImage->width!=width || glImage->height!=height ){
-            status = -1;
-            printf( "ERROR: read_16bitTIFF_glImage(): Can't read '%s' because input parameters are inconsistent.\n", TIFFname );
-            printf( "/tActual parameters  : spp=%d, bps=%d, width=%d, height%d\n", spp, bps, width, height );
-            printf( "/tExpected parameters: spp=%d, bps=%d, width=%d, heigth%d\n", 1, 16, glImage->width, glImage->height );
-        }
-    }
-
-    if ( status == 0 ){
-        lineBuffer = malloc( (long)(glImage->width)*sizeof(uint16) ); 
-        if ( lineBuffer == NULL ) {
-            status = -1;
-            printf( "ERROR: read_16bitTIFF_glImage(): Failed to allocate memory for lineBuffer \n" );   
+  }
+  if ( status == 0 ){
+    lineBuffer = malloc( (long)(glImage->width)*sizeof(uint16) ); 
+    if ( lineBuffer == NULL ) {
+      status = -1;
+      printf( "ERROR: read_16bitTIFF_glImage(): Failed to allocate memory for lineBuffer \n" );   
+    } else {
+      for ( j=0; j<glImage->height; j++ ){
+        if ( TIFFReadScanline( inTIFF, lineBuffer, j, 0 ) == -1 ){
+          printf( "ERROR: read_16bitTIFF_glImage(): Failed to read scanline %d from %s.\n", j, TIFFname );
+          status = -1;
         } else {
-            for ( j=0; j<glImage->height; j++ ){
-                if ( TIFFReadScanline( inTIFF, lineBuffer, j, 0 ) == -1 ){
-                    printf( "ERROR: read_16bitTIFF_glImage(): Failed to read scanline %d from %s.\n", j, TIFFname );
-                    status = -1;
-                } else {
-                    for( i=0; i<glImage->width; i++ ){
-                        glImage->img[j][i] = (int)lineBuffer[i]; 
-                    }
-                }
-            }
-            free( lineBuffer );
+          for( i=0; i<glImage->width; i++ ){
+            glImage->img[j][i] = (int)lineBuffer[i]; 
+          }
         }
+      }
+      free( lineBuffer );
     }
+  }
+  if ( inTIFF != NULL ){
+    TIFFClose( inTIFF );
+  }
 
-    if ( inTIFF != NULL ){
-        TIFFClose( inTIFF );
-    }
-
-
-    return status;
+  return status;
 }
+
 
 
 int read_3x8bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
   int status = 0;
-
   int i, j;
   uint8 *lineBuffer;
   int width, height;
   short spp, bps;
   TIFF *inTIFF;
   inTIFF = NULL;
-  
+
   if ( rgbImage->img==NULL || rgbImage->memState!=1 ){
     status = -1;
     printf( "ERROR: read_3x8bitTIFF_grgbImage(): Invalid argument 'rgbImage->img==NULL || rgbImage->memState!=1'.\n" );
@@ -363,7 +351,6 @@ int read_3x8bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
       printf( "ERROR: failed to open TIFF.\n" );
     }
   }
-
   if ( status == 0 ){
     TIFFGetField( inTIFF, TIFFTAG_SAMPLESPERPIXEL, &spp );
     TIFFGetField( inTIFF, TIFFTAG_BITSPERSAMPLE, &bps );
@@ -376,7 +363,7 @@ int read_3x8bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
       printf( "/tExpected parameters: spp=%d, bps=%d, width=%d, heigth%d\n", 3, 8, rgbImage->width, rgbImage->height );
     }
   }
-  
+
   if ( status == 0 ){
     lineBuffer = malloc( (long)(rgbImage->width)*3*sizeof(uint8) ); 
     if ( lineBuffer == NULL ) {
@@ -406,11 +393,12 @@ int read_3x8bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
   return status;
 }
 
+
+
 int read_3x16bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
   int status = 0;
-
   int i, j;
-  uint16 *lineBuffer;
+  uint16 *lineBuffer; // here changes will be done and accordingly below
   int width, height;
   short spp, bps;
   TIFF *inTIFF;
@@ -426,8 +414,7 @@ int read_3x16bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
       printf( "ERROR: failed to open TIFF.\n" );
     }
   }
-
-  if ( status == 0 ) {
+  if ( status == 0 ){
     TIFFGetField( inTIFF, TIFFTAG_SAMPLESPERPIXEL, &spp );
     TIFFGetField( inTIFF, TIFFTAG_BITSPERSAMPLE, &bps );
     TIFFGetField( inTIFF, TIFFTAG_IMAGEWIDTH, &width );
@@ -439,15 +426,14 @@ int read_3x16bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
       printf( "/tExpected parameters: spp=%d, bps=%d, width=%d, heigth%d\n", 3, 16, rgbImage->width, rgbImage->height );
     }
   }
-
-  if ( status == 0 ) {
+  if ( status == 0 ){
     lineBuffer = malloc( (long)(rgbImage->width)*3*sizeof(uint16) ); 
     if ( lineBuffer == NULL ) {
       status = -1;
       printf( "ERROR: read_3x16bitTIFF_rgbImage(): Failed to allocate memory for lineBuffer \n" );   
     } else {
-      for ( j=0; j<rgbImage->height; j++ ) {
-        if ( TIFFReadScanline( inTIFF, lineBuffer, j, 0 ) == -1 ) {
+      for ( j=0; j<rgbImage->height; j++ ){
+        if ( TIFFReadScanline( inTIFF, lineBuffer, j, 0 ) == -1 ){
           printf( "ERROR: read_3x16bitTIFF_rgbImage(): Failed to read scanline %d from %s.\n", j, fromTIFFname );
           status = -1;
         } else {
@@ -461,86 +447,81 @@ int read_3x16bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
       free( lineBuffer );
     }
   }
-  
   if ( inTIFF != NULL ){
     TIFFClose( inTIFF );
   }
-  
+
   return status;
 }
 
+
+
 int write_16bitTIFF_glImage( glImage_t *glImage, char *toTIFFname ){
-    int status = 0;
-    
-    TIFF *toTIFF;
-    int j,i;
-    uint16 *lineBuffer;
-    int minGl, maxGl;
+  int status = 0;
+  TIFF *toTIFF;
+  int j,i;
+  uint16 *lineBuffer;
+  int minGl, maxGl;
 
-    if ( glImage->img==NULL || glImage->memState!=1 ){
-        status = -1;
-        printf( "ERROR: write_16bitTIFF_glImage(): Invalid argument 'glImage->img==NULL || glImage->memState!=1'.\n" ); 
-    } else {
-        status = minMax_glImage( glImage, &minGl, &maxGl );
-        if ( status!=0 ) {
-            printf( "ERROR: write_16bitTIFF_glImage(): Cannot determine gray level range.\n" );
-        } else if ( minGl<0 || maxGl>65535 ) {
-            status = -1;
-            printf( "ERROR: write_16bitTIFF_glImage(): gl out of range: minGl=%d || maxGl=%d\n", minGl, maxGl );
-        }
+  if ( glImage->img==NULL || glImage->memState!=1 ){
+    status = -1;
+    printf( "ERROR: write_16bitTIFF_glImage(): Invalid argument 'glImage->img==NULL || glImage->memState!=1'.\n" ); 
+  } else {
+    status = minMax_glImage( glImage, &minGl, &maxGl );
+    if ( status!=0 ) {
+      printf( "ERROR: write_16bitTIFF_glImage(): Cannot determine gray level range.\n" );
+    } else if ( minGl<0 || maxGl>65535 ) {
+      status = -1;
+      printf( "ERROR: write_16bitTIFF_glImage(): gl out of range: minGl=%d || maxGl=%d\n", minGl, maxGl );
     }
-
-    if ( status == 0 ) {
-        if ( (toTIFF = TIFFOpen(toTIFFname, "w"))==NULL ){
+  }
+  if ( status == 0 ) {
+    if ( (toTIFF = TIFFOpen(toTIFFname, "w"))==NULL ){
             status = -1;
             printf( "ERROR: write_16bitTIFF_glImage(): Could not open '%s' for writing.\n", toTIFFname );
-        }
-
-        TIFFSetField( toTIFF, TIFFTAG_IMAGEWIDTH, glImage->width );
-        TIFFSetField( toTIFF, TIFFTAG_IMAGELENGTH, glImage->height );
-        TIFFSetField( toTIFF, TIFFTAG_BITSPERSAMPLE, 16 );
-        TIFFSetField( toTIFF, TIFFTAG_SAMPLESPERPIXEL, 1);
-        TIFFSetField( toTIFF, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
-        TIFFSetField( toTIFF, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-
-        lineBuffer = malloc( (long)(glImage->width)*sizeof(uint16) ); 
-        if ( lineBuffer == NULL ) {
-            status = -1;
-            printf( "ERROR: write_16bitTIFF_glImage(): Failed to allocate memory for lineBuffer \n" );   
-        } else {
-            for ( j=0; j<glImage->height; j++ ){
-                for ( i=0; i<glImage->width && status==0; i++ ){
-                    lineBuffer[i] = (uint16) glImage->img[j][i];
-                }
-                if ( TIFFWriteScanline( toTIFF, lineBuffer, j, 0 ) == -1 ) {
-                    status = -1;
-                    printf ( "ERROR: write_16bitTIFF_glImage(): Failed to write scan line (%d)! status = %d\n", j, status );
-                }
-            }   
-            free( lineBuffer );
-        }
-        TIFFClose( toTIFF );
     }
+    TIFFSetField( toTIFF, TIFFTAG_IMAGEWIDTH, glImage->width );
+    TIFFSetField( toTIFF, TIFFTAG_IMAGELENGTH, glImage->height );
+    TIFFSetField( toTIFF, TIFFTAG_BITSPERSAMPLE, 16 );
+    TIFFSetField( toTIFF, TIFFTAG_SAMPLESPERPIXEL, 1);
+    TIFFSetField( toTIFF, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+    TIFFSetField( toTIFF, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+    lineBuffer = malloc( (long)(glImage->width)*sizeof(uint16) ); 
+    if ( lineBuffer == NULL ) {
+      status = -1;
+      printf( "ERROR: write_16bitTIFF_glImage(): Failed to allocate memory for lineBuffer \n" );   
+    } else {
+      for ( j=0; j<glImage->height; j++ ){
+        for ( i=0; i<glImage->width && status==0; i++ ){
+          lineBuffer[i] = (uint16) glImage->img[j][i];
+        }
+        if ( TIFFWriteScanline( toTIFF, lineBuffer, j, 0 ) == -1 ) {
+          status = -1;
+          printf ( "ERROR: write_16bitTIFF_glImage(): Failed to write scan line (%d)! status = %d\n", j, status );
+        }
+      }
+      free( lineBuffer );
+    }
+    TIFFClose( toTIFF );
+  }
 
-    return status;
+  return status;
 }
+
 
 
 int write_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
   int status = 0;
-
   int c,j,i;
   int min[3], max[3];
   int width, height;
   TIFF *outTIFF;
-  unsigned char *lineBuffer;    
+  unsigned char *lineBuffer;
 
   if ( rgbImage->img==NULL || rgbImage->memState!=1 ) {
     status = -1;
     printf ( "ERROR: write_3x8bitTIFF_rgbImage(): Inavlid argument 'rgbImage->img==NULL || rgbImage->memState!=1'.\n" );
   }
-
-  // check if range of gray levels fits for storing as 8-bit image
   if ( status == 0 ) {
     status = get_range_rgbImage( rgbImage, min, max );
   }
@@ -550,7 +531,6 @@ int write_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
       printf ( "ERROR: write_3x8bitTIFF_rgbImage(): Values out of range for 8bit rgb: red %d to %d, green %d to %d, blue %d to %d\n", min[0], max[0], min[1], max[1], min[2], max[2] );
     }
   } 
-
   if ( (outTIFF = TIFFOpen(toTIFFname, "w"))==NULL ){
     status = -1;
     printf( "ERROR: write_3x8bitTIFF_rgbImage(): Failed to open '%s' for writing.\n", toTIFFname );
@@ -570,17 +550,16 @@ int write_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
       status = -1;
       printf ( "ERROR : write_3x8bitTIFF_rgbImage(): failed to allocate memory for line buffer.\n" );
     }
-
-    for ( j=0; j<height && status==0; j++ ){
-      for ( i=0; i<width; i++ ){
-        for ( c=0; c<3; c++ ){
+    for ( j=0; j<height && status==0; j++ ) {
+      for ( i=0; i<width; i++ ) {
+        for ( c=0; c<3; c++ ) {
           lineBuffer[3*i+c] = (unsigned char)(rgbImage->img[c][j][i]);
         }
       }
       if (TIFFWriteScanline (outTIFF, lineBuffer, j, 0) == -1) {
         status = -1;
         printf ( "ERROR : write_3x8bitTIFF_rgbImage(): failed to write scan line (%d).\n", j );
-      }   
+      }
     }
     free( lineBuffer );
     TIFFClose( outTIFF );
@@ -589,26 +568,24 @@ int write_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
   return status;
 }
 
+
+
 int writeROI_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname, int roiXpos, int roiYpos, int roiWidth, int roiHeight ) {
   int status = 0;
-
   int c,j,i;
   int min[3], max[3];
   int width, height;
   TIFF *outTIFF;
-  unsigned char *lineBuffer;    
+  unsigned char *lineBuffer;
 
   if ( rgbImage->img==NULL || rgbImage->memState!=1 ) {
     status = -1;
     printf ( "ERROR: writeROI_3x8bitTIFF_rgbImage(): Inavlid argument 'rgbImage->img==NULL || rgbImage->memState!=1'.\n" );
   }
-
   if ( roiXpos+roiWidth>rgbImage->width || roiYpos+roiHeight>rgbImage->height ) {
     status = -1;
     printf ( "ERROR: writeROI_3x8bitTIFF_rgbImage(): Inavlid arguments 'roiXpos+roiWidth>rgbImage.width || roiYpos+roiheight>rgbImage.height'\n" );
   }
-
-  // check if range of gray levels fits for storing as 8-bit image
   if ( status == 0 ) {
     status = get_range_rgbImage( rgbImage, min, max );
   }
@@ -618,15 +595,13 @@ int writeROI_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname, int ro
       printf ( "ERROR: writeROI_3x8bitTIFF_rgbImage(): Values out of range for 8bit rgb: red %d to %d, green %d to %d, blue %d to %d\n", min[0], max[0], min[1], max[1], min[2], max[2] );
     }
   } 
-
-  if ( (outTIFF = TIFFOpen(toTIFFname, "w"))==NULL ) {
+  if ( (outTIFF = TIFFOpen(toTIFFname, "w"))==NULL ){
     status = -1;
     printf( "ERROR: writeROI_3x8bitTIFF_rgbImage(): Failed to open '%s' for writing.\n", toTIFFname );
   }
-
   if ( status == 0 ) {
-    width = roiWidth; //rgbImage->width;
-    height = roiHeight; //rgbImage->height;
+    width = roiWidth;
+    height = roiHeight;
     TIFFSetField( outTIFF, TIFFTAG_IMAGEWIDTH, width );
     TIFFSetField( outTIFF, TIFFTAG_IMAGELENGTH, height );
     TIFFSetField( outTIFF, TIFFTAG_BITSPERSAMPLE, 8 );
@@ -638,7 +613,6 @@ int writeROI_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname, int ro
       status = -1;
       printf ( "ERROR : writeROI_3x8bitTIFF_rgbImage(): failed to allocate memory for line buffer.\n" );
     }
-
     for ( j=0; j<roiHeight && status==0; j++ ){
       for ( i=0; i<roiWidth; i++ ){
         for ( c=0; c<3; c++ ){
@@ -657,9 +631,10 @@ int writeROI_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname, int ro
   return status;
 }
 
+
+
 int write_3x16bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
   int status = 0;
-
   int c,j,i;
   int min[3], max[3];
   int width, height;
@@ -670,8 +645,6 @@ int write_3x16bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
     status = -1;
     printf ( "ERROR: write_3x16bitTIFF_rgbImage(): Inavlid argument 'rgbImage->img==NULL || rgbImage->memState!=1'.\n" );
   }
-
-  // check if range of gray levels fits for storing as 8-bit image
   if ( status == 0 ) {
     status = get_range_rgbImage( rgbImage, min, max );
   }
@@ -680,13 +653,11 @@ int write_3x16bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
       status = -1;
       printf ( "ERROR: write_3x16bitTIFF_rgbImage(): Values out of range for 16bit rgb: red %d to %d, green %d to %d, blue %d to %d\n", min[0], max[0], min[1], max[1], min[2], max[2] );
     }
-  } 
-
-  if ( (outTIFF = TIFFOpen(toTIFFname, "w")) == NULL ){
+  }
+  if ( (outTIFF = TIFFOpen(toTIFFname, "w"))==NULL ){
     status = -1;
     printf( "ERROR: write_3x16bitTIFF_rgbImage(): Failed to open '%s' for writing.\n", toTIFFname );
   }
-
   if ( status == 0 ) {
     width = rgbImage->width;
     height = rgbImage->height;
@@ -696,12 +667,10 @@ int write_3x16bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
     TIFFSetField( outTIFF, TIFFTAG_SAMPLESPERPIXEL, 3 );
     TIFFSetField( outTIFF, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
     TIFFSetField( outTIFF, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-
     if ( (lineBuffer = malloc( (long)(rgbImage->width)*3*sizeof(uint16) )) == NULL ) {
       status = -1;
       printf ( "ERROR : write_3x16bitTIFF_rgbImage(): failed to allocate memory for line buffer.\n" );
     }
-    
     for ( j=0; j<height && status==0; j++ ){
       for ( i=0; i<width; i++ ){
         for ( c=0; c<3; c++ ){
@@ -721,11 +690,12 @@ int write_3x16bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
 }
 
 
+
 // ******************************************
 // *** basic information on image content ***
 // ******************************************
 
-int minMax_glImage( glImage_t *glImage, int *minGl, int *maxGl ) {
+int minMax_glImage( glImage_t *glImage, int *minGl, int *maxGl ){
   int status = 0;
   int j, i;
 
@@ -733,7 +703,6 @@ int minMax_glImage( glImage_t *glImage, int *minGl, int *maxGl ) {
     printf( "ERROR: minMax_glImage(): Can't determine mix/max for an empty gl image.\n" );
     status = -1;
   }
-
   *minGl = glImage->img[0][0];
   *maxGl = *minGl;
   for ( j=0; j<glImage->height; j++ ) {
@@ -751,9 +720,9 @@ int minMax_glImage( glImage_t *glImage, int *minGl, int *maxGl ) {
 }
 
 
+
 int get_range_rgbImage( rgbImage_t *rgbImage, int minValue[3], int maxValue[3] ) {
   int status = 0;
-
   int c;
   int i, j;
   int min, max;
@@ -763,7 +732,6 @@ int get_range_rgbImage( rgbImage_t *rgbImage, int minValue[3], int maxValue[3] )
     status = -1;
     printf ( "ERROR: get_range_rgbImage(): Inavlid argument 'rgbImage->img==NULL || rgbImage->memState!=1'.\n" );
   } 
-
   if ( status == 0 ) {
     width = rgbImage->width;
     height = rgbImage->height;
@@ -787,37 +755,38 @@ int get_range_rgbImage( rgbImage_t *rgbImage, int minValue[3], int maxValue[3] )
   return status;
 }
 
+
+
 int new_glHistogram( glHistogram_t *glHist, int minGl, int maxGl ) {
-    int status = 0;
-    int i;
+  int status = 0;
+  int i;
 
-    if ( glHist->freq!=NULL || glHist->memState!=0 ) {
-        status = -1;
-        printf( "ERROR: new_glHistogram(): Invalid arguments 'glHist->freq!=NULL || glHist->memState!=0'.\n" );
-    } else if ( maxGl-minGl <= 0 ) {
-        status = -1;
-        printf( "ERROR: new_glHistogram(): Invalid gray level dynamic range: maxGl-minGl = %d - %d <= 0\n", maxGl, minGl );
-
+  if ( glHist->freq!=NULL || glHist->memState!=0 ) {
+    status = -1;
+    printf( "ERROR: new_glHistogram(): Invalid arguments 'glHist->freq!=NULL || glHist->memState!=0'.\n" );
+  } else if ( maxGl-minGl <= 0 ) {
+    status = -1;
+    printf( "ERROR: new_glHistogram(): Invalid gray level dynamic range: maxGl-minGl = %d - %d <= 0\n", maxGl, minGl );
+  }
+  if ( status == 0 ) {
+    glHist->minGl = minGl;
+    glHist->maxGl = maxGl;
+    glHist->freq = malloc ( (maxGl+1)*sizeof(unsigned long) );
+    if ( glHist->freq == NULL ) {
+      status = -1;
+      printf( "ERROR: new_glHistogram(): Failed to allocate memory for 'glHist->freq'\n" );
     }
+  }
+  if ( status == 0 ) {
+    glHist->memState = 1;
+  } else {
+    glHist->memState = -1;
+  }
 
-    if ( status == 0 ) {
-        glHist->minGl = minGl;
-        glHist->maxGl = maxGl;
-        glHist->freq = malloc ( (maxGl+1)*sizeof(unsigned long) );
-        if ( glHist->freq == NULL ) {
-            status = -1;
-            printf( "ERROR: new_glHistogram(): Failed to allocate memory for 'glHist->freq'\n" );
-        }
-    }
-
-    if ( status == 0 ) {
-        glHist->memState = 1;
-    } else {
-        glHist->memState = -1;
-    }
-
-    return status;
+ return status;
 }
+
+
 
 int delete_glHistogram( glHistogram_t *glHist ){
   int status = 0;
@@ -836,47 +805,47 @@ int delete_glHistogram( glHistogram_t *glHist ){
   return status;
 }
 
+
+
 int get_glHistogram( glImage_t *glImage, glHistogram_t *hist ){
-    int status = 0;
-    int j, i;
+  int status = 0;
+  int j, i;
 
-    if ( glImage->img==NULL ){
-        status = -1;
-        printf( "ERROR: get_glHistogram(): Invalid gray level image: 'glImage->img == NULL'.\n " );
-    } else if ( hist->freq==NULL ){
-        status = -1;
-        printf( "ERROR: get_glHistogram(): Invalid gray level histogram: 'hist->freq == NULL'\n " );
+  if ( glImage->img==NULL ){
+    status = -1;
+    printf( "ERROR: get_glHistogram(): Invalid gray level image: 'glImage->img == NULL'.\n " );
+  } else if ( hist->freq==NULL ){
+    status = -1;
+    printf( "ERROR: get_glHistogram(): Invalid gray level histogram: 'hist->freq == NULL'\n " );
+  }
+
+  if ( status == 0 ) {
+    for ( i=0; i<hist->maxGl+1; i++ ) {
+      hist->freq[i] = 0;
     }
-
-    if ( status == 0 ) {
-        for ( i=0; i<hist->maxGl+1; i++ ) {
-            hist->freq[i] = 0;
-        }
-        for ( j=0; j<glImage->height; j++ ){
-            for ( i=0; i<glImage->width; i++ ){
-                hist->freq[glImage->img[j][i]]++;
-            }
-        }
+    for ( j=0; j<glImage->height; j++ ){
+      for ( i=0; i<glImage->width; i++ ){
+        hist->freq[glImage->img[j][i]]++;
+      }
     }
+  }
 
-    return status;
+  return status;
 }
 
 
 
 int get_glHistograms_fourShot( glImage_t *glImage, glHistogram_t glHists[4] ) {
   int status = 0;
-
   int s;
   int i, j;
 
   if ( glImage->img==NULL ){
     status = -1;
     printf( "ERROR: get_glHistograms_fourShot(): Invalid gray level image: 'glImage->img == NULL'.\n " );
-  } 
-  else {
+  } else {
     for ( s=0; s<4 && status==0; s++ ) {
-      if ( glHists[s].freq==NULL || glHists[s].memState!=1 ){
+      if ( glHists[s].freq==NULL || glHists[s].memState!=1 ) {
         status = -1;
         printf( "ERROR: get_glHistograms_fourShot(): Invalid gray level histogram: 'glHists[%d].freq==NULL || glHists[i].memState!=1'\n", i );
       }
@@ -889,7 +858,7 @@ int get_glHistograms_fourShot( glImage_t *glImage, glHistogram_t glHists[4] ) {
         glHists[s].freq[i] = 0;
       }
     }
-    for ( j=0; j<glImage->height-1; j+=2 ) {
+    for ( j=0; j<glImage->height-1; j+=2 ) {    
       for ( i=0; i<glImage->width-1; i+=2 ) {
         glHists[0].freq[glImage->img[j][i]]++;
         glHists[1].freq[glImage->img[j][i+1]]++;
@@ -903,62 +872,58 @@ int get_glHistograms_fourShot( glImage_t *glImage, glHistogram_t glHists[4] ) {
 }
 
 
-int write_glHistogram( glHistogram_t *hist, char *fileName ){
-    int status = 0;
 
-    FILE *histFile;
-    int gl;
+int write_glHistogram( glHistogram_t *hist, char *fileName ) {
+  int status = 0;
+  FILE *histFile;
+  int gl;
 
-    if ( hist->freq==NULL ) {
-        status = -1;
-        printf( "ERROR: write_glHistogram(): Can't write empty histogram to disk.\n" );
-    } else if ( (hist->minGl==hist->maxGl) && (hist->freq[hist->maxGl]==0) ) {
-        status = -1;
-        printf( "ERROR: write_glHistogram(): Can't write empty histogram to disk.\n" );
+  if ( hist->freq==NULL ) {
+    status = -1;
+    printf( "ERROR: write_glHistogram(): Can't write empty histogram to disk.\n" );
+  } else if ( (hist->minGl==hist->maxGl) && (hist->freq[hist->maxGl]==0) ) {
+    status = -1;
+    printf( "ERROR: write_glHistogram(): Can't write empty histogram to disk.\n" );
+  }
+
+  if ( status == 0 ){
+    if ( (histFile = fopen( fileName, "w" )) == NULL ) {
+      status = -1;
+      printf( "ERROR: write_glHistogram(): Cannot open file %s for writing.\n", fileName );
     }
-
-    if ( status == 0 ){
-        if ( (histFile = fopen( fileName, "w" )) == NULL ) {
-            status = -1;
-            printf( "ERROR: write_glHistogram(): Cannot open file %s for writing.\n", fileName );
-        }
-        if ( status == 0 ) {
-            fprintf( histFile, "gl\tfreq\n" );
-            for ( gl = hist->minGl; gl<hist->maxGl; gl++ ) {
-                fprintf( histFile, "%d\t%lu\n", gl, hist->freq[gl] );
-            }
-            fclose( histFile );
-        }
+    if ( status == 0 ) {
+      fprintf( histFile, "gl\tfreq\n" );
+      for ( gl = hist->minGl; gl<hist->maxGl; gl++ ) {
+        fprintf( histFile, "%d\t%lu\n", gl, hist->freq[gl] );
+      }
+      fclose( histFile );
     }
+  }
 
-    return status;
+  return status;
 }
 
 
 
 int write_glHistograms_fourShot( glHistogram_t glHists[4], char *toFileName ) {
   int status = 0;
-
   FILE *histsFile;
   int gl;
   int minGl, maxGl;
   int s;
-
+  
   for ( s=0; s<4 && status==0; s++ ) {
     if ( glHists[s].minGl!=glHists[0].minGl || glHists[s].maxGl!=glHists[0].maxGl ) {
       status = -1;
       printf( "ERROR: write_glHistograms_fourShot(): Unequal ranges of the histogams: 'glHists[%d].minGl!=glHists[0].minGl || glHists[%d].maxGl!=glHists[0].maxGl'\n", s, s );
-    }
-    else if ( glHists[s].freq==NULL || glHists[s].memState!=1 ){
+    } else if ( glHists[s].freq==NULL || glHists[s].memState!=1 ) {
       status = -1;
       printf( "ERROR: write_glHistograms_fourShot(): Invalid gray level histogram: 'glHists[%d].freq==NULL || glHists[%d].memState!=1'\n", s, s );
-    }
-    else if ( (glHists[s].minGl==glHists[s].maxGl) && (glHists[s].freq[glHists[s].maxGl]==0) ) {
+    } else if ( (glHists[s].minGl==glHists[s].maxGl) && (glHists[s].freq[glHists[s].maxGl]==0) ) {
       status = -1;
       printf( "ERROR: write_glHistograms_fourShot(): Can't write empty histogram to disk (shot %d).\n", s );
     }
   }
-
   if ( status == 0 ){
     minGl = glHists[0].minGl;
     maxGl = glHists[0].maxGl;
@@ -974,7 +939,7 @@ int write_glHistograms_fourShot( glHistogram_t glHists[4], char *toFileName ) {
       fclose( histsFile );
     }
   }
-  
+
   return status;
 }
 
@@ -990,7 +955,6 @@ int new_glProfile( glProfile_t *glProfile, int length ) {
     status = -1;
     printf( "ERROR: new_glProfile(): invalid argument 'length<0'\n" );
   }
-
   if ( status == 0 ) {
     glProfile->p.x = -1;
     glProfile->p.y = -1;
@@ -1009,6 +973,8 @@ int new_glProfile( glProfile_t *glProfile, int length ) {
   return status;
 }
 
+
+
 int delete_glProfile( glProfile_t *glProfile ){
   int status = 0;
 
@@ -1024,25 +990,23 @@ int delete_glProfile( glProfile_t *glProfile ){
   return status;
 }
 
+
+
 int get_glProfile( glImage_t *glImage, glProfile_t *glProfile, point_t p, int direction, int thickness ) {
   int status = 0;
-
   int sum;
   int i, j;
 
   if ( glImage->img == NULL ) {
     status = -1;
     printf( "ERROR: get_glProfile_ROI(): Image is not allocated 'glImage->img==NULL'!\n" );
-  } 
-  else if ( glProfile->glSum==NULL || glProfile->memState!=1 ) {
+  } else if ( glProfile->glSum==NULL || glProfile->memState!=1 ) {
     status = -1;
     printf( "ERROR: get_glProfile_ROI(): Profile is not allocated 'glProfile->glSum==NULL' or in unknown state 'glProfile->memState!=1'!\n" );
-  } 
-  else if ( p.x<0 || p.x>glImage->width-1 || p.y<0 || p.y>glImage->height-1 ) {
+  } else if ( p.x<0 || p.x>glImage->width-1 || p.y<0 || p.y>glImage->height-1 ) {
     status = -1;
     printf( "ERROR: get_glProfile_ROI(): Point p=(%d,%d) outside image!\n", p.x, p.y );
-  }
-  else {
+  } else {
     if ( direction == 0 ) {
       if ( (p.x+glProfile->length > glImage->width) || (p.y+thickness > glImage->height) ) {
         status = -1;
@@ -1056,7 +1020,6 @@ int get_glProfile( glImage_t *glImage, glProfile_t *glProfile, point_t p, int di
       printf( "ERROR: get_glProfile_ROI(): invalid value 'direction=%d'\n", direction );
     }
   }
-
   if ( status == 0 ) {
     glProfile->p.x = p.x;
     glProfile->p.y = p.y;
@@ -1069,9 +1032,6 @@ int get_glProfile( glImage_t *glImage, glProfile_t *glProfile, point_t p, int di
           glProfile->glSum[i] += glImage->img[p.y+j][p.x+i];
         }
       }
-    }
-    if ( direction == 1 ) {
-      // ...
     }
   }
 
@@ -1086,15 +1046,14 @@ int write_glProfile( glProfile_t *glProfile, char *fileName ) {
   FILE *file;
   int i,j;
   int x, y;
-
+  
   if ( glProfile->glSum==NULL || glProfile->memState!=1 ) {
     status = -1;
     printf( "ERROR: write_glProfile(): gray level profile is empty 'glProfile->glSum==NULL || glProfile->memState!=1'\n" );
   } else if ( glProfile->length < 0 ) {
     status = -1;
     printf( "ERROR: write_glProfile(): 'glProfile->length<0'\n" );
-  }
-
+  } 
   if ( status == 0 ) {
     if ( (file=fopen( fileName, "w" )) == NULL ) {
       status = -1;
@@ -1130,7 +1089,6 @@ int write_glProfile( glProfile_t *glProfile, char *fileName ) {
 
 int copy_glProfile( glProfile_t *glProfileORI, glProfile_t *glProfileCPY ) {
   int status = 0;
-
   int i;
 
   if ( glProfileORI->glSum==NULL || glProfileORI->memState!=1 ) {
@@ -1149,7 +1107,6 @@ int copy_glProfile( glProfile_t *glProfileORI, glProfile_t *glProfileCPY ) {
     status = -1;
     printf ( "ERROR: copy_glProfile(): Inconsitent length of profiles 'glProfileORI->length != glProfileCPY->length'.\n" ); 
   }
-
   if ( status == 0 ) {
     glProfileCPY->p.x = glProfileORI->p.x;
     glProfileCPY->p.y = glProfileORI->p.y;
@@ -1166,7 +1123,6 @@ int copy_glProfile( glProfile_t *glProfileORI, glProfile_t *glProfileCPY ) {
 
 int smooth_glProfile( glProfile_t *glProfile ) {
   int status = 0;
-
   int i, ii;
   long buf;
   int kL = 7;
@@ -1179,7 +1135,6 @@ int smooth_glProfile( glProfile_t *glProfile ) {
   glProfile_t profileBuf;
   profileBuf.glSum = NULL;
   profileBuf.memState = 0;
-
   if ( glProfile->glSum==NULL || glProfile->memState!=1 ) {
     status = -1;
     printf ( "ERROR: smooth_glProfile(): Invalid argument 'glProfile->glSum==NULL || glProfile->memeState!=1'\n" );
@@ -1187,7 +1142,6 @@ int smooth_glProfile( glProfile_t *glProfile ) {
     status = -1;
     printf ( "ERROR: smooth_glProfile(): Invalid argument 'glProfile->length<5'\n" );
   }
-
   if ( status == 0 ) {
     status = new_glProfile( &profileBuf, glProfile->length );
     if ( status == 0 ) {
@@ -1203,18 +1157,17 @@ int smooth_glProfile( glProfile_t *glProfile ) {
       }
     }
     if ( profileBuf.memState != 0 ) {
-      delete_glProfile( &profileBuf );
+            delete_glProfile( &profileBuf );
     }
   }
 
-    return status;
+  return status;
 }
 
 
 
 int extract_localMinima_glProfile( glProfile_t *profile ) {
   int status = 0;
-
   int min;
   glProfile_t buf;
   buf.glSum = NULL;
@@ -1225,9 +1178,9 @@ int extract_localMinima_glProfile( glProfile_t *profile ) {
     status = -1;
     printf( "ERROR: get_localMinima_glProfile(): Invalid argument 'glProfile->list==NULL || glprofile->memState!=1'\n" );
   }
-
   if ( status == 0 ) {
     status = new_glProfile( &buf, profile->length );
+    // 2. compute the 1D erosion and store it in the buffer, boundaries are set to 0 by default
     if ( status == 0 ) {
       buf.glSum[0] = buf.glSum[profile->length-1] = 0;
       for ( i=1; i<profile->length-1; i++ ) {
@@ -1238,7 +1191,7 @@ int extract_localMinima_glProfile( glProfile_t *profile ) {
         if ( profile->glSum[i+1] < min ) {
           min = profile->glSum[i+1];
         }
-        buf.glSum[i] = min; 
+        buf.glSum[i] = min;
       }
     }
     // 3. compare original and eroded profile -> keep only local minima
@@ -1254,13 +1207,12 @@ int extract_localMinima_glProfile( glProfile_t *profile ) {
   }
 
   return status;
-} 
+}
 
 
 
 int extract_wells_glProfile( glProfile_t *profile ) {
   int status = 0;
-
   glProfile_t profileCpy;
   profileCpy.glSum = NULL;
   profileCpy.memState = 0;
@@ -1269,14 +1221,11 @@ int extract_wells_glProfile( glProfile_t *profile ) {
   int mask[7] = { -5, 0, 3, 4, 3, 0, -5 };
   int maskCenter = 3;
   int maskLen = 7;
-
   long locMeanSignal;
   int inspectedSignals;
-
   float meanSignal;
   int nSignals;
   long minSignal, maxSignal;
-
   int signalHist[40];
   float binSize;
 
@@ -1284,7 +1233,6 @@ int extract_wells_glProfile( glProfile_t *profile ) {
     status = -1;
     printf( "ERROR: extract_wells_glprofile(): Invalid argument 'glProfile->list==NULL || glprofile->memState!=1'\n" );
   }
-
   if ( status == 0 ) {
     // 1. produce a copy of the gl profile
     status = new_glProfile( &profileCpy, profile->length );
@@ -1308,7 +1256,6 @@ int extract_wells_glProfile( glProfile_t *profile ) {
       }
       printf( ">> OK.\n" );
     }
-
     // 3. extract the local minima  
     if ( status == 0 ) {
       printf( ">> extracting local minima\n" );
@@ -1317,21 +1264,18 @@ int extract_wells_glProfile( glProfile_t *profile ) {
         printf( ">> OK.\n" );
       }
     }
-    
     // 4.a. throw out all positive signals
     for ( i=0; i<profile->length; i++ ) {
       if ( profile->glSum[i] > 0 ) {
         profile->glSum[i] = 0;
       }
     }
-
     // 4.b. throw out signal close to left and right edge
     for ( i=0; i<profile->length/20; i++ ) {
       profile->glSum[i] = profile->glSum[profile->length-1-i] = 0;
     }
-
     // 5. throw out all signals that are higher than a threshold calculated from the local mean of 9 signals
-    printf( "i\tsignal\tinspSgnls locmeanSignal\n" );
+    printf( "i\tsignal\tinspSgnls locmeanSignal\n" ); 
     for ( i=0; i<profile->length; i++ ) {
       if ( profile->glSum[i] != 0 ) {
         printf( "%d\t%ld ", i, profile->glSum[i] );
@@ -1354,15 +1298,12 @@ int extract_wells_glProfile( glProfile_t *profile ) {
         }
       }
     }
-
     // 6. copy gl values back from copy to non zero entries of profile
     for ( i=0; i<profile->length; i++ ) {
       if ( profile->glSum[i] != 0 ) {
         profile->glSum[i] = profileCpy.glSum[i];
       }
     }
-
-    // delete the copy
     if ( delete_glProfile( &profileCpy ) != 0 ) {
       status = -1;
       printf( "ERROR: extract_wells_glProfile(): Failed to free 'profileCpy'.\n" );
@@ -1376,7 +1317,6 @@ int extract_wells_glProfile( glProfile_t *profile ) {
 
 int get_meanPeakSpacing( glProfile_t *profile, float *peakSpacing ){
   int status = 0;
-
   int i, prev_i;
   int threshold;
   int nSpaces;
@@ -1386,7 +1326,6 @@ int get_meanPeakSpacing( glProfile_t *profile, float *peakSpacing ){
     status = -1;
     printf( "ERROR: get_meanRasterSpacing(): Invalid argument 'profile->glSum==NULL || profile->memState!=1'\n" );
   }
-
   if ( status == 0 ) {
     threshold = 0;
     sum = 0;
@@ -1426,7 +1365,6 @@ int get_meanPeakSpacing( glProfile_t *profile, float *peakSpacing ){
 
 int get_peakSpacingHistogram( glProfile_t *glProfile, int peakSpacingHist[40], int *nPeaks ) {
   int status = 0;
-
   int threshold = 0;
   int i, prev_i;
   int dist;
@@ -1436,12 +1374,10 @@ int get_peakSpacingHistogram( glProfile_t *glProfile, int peakSpacingHist[40], i
     status = -1;
     printf( "ERROR: get_peakSpacingHistogram(): Invalid argument 'glProfile->glSum==NULL || glProfile->memState!=1'\n" );
   }
-
   if ( status == 0 ) {
     for ( i=0; i<40; i++ ) {
       peakSpacingHist[i] = 0;
     }
-    //printf( "Looking for first peak\n" );
     prev_i = -1;
     i = 0;
     while ( prev_i==-1 && i<glProfile->length ) {
@@ -1489,9 +1425,9 @@ int get_rasterSpacing( int spacingHist[40], int *rasterSpacing ) {
   int regDist;
   int regDistCount;
   int distCount;
-
+  
   regDist = regDistCount = distCount = 0;
-  for ( i=3; i<40; i++ ) {
+  for ( i=3; i<40; i++ ) { // ignoring small spacings
     if ( spacingHist[i] > regDistCount ) {
       regDist = i;
       regDistCount = spacingHist[i];
@@ -1513,11 +1449,10 @@ int get_rasterSpacing( int spacingHist[40], int *rasterSpacing ) {
 }
 
 
+
 int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeaks ) {
   int status = 0;
-
   int threshold = 0;
-
   int i_prev, i_next, i, ii;
   int i_start, i_end;
   int dist;
@@ -1527,7 +1462,6 @@ int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeak
   int extractedRegDistances;
   int nAddedPeaks_left, nAddedPeaks_right, nAddedPeaks_middle;
   int nRemovedPeaks;
-
   int *regPeaks;
   int memState_regPeaks = 0;
   int nRegPeaks = 0;
@@ -1542,7 +1476,6 @@ int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeak
     status = -1;
     printf( "ERROR: Invalid argument 'rasterSpacing=%d < 4'/n", rasterSpacing  );
   }
-
   if ( status == 0 ) {
     i_prev = -1;
     i = 0;
@@ -1555,15 +1488,14 @@ int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeak
     if ( i_prev == -1 ) { 
       *nPeaks = 0;
       printf( "WARNING: regularize_peakRaster(): First peak not found in profile! Skipping regularization of raster!\n" );
-    }
-    else {
+    } else {
       *nPeaks = 1;
     }
   }
   if ( status==0  && *nPeaks>0 ) {
     if ( (regPeaks = malloc( glProfile->length*sizeof(int) )) == NULL ){
       status = -1;
-      printf( "ERROR: regularize_peakRaster(): Failed to allocate memory for 'regPeaks'.\n" );                
+      printf( "ERROR: regularize_peakRaster(): Failed to allocate memory for 'regPeaks'.\n" );
     } else {
       memState_regPeaks = 1;
       for ( i=0; i<glProfile->length; i++ ) {
@@ -1592,7 +1524,6 @@ int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeak
       printf( "WARNING: No regular peaks found, skipping regularization of raster.\n" );
     }
   }
-  
   if ( status==0 && *nPeaks>0 ) {
     i_prev = -1;
     dist = -1;
@@ -1629,7 +1560,6 @@ int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeak
     }
     printf( "The number of well spaced extracted peaks is %d .\n", nRegPeaks );
   }
-
   if ( status==0 && nRegPeaks>0 ) {
     printf( "> Filling in missing peaks to form a complete regular raster\n" );
     // left boundary region first
@@ -1662,7 +1592,6 @@ int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeak
       nAddedPeaks_right++;
     }
     printf( "Added %d peaks at right boundary.\n", nAddedPeaks_right );
-    // and the middle region
     i_start = i_prev;
     i_end = i_next;
     printf( "now fixing missing peaks in gaps located between %d and %d\n", i_start, i_end );
@@ -1678,7 +1607,7 @@ int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeak
         printf( "\tgap of %d pixels (from %d to %d)\t", dist, i_prev, i_next );
         nPeaksToFix = (int)(((float)dist)/rasterSpacing + 0.5) - 1;
         fixDist = (float)dist/(nPeaksToFix+1);
-        printf( "--> npeaksToFix = %d, spaced by %f :\n\t\t", nPeaksToFix, fixDist );   
+        printf( "--> npeaksToFix = %d, spaced by %f :\n\t\t", nPeaksToFix, fixDist );
         for ( ii=1; ii<=nPeaksToFix; ii++ ) {
           printf( "|%f ", i_prev+ii*fixDist );
           regPeaks[i_prev+(int)(ii*fixDist + 0.5)] = 3;
@@ -1687,15 +1616,12 @@ int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeak
         printf( "\n" );
         i_prev = i_prev+(int)(ii*fixDist + 0.5);
         i = i_next;
-      } 
-      else {
-        //printf( "peak at %d present as expected\n", i );
+      } else {
         i_prev = i;
       }
     }
     printf( "Added %d peaks in the middle to fill gaps.\n", nAddedPeaks_middle );
   }
-
   if ( status==0 && nRegPeaks>0 ) {
     nRegPeaks = 0;
     i_prev = i_next = -1;
@@ -1723,9 +1649,8 @@ int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeak
     printf( "nRegPeaks = %d, total distance = %d, effective mean spacing = %f\n", nRegPeaks, dist, effectiveMeanSpacing );
     *nPeaks = nRegPeaks;
   }
-
   if ( memState_regPeaks != 0 ) {
-      free( regPeaks );
+    free( regPeaks );
   }
 
   return status;
@@ -1735,7 +1660,6 @@ int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeak
 
 int relax_regPeakRaster( glProfile_t *glProfile, glProfile_t *regPeakProfile ) {
   int status = 0;
-
   int maxDist = 4;
   printf( "> maxDist = %d\n", maxDist );
   int dist;
@@ -1743,7 +1667,7 @@ int relax_regPeakRaster( glProfile_t *glProfile, glProfile_t *regPeakProfile ) {
   int iBuf;
   int i;
   int shift;
-
+  
   if ( glProfile->glSum==NULL || glProfile->memState!=1 ) {
     status = -1;
     printf( "ERROR: relax_regPeakRaster(): Invalid argument 'glProfile->glSum==NULL || glProfile->memState!=1'\n" );
@@ -1756,7 +1680,6 @@ int relax_regPeakRaster( glProfile_t *glProfile, glProfile_t *regPeakProfile ) {
     status = -1;
     printf( "ERROR: relax_regPeakRaster(): Inconsistent profile length ' glProfile->length != regPeakProfile->length'\n" );
   }
-
   if ( status == 0 ) {
     for ( i=maxDist; i<regPeakProfile->length-maxDist; i++ ) {
       if ( regPeakProfile->glSum[i] > 0 ) {
@@ -1784,7 +1707,6 @@ int relax_regPeakRaster( glProfile_t *glProfile, glProfile_t *regPeakProfile ) {
 
 int count_peaks_glProfile( glProfile_t *profile, int *nPeaks ) {
   int status = 0;
-
   int threshold = 0;
   int i;
   int n;
@@ -1793,7 +1715,6 @@ int count_peaks_glProfile( glProfile_t *profile, int *nPeaks ) {
     status = -1;
     printf( "ERROR: count_peaks_glProfile(): Invalid argument 'profile->glSum==NULL || profile->memState!=1'\n" );
   }
-
   n = 0;
   for ( i=0; i<profile->length; i++ ) {
     if ( profile->glSum[i] > threshold ) {
@@ -1806,9 +1727,9 @@ int count_peaks_glProfile( glProfile_t *profile, int *nPeaks ) {
 }
 
 
+
 int get_peakPositions( glProfile_t *profile, positionList_t *peakPos ) {
   int status = 0;
-
   int threshold = 0;
   int i;
   int cooOffset;
@@ -1825,11 +1746,11 @@ int get_peakPositions( glProfile_t *profile, positionList_t *peakPos ) {
     status = -1;
     printf( "ERROR: store_peakPositions(): Invalid argument 'profile->direction!=0 && profile->direction!=1'.\n" );
   }
-
   if ( status == 0 ) {
     if ( profile->direction == 0 ) {
       cooOffset = profile->p.x;
-    } else if ( profile->direction == 1 ) {
+    }
+    else if ( profile->direction == 1 ) {
       cooOffset = profile->p.y;
     }
     i = 0;
@@ -1869,7 +1790,6 @@ int get_peakPositions( glProfile_t *profile, positionList_t *peakPos ) {
 
 int correct_oddPeakPositions( positionList_t *peakPos ) {
   int status = 0;
-
   int i, ii;
   float meanPeakSpacing;
   float *peakEnergy = NULL;
@@ -1879,16 +1799,12 @@ int correct_oddPeakPositions( positionList_t *peakPos ) {
   float meanEnergy;
   float minEnergy;
   float maxEnergy;
-
   int nTrustworthyPeaks;
-
   int dist_l, dist_r;
   int diff_lr;
 
   meanPeakSpacing = (float)(peakPos->list[peakPos->length-1] - peakPos->list[0])/(peakPos->length - 1);
-
   printf( "meanPeakSpacing = %f\n", meanPeakSpacing );
-
   for ( i=1; i<peakPos->length-1; i++ ) {
     dist_l = peakPos->list[i] - peakPos->list[i-1];
     dist_r = peakPos->list[i+1] - peakPos->list[i];
@@ -1902,7 +1818,7 @@ int correct_oddPeakPositions( positionList_t *peakPos ) {
         printf( "It is put at xPos' = %d and peak with id %d is jumped over\n", (int)((peakPos->list[i+1] + peakPos->list[i-1])/2.0 + 0.5), i+1 );
         peakPos->list[i] = (int)((peakPos->list[i+1] + peakPos->list[i-1])/2.0 + 0.5);
         i++;
-      } 
+      }
     }
   }
   if ( (peakEnergy = malloc( (peakPos->length)*sizeof(float) )) == NULL ) {
@@ -1919,18 +1835,18 @@ int correct_oddPeakPositions( positionList_t *peakPos ) {
 }
 
 
+
 // *** reconstructing the colors ***
 // *********************************
 
 int reconstruct_colorFrame( glImage_t *glScan, positionList_t *rasterPos, rgbImage_t *rgbFrame ) {
   int status = 0;
-
   int xCol, yCol;
   int x, y, xx, yy;
   int channel;
   int buf;
   int s;
-  int enveloppe[1] = {1};//[3] = {1,2,1}; //[5] = {1,3,4,3,1};//[7] = {1,2,7,8,7,2,1};
+  int enveloppe[1] = {1};
   int enveloppeLength = 1;
   int enveloppeCenter = 0;
   int xBinSize, yBinSize;
@@ -1938,19 +1854,15 @@ int reconstruct_colorFrame( glImage_t *glScan, positionList_t *rasterPos, rgbIma
   int color[3];
   float chSpace;
   int backgroundGl = 0;
-
   float colTrsf[3][3] = {{1.021277, -0.148936, 0.021277},{-0.148936, 1.042553, -0.148936},{0.021277, -0.148936, 1.021277}};
   float col[3];
   int i;
   int j;
   int glPoint[3];
-
   int dist;
   int gls[3];
-
   int xPos;
   int rgbFrameWidth;
-
   if ( glScan->img==NULL || glScan->memState!=1 ) {
     status = -1;
     printf( "ERROR: reconstruct_colorFrame(): Invalid argument 'glScan->img==NULL || glScan->memState!=1'\n" );
@@ -1963,14 +1875,14 @@ int reconstruct_colorFrame( glImage_t *glScan, positionList_t *rasterPos, rgbIma
   } else if ( rgbFrame->width != rasterPos->length - 1 ) {
     status = -1;
     printf( "ERROR: reconstruct_colorFrame(): Incompatible arguments 'rgbFrame->width!=rasterPos->length-1'\n" );
-  }
+  } 
   if ( status == 0 ) {
     rasterOffset = 0;
     yBinSize = glScan->height/rgbFrame->height;
     printf( "yBinSize = %d\n", yBinSize );
     rgbFrameWidth = rgbFrame->width-1;
     printf( "> using 'rgbFrameWidth' = %d to mirror frame horizontally\n", rgbFrameWidth );
- }
+  }
   if ( status == 0 ) {
     for ( xCol=0; xCol<rgbFrame->width; xCol++ ) {
       x = rasterPos->list[xCol];
@@ -1988,14 +1900,13 @@ int reconstruct_colorFrame( glImage_t *glScan, positionList_t *rasterPos, rgbIma
         }
         for ( channel=0; channel<3; channel++ ) {
           col[channel] = 0;
-            for ( i=0; i<3; i++ ) {
-              col[channel] += colTrsf[channel][i]*gls[i];
-            }
-            if ( col[channel] < 0 ) {
-              rgbFrame->img[channel][yCol][rgbFrameWidth-xCol] = 0;
-            } else {
-              rgbFrame->img[channel][yCol][rgbFrameWidth-xCol] = (int)(col[channel]); 
-            }
+          for ( i=0; i<3; i++ ) {
+            col[channel] += colTrsf[channel][i]*gls[i];
+          }
+          if ( col[channel] < 0 ) {
+            rgbFrame->img[channel][yCol][rgbFrameWidth-xCol] = 0;
+          } else {
+            rgbFrame->img[channel][yCol][rgbFrameWidth-xCol] = (int)(col[channel]);
           }
         }
       }
@@ -2009,7 +1920,6 @@ int reconstruct_colorFrame( glImage_t *glScan, positionList_t *rasterPos, rgbIma
 
 int reconstructInterpolate_colorFrame( glImage_t *glScan, positionList_t *rasterPos, rgbImage_t *rgbFrame ) {
   int status = 0;
-
   int xCol, yCol;
   int x, y, xx, yy;
   int rgbFrameWidth;
@@ -2026,18 +1936,14 @@ int reconstructInterpolate_colorFrame( glImage_t *glScan, positionList_t *raster
   int backgroundGl = 0;
   float relD[3];
   int intDir;
-
   float colTrsf[3][3] = {{1.021277, -0.148936, 0.021277},{-0.148936, 1.042553, -0.148936},{0.021277, -0.148936, 1.021277}};
   float col[3];
   int i;
   int j;
   int glPoint[3];
-
   int dist;
   int gls[3];
-
   int xPos;
-
   int separatorWidth = 5; // to be a tunable parameter
 
   if ( glScan->img==NULL || glScan->memState!=1 ) {
@@ -2053,14 +1959,14 @@ int reconstructInterpolate_colorFrame( glImage_t *glScan, positionList_t *raster
     status = -1;
     printf( "ERROR: reconstructInterpolate_colorFrame(): Incompatible arguments 'rgbFrame->width != 2*(rasterPos->length-1)-2'\n" );
   } 
-
+  
   // determine how many lines are to be summed up to compute the color of a pixel in the rgbFrame
   if ( status == 0 ) {
     rasterOffset = 0;
     yBinSize = glScan->height/rgbFrame->height;
     printf( "> yBinSize = %d\n", yBinSize );
     rgbFrameWidth = rgbFrame->width-1;
-    printf( "> using 'rgbFrameWidth' = %d to mirror frame horizontally\n", rgbFrameWidth ); 
+    printf( "> using 'rgbFrameWidth' = %d to mirror frame horizontally\n", rgbFrameWidth );
 
   }
   if ( status == 0 ) {
@@ -2091,7 +1997,6 @@ int reconstructInterpolate_colorFrame( glImage_t *glScan, positionList_t *raster
         }
       }
     }
-    // color specific 3 directional interpolation
     for ( channel=0; channel<3; channel++ ) {
       for ( xCol=1; xCol<rgbFrame->width-1; xCol+=2 ) {
         rgbFrame->img[channel][0][xCol] = (int)((rgbFrame->img[channel][0][xCol-1]+rgbFrame->img[channel][0][xCol+1])/2.0 + 0.5);
@@ -2126,7 +2031,7 @@ int reconstructInterpolate_colorFrame( glImage_t *glScan, positionList_t *raster
           intDir = 1;
           if ( relD[2] < relD[1] ) {
             intDir = 2;
-          }            
+          }
         } else if ( relD[2] < relD[0] ) {
           intDir = 2;
         }
@@ -2151,9 +2056,9 @@ int reconstructInterpolate_colorFrame( glImage_t *glScan, positionList_t *raster
 }
 
 
+
 int pickColor_interactively( glImage_t *glScan, positionList_t *rasterPos ) {
   int status = 0;
-
   int rgbRasterWidth, rgbRasterHeight;
   int rgbX, rgbY;
   int yBinSize;
@@ -2162,16 +2067,16 @@ int pickColor_interactively( glImage_t *glScan, positionList_t *rasterPos ) {
   int xx, yy;
   int count;
   int dist;
-    int r, g, b;
-    int backgroundGl;
-    int enveloppe[7] = {1,2,7,8,7,2,1};
-    int envLen = 7;
-    float overlap = 1.0/7;
-    float colTrsf[3][3] = {{1.021277, -0.148936, 0.021277},{-0.148936, 1.042553, -0.148936},{0.021277, -0.148936, 1.021277}};
-    float col[3];
-    int i;
-    int channel;
-    int glPoint[3];
+  int r, g, b;
+  int backgroundGl;
+  int enveloppe[7] = {1,2,7,8,7,2,1};
+  int envLen = 7;
+  float overlap = 1.0/7;
+  float colTrsf[3][3] = {{1.021277, -0.148936, 0.021277},{-0.148936, 1.042553, -0.148936},{0.021277, -0.148936, 1.021277}};
+  float col[3];
+  int i;
+  int channel;
+  int glPoint[3];
 
   if ( glScan->img==NULL || glScan->memState!=1 ) {
     status = -1;
@@ -2219,8 +2124,7 @@ int pickColor_interactively( glImage_t *glScan, positionList_t *rasterPos ) {
         printf( "A) the gl profile and\n" );
         printf( "B) get the color reconstructed therefrom.\n" );
         printf( "to end enter '-1 -1'\n" ); 
-      }
-      else if ( rgbX!=-1 && rgbY!=-1 ) {
+      } else if ( rgbX!=-1 && rgbY!=-1 ) {
         x = rasterPos->list[rgbX];
         y = rgbY*yBinSize;
         printf( "> (%d,%d)rgbFrame  <->  (%d,%d)glScan\n", rgbX, rgbY, x, y );
@@ -2237,19 +2141,18 @@ int pickColor_interactively( glImage_t *glScan, positionList_t *rasterPos ) {
             printf( "% 6d ", glCurve[xx] );
           }
           printf( "\n" );
-        }
-        for ( channel=0; channel<3; channel++ ) {
-          glPoint[channel] = glCurve[(channel+1)*dist/4]-backgroundGl;
-        }
-        for ( i=0; i<3; i++ ) {
-         for ( channel=0; channel<3; channel++ ) {
-            col[i] += colTrsf[i][channel]*glPoint[channel];
+          for ( channel=0; channel<3; channel++ ) {
+            glPoint[channel] = glCurve[(channel+1)*dist/4]-backgroundGl;
           }
-        }
-        r = (int)col[0];
-        b = (int)col[1];
-        g = (int)col[2];
-        printf( "|r'|g'|b'| = |%d|%d|%d|\n", r, g, b );
+          for ( i=0; i<3; i++ ) {
+            for ( channel=0; channel<3; channel++ ) {
+              col[i] += colTrsf[i][channel]*glPoint[channel];
+            }
+          }
+          r = (int)col[0];
+          b = (int)col[1];
+          g = (int)col[2];
+          printf( "|r'|g'|b'| = |%d|%d|%d|\n", r, g, b );
         } else {
           printf( "TOO large distance to next raster, ingnoring color pick request\n" );
         }
@@ -2293,6 +2196,8 @@ int new_positionList( positionList_t *positions, int length ) {
   return status;
 }
 
+
+
 int delete_positionList( positionList_t *positions ) {
   int status = 0;
 
@@ -2313,12 +2218,13 @@ int delete_positionList( positionList_t *positions ) {
   return status;
 }
 
+
+
 // *** drawing into image ***
 // **************************
 
 int draw_verticalLines_rgbImage( rgbImage_t *rgbImage, positionList_t *positions, int color[3] ) {
   int status = 0;
-
   int i;
   int x, x_max;
   int y, y_max;
@@ -2358,8 +2264,7 @@ int draw_verticalLines_rgbImage( rgbImage_t *rgbImage, positionList_t *positions
 
 
 int draw_raster_rgbImage( rgbImage_t *rgbImage, glProfile_t *profile, positionList_t *positions ) {
-int status = 0;
-
+  int status = 0;
   int i;
   int x, x_max;
   int y, y_max;
@@ -2368,15 +2273,13 @@ int status = 0;
   if ( rgbImage->img==NULL || rgbImage->memState!=1 ) {
     status = -1;
     printf( "ERROR: draw_raster_rgbImage(): Invalid argument 'rgbImage->img==NULL || rgbImage->memState!=1'\n" );
-  } 
-  else if ( positions->list==NULL || positions->memState!=1 ) {
+  } else if ( positions->list==NULL || positions->memState!=1 ) {
     status = -1;
     printf( "ERROR: draw_raster_rgbImage(): Invalid argument 'positions->list==NULL || positions->memState!=1'\n" );
-  } 
-  else if ( profile->glSum==NULL || profile->memState!=1 ) {
+  } else if ( profile->glSum==NULL || profile->memState!=1 ) {
     status = -1;
     printf( "ERROR: draw_raster_rgbImage(): Invalid argument 'profile->glSum==NULL || profile->memState!=1'\n" );
-  } 
+  }
 
   printf( "Wanna draw lines now with the color set by the kind of the line, i.e. extracted or reconstructed\n" );
 
@@ -2384,7 +2287,7 @@ int status = 0;
     x_max = rgbImage->width-1;
     y_max = rgbImage->height-1;
     for ( i=0; (i<positions->length)&&(status==0); i++ ) {
-      x = positions->list[i];  
+      x = positions->list[i];
       if ( x>=0 && x<=x_max ) {
         if ( profile->glSum[x] == 1  ) {
           for ( y=0; y<=y_max; y++ ) {

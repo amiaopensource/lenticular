@@ -15,7 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // _______________________________________________________________________ 
 
-/* 2018-02-05 purge code */
+/******************************************************************************
+ *
+ * HISTORY
+ *   2018-02-05 purge code
+ *
+ ******************************************************************************/
 
 
 
@@ -28,13 +33,9 @@
 // *** unary operations ***
 // ************************
 int addGl_glImage( glImage_t *glImage, int gl );
-
 int multiplyGl_glImage( glImage_t *glImage, float factor );
-
 int setValue_rgbImage( rgbImage_t *rgbImage, int value );
-
 int multiplyVal_rgbImage( rgbImage_t *rgbImage, float factors[3] );
-
 int subtractVal_rgbImage( rgbImage_t *rgbImage, int values[3] );
 
 // *** binary operations ***

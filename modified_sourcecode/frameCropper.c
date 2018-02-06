@@ -15,7 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // _______________________________________________________________________ 
 
-/* 2018-02-05 purge code */
+/******************************************************************************
+ *
+ * HISTORY
+ *   2018-02-05 purge code
+ *
+ ******************************************************************************/
 
 
 
@@ -29,7 +34,6 @@
 
 
 int main( int argc, char *argv[] ) {
-  // processing control
   int status = 0;
 
   // constants
@@ -70,7 +74,6 @@ int main( int argc, char *argv[] ) {
 
   printf( "%s", greetingText );
   printf( "%s", copyrightText );
-
   if ( argc < 7 ) {
     status = -1;
     printf( "Too few arguments.\n" );
@@ -88,18 +91,15 @@ int main( int argc, char *argv[] ) {
     strcpy( endNoStr, argv[++argNo] );
     endNo = atoi( argv[argNo] );
     strcpy(  outputDirName, argv[++argNo] );
-
     printf( "image sequence to be processed : '%s%s.tif' to '%s%s.tif'\n", inputBaseName, startNoStr, inputBaseName, endNoStr );
     printf( "cropped frames will be stored as '%s/crp_%s%s.tif' etc.\n", outputDirName, inputBaseName, startNoStr );
   }
-
   if ( status == 0 ) {
     printf( "\nlog of call : '" );
     for ( argNo=0; argNo<argc; argNo++ ) {
       printf( "%s ", argv[argNo] );
     }
     printf( "'\n" );
-
     if ( strlen(startNoStr) == strlen(endNoStr) ) {
       if ( strlen(startNoStr) == 1 ) {
         sprintf( frameNoFormat, "%%d" );
@@ -107,7 +107,7 @@ int main( int argc, char *argv[] ) {
         sprintf( frameNoFormat, "%%0%dd", (int)strlen(startNoStr) );
       }
     } else {
-      if ( strlen(startNoStr)>1 && startNoStr[0]==0 ) {
+      if ( strlen(startNoStr)>1 && startNoStr[0] == 0 ) {
         status = -1;
         printf( "ERROR: Cannot handle this kind of numbering\n" );
         printf( "startNoStr[0] == 0\n" );
@@ -117,17 +117,14 @@ int main( int argc, char *argv[] ) {
       }
     }
   }
-
   if ( status == 0 ) {
     printf( "\n-------------------loop over frames----------------------\n\n" );
-    //}
     for ( frameNo=startNo; frameNo<=endNo && status==0; frameNo++ ) {
       sprintf( frameNoStr, frameNoFormat, frameNo );
       sprintf( inputImageName, "%s%s.tif", inputBaseName, frameNoStr );
       sprintf( outputImageName, "%s/crp_%s%s.tif", outputDirName, inputBaseName, frameNoStr );
       printf( "***************************************************************************\n" );
       printf( "*** processing frame %d/%d ('%s')\n", frameNo-startNo+1, endNo-startNo+1, inputImageName );
-
       if ( status == 0 ) {
         printf( "Checking TIFF...\n" );
         status = check_TIFF( inputImageName, &spp, &bps, &width, &height );
@@ -154,11 +151,10 @@ int main( int argc, char *argv[] ) {
           }
         }
       }
-
       if ( status == 0 ) {
         xOffset = (width - crpWidth)/2;
         yOffset = (height - crpHeight)/2;
-        printf( "xOffset = %d, yOffset = %d", xOffset, yOffset ); 
+        printf( "xOffset = %d, yOffset = %d", xOffset, yOffset );
         if ( xOffset>=0 && yOffset>=0 ) {
           printf( "Writing result to disk...\n" );
           status = writeROI_3x8bitTIFF_rgbImage( &inImg, outputImageName, xOffset, yOffset, crpWidth, crpHeight );
@@ -169,7 +165,6 @@ int main( int argc, char *argv[] ) {
           printf( "Skipping image because it is too small.\n" );
         }
       }
-
       printf( "*** done processing frame No %d\n", frameNo );
       printf( "***************************************************************************\n\n" );
     }
@@ -177,11 +172,10 @@ int main( int argc, char *argv[] ) {
       printf( "\n---------------------end loop over frames------------------------\n" );
     }
   }
-
   if ( inImg.memState != 0 ) {
     printf( "Cleaning up heap...\n" );
     delete_rgbImage( &inImg );
-    printf( "### freed memory 'inImg.memState = %d'\n", inImg.memState ); 
+    printf( "### freed memory 'inImg.memState = %d'\n", inImg.memState );
   }
 
   printf( "\nStatus at end : %d\n", status );

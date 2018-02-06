@@ -15,7 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // _______________________________________________________________________ 
 
-/* 2018-02-05 purge code */
+/******************************************************************************
+ *
+ * HISTORY
+ *   2018-02-05 purge code
+ *
+ ******************************************************************************/
 
 
 
@@ -51,46 +56,37 @@ The code is based on the one used for the "Monolith 2" project conducted IML, Un
 // *** imageTypes.h ***
 // **************************************
 
-typedef struct{
+typedef struct {
   int width, height;
   int **img;
   int memState;
 } glImage_t;
 
 int new_glImage( glImage_t *glImage, int width, int height );
-
 int delete_glImage( glImage_t *glImage );
 
-typedef struct{
+typedef struct {
   int width, height;
   int ***img;
   int memState;
 } rgbImage_t;
 
 int new_rgbImage( rgbImage_t *rgbImage, int width, int height );
-
 int delete_rgbImage( rgbImage_t *rgbImage );
+
 
 
 // *** handlingTIFF.h ***
 // **********************
 int check_TIFF( char *TIFFname, short *spp, short *bps, int *width, int *height );
-
 int read_TIFF_glImage( char *fromTIFFname, glImage_t *glImage );
-
 int read_16bitTIFF_glImage( char *fromTIFFname, glImage_t *glImage );
-
-int read_3x8bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ); 
-
-int read_3x16bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ); 
-
-int write_16bitTIFF_glImage( glImage_t *glImage, char *toTIFFname ); 
-
+int read_3x8bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage );
+int read_3x16bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage );
+int write_16bitTIFF_glImage( glImage_t *glImage, char *toTIFFname );
 int write_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname );
-
 int writeROI_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname, int roiXpos, int roiYpos, int roiWidth, int roiHeight );
-
-int write_3x16bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFName ); // currently implementing...
+int write_3x16bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFName );
 
 
 
@@ -102,7 +98,6 @@ typedef struct {
 
 // to do: line, rectangle 
 
-
 typedef struct {
   int length;
   int *list;
@@ -110,7 +105,6 @@ typedef struct {
 } positionList_t;
 
 int new_positionList( positionList_t *positions, int length );
-
 int delete_positionList( positionList_t *positions );
 
 
@@ -118,7 +112,6 @@ int delete_positionList( positionList_t *positions );
 // *** grayLevelAnalysis.h ***
 // ****************************************
 int minMax_glImage( glImage_t *glImage, int *minGl, int *maxGl ); // should be called get_range_glImage()
-
 int get_range_rgbImage( rgbImage_t *rgbImage, int minValue[3], int maxValue[3] );
 
 typedef struct {
@@ -129,15 +122,10 @@ typedef struct {
 } glHistogram_t;
 
 int new_glHistogram( glHistogram_t *glHist, int minGl, int maxGl );
-
 int delete_glHistogram( glHistogram_t *glHist );
-
-int get_glHistogram( glImage_t *glImage, glHistogram_t *glHist ); 
-
+int get_glHistogram( glImage_t *glImage, glHistogram_t *glHist );
 int get_glHistograms_fourShot( glImage_t *glImage, glHistogram_t glHists[4] );
-
 int write_glHistogram( glHistogram_t *glHist, char *toFileName );
-
 int write_glHistograms_fourShot( glHistogram_t glHists[4], char *toFileName );
 
 typedef struct {
@@ -150,52 +138,32 @@ typedef struct {
 } glProfile_t;
 
 int new_glProfile( glProfile_t *glProfile, int length );
-
 int delete_glProfile( glProfile_t *glProfile );
-
 int get_glProfile( glImage_t *glImage, glProfile_t *glProfile, point_t p, int direction, int thickness );
-
 int write_glProfile( glProfile_t *glProfile, char *tofileName );
-
 int copy_glProfile( glProfile_t *glProfileORI, glProfile_t *glProfileCPY );
-
 int smooth_glProfile( glProfile_t *glProfile );
-
-int extract_localMinima_glProfile( glProfile_t *profile ); 
-
+int extract_localMinima_glProfile( glProfile_t *profile );
 int extract_wells_glProfile( glProfile_t *profile );
-
 int get_meanPeakSpacing( glProfile_t *profile, float *peakSpacing );
-
 int get_peakSpacingHistogram( glProfile_t *profile, int peakSpacingHist[40], int *nPeaks );
-
 int get_rasterSpacing( int spacingHist[40], int *rasterSpacing );
-
 int regularize_peakRaster( glProfile_t *glProfile, int rasterSpacing, int *nPeaks );
-
 int relax_regPeakRaster( glProfile_t *glProfile, glProfile_t *regPeakProfile );
-
 int count_peaks_glProfile( glProfile_t *profile, int *nPeaks );
-
 int get_peakPositions( glProfile_t *profile, positionList_t *peakPos );
-
 int correct_oddPeakPositions( positionList_t *peakPos );
 
 
 // *** reconstructing the colors ***
 // *********************************
-
 int reconstruct_colorFrame( glImage_t *glScan, positionList_t *rasterPos, rgbImage_t *rgbFrame );
-
 int reconstructInterpolate_colorFrame( glImage_t *glScan, positionList_t *rasterPos, rgbImage_t *rgbFrame );
-
 int pickColor_interactively( glImage_t *glScan, positionList_t *rasterPos );
 
 // *** drawingInImages.h ***
 // **************************
-
-int draw_verticalLines_rgbImage( rgbImage_t *rgbImage, positionList_t *positions, int color[3] ); 
-
+int draw_verticalLines_rgbImage( rgbImage_t *rgbImage, positionList_t *positions, int color[3] );
 int draw_raster_rgbImage( rgbImage_t *rgbImage, glProfile_t *profile, positionList_t *positions );
 
 #endif

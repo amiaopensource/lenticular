@@ -15,7 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // _______________________________________________________________________ 
 
-/* 2018-02-05 purge code */
+/******************************************************************************
+ *
+ * HISTORY
+ *   2018-02-05 purge code
+ *
+ ******************************************************************************/
 
 
 
@@ -78,7 +83,6 @@ int main( int argc, char *argv[] ) {
     sprintf( outputImageName, "study_%s", inputImageName );
     printf( "result will be written to '%s'\n", outputImageName );
   }
-
   if ( status == 0 ) {
     printf( "Checking input image...\n" );
     status = check_TIFF( inputImageName, &spp, &bps, &width, &height );
@@ -102,7 +106,6 @@ int main( int argc, char *argv[] ) {
     }
     printf( "\n" );
   }
-
   if ( status == 0 ) {
     status = new_rgbImage( &outImg, inImg.width, inImg.height );
     if ( status == 0 ) {
@@ -119,7 +122,6 @@ int main( int argc, char *argv[] ) {
       printf( "> OK.\n" );
     }
   }
-
   if ( status == 0 ) {
     printf( "Now interpolating the lost pixel values...\n" );
     a = 3.0;
@@ -132,7 +134,6 @@ int main( int argc, char *argv[] ) {
       }
     }
   }
-
   if ( status == 0 ) {
     printf( "Writing result to disk...\n" );
     status = write_3x16bitTIFF_rgbImage( &outImg, outputImageName );
@@ -140,7 +141,6 @@ int main( int argc, char *argv[] ) {
       printf( "Stored result to '%s'.\n", outputImageName );
     }
   }
-
   if ( inImg.memState != 0 ) {
     printf( "Cleaning up heap...\n" );
     delete_rgbImage( &inImg );
