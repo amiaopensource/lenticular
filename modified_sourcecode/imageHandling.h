@@ -3,7 +3,7 @@
 // Copyright (C) 2012 Joakim Reuteler
 
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License version 3 as 
+// it under the terms of the GNU General Public License version 3 as
 // published by the Free Software Foundation.
 
 // This program is distributed in the hope that it will be useful,
@@ -13,7 +13,7 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// _______________________________________________________________________ 
+// _______________________________________________________________________
 
 /******************************************************************************
  *
@@ -24,14 +24,14 @@
 
 
 
-// imageHandling.h 
+// imageHandling.h
 // - definitions of structures to hold gray level and rgb images
 // - methods to allocate and free memory
 // - reading and writing TIFF images
 
 /*
  ideas pursued in this code:
- 0. No additional comments, aim is to have the code itself understandable 
+ 0. No additional comments, aim is to have the code itself understandable
  1. new_...() only allocates memory, values are not set
  2. new_..() operates only if data containing arrays point to NULL
  3. delete_...() releases memory and sets pointers on data containing fields to NULL
@@ -39,8 +39,8 @@
  5. pixel coordinates are ordered as in mathematics: x,y
  6. using a memState_objectXY varibale to keep track of allocation and freeing memory in the main() is advised!
  7. return value 0 <-> OK, other <-> ERROR
- 8. methods only report in case of problems, they are quiet in case of success (main() shall decide when to report success) 
- 
+ 8. methods only report in case of problems, they are quiet in case of success (main() shall decide when to report success)
+
 The code is based on the one used for the "Monolith 2" project conducted IML, University of Basel. The code here is an extensively reorganized version of that code.
 */
 
@@ -96,7 +96,7 @@ typedef struct {
   int x, y;
 } point_t;
 
-// to do: line, rectangle 
+// to do: line, rectangle
 
 typedef struct {
   int length;
@@ -117,7 +117,7 @@ int get_range_rgbImage( rgbImage_t *rgbImage, int minValue[3], int maxValue[3] )
 typedef struct {
   int minGl;
   int maxGl;
-  unsigned long *freq; 
+  unsigned long *freq;
   int memState;
 } glHistogram_t;
 
@@ -129,8 +129,8 @@ int write_glHistogram( glHistogram_t *glHist, char *toFileName );
 int write_glHistograms_fourShot( glHistogram_t glHists[4], char *toFileName );
 
 typedef struct {
-  int direction; // 0 <-> along x, 1 <-> along y 
-  point_t p; 
+  int direction; // 0 <-> along x, 1 <-> along y
+  point_t p;
   int length;
   int thickness; // number of pixel summed over in perpendicular direction
   long *glSum; // need long to avoid overflow!

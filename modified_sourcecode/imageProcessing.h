@@ -3,7 +3,7 @@
 // Copyright (C) 2012 Joakim Reuteler
 
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public Licenseversion 3 as 
+// it under the terms of the GNU General Public Licenseversion 3 as
 // published by the Free Software Foundation.
 
 // This program is distributed in the hope that it will be useful,
@@ -13,7 +13,7 @@
 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// _______________________________________________________________________ 
+// _______________________________________________________________________
 
 /******************************************************************************
  *
