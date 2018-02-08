@@ -17,6 +17,6 @@ imageHandling.o: imageHandling.c imageHandling.h
 imageProcessing.o: imageProcessing.c imageProcessing.h
 	cc -c imageProcessing.c
 
+.PHONY: clean
 clean:
-	rm imageHandling.o lenticularFilmColorReconstruction.o imageProcessing.o doLCE
-	rm frameCropper.o crpFrames
+	rm *.o

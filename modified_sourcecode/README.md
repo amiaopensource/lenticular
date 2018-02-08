@@ -14,6 +14,7 @@ This program is free software: you can redistribute it and/or modify it under th
 - open the terminal
 - `cd` into the folder
 - run `make`
+- run `make clean`
 
 ## How to run
 
