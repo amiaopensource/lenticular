@@ -21,3 +21,7 @@ This program is free software: you can redistribute it and/or modify it under th
 - open the terminal
 - `cd` into the folder
 - run `./doLCE`
+
+## Caveat
+
+The original version of `doLCE` do work with Kodacolor, Kodak’s lenticular flavour, but not with Agfacolor, Agfa’s lenticular flavour.
