@@ -19,7 +19,7 @@
 
 ---
 
-## A pre-alpha is available for testing purpose
+## An alpha is available for testing purpose
 
 ### How to compile the source
 

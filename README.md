@@ -31,4 +31,4 @@ Joakim Reuteler and Rudolf Gschwind ([Digital Humanities Lab](http://dhlab.uniba
 
 ## Work-in-Progress Code
 
-A pre-alpha of a [modified code](lenticular/README.md) is available for testing purpose.
+An alpha of a [modified code](lenticular/README.md) is available for testing purpose.
