@@ -33,6 +33,14 @@ No alpha version has been released so far.
 - `cd` into the folder
 - run `./doLCE`
 
+## Homebrew/Linuxbrew
+
+Alternatively, you can install `doLCE` using Homebrew or Linuxbrew by running the following command:
+
+```
+brew install amiaopensource/amiaos/lenticular
+```
+
 ---
 
 ## Licence and Disclaimer
