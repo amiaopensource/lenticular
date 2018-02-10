@@ -1,13 +1,15 @@
-# Digital Reconstruction of Lenticular Colours
+# Digital Restoration of Lenticular Colours from Greyscale Images
+
+This piece of software restores the colours from digitisations of lenticular movie films (like Kodacolor or Agfacolor), made without applying the RGB filter on the lens, i.e. by using the greyscale images.
 
 This repository contains:
 
-- the original _doLCE_ source code by Joakim Reuteler, [Digital Humanities Lab](http://dhlab.unibas.ch/dolce/), University of Basel, Switzerland (2012)
+- the original doLCE source code by Joakim Reuteler, [Digital Humanities Lab](http://dhlab.unibas.ch/dolce/), University of Basel, Switzerland 2012
 - a work-in-progress code (2018)
 
 ---
 
-## Original _doLCE_ Code
+## Original doLCE Code
 
 [doLCE](doLCE/README) – do Lenticular film Color rEconstruction
 
@@ -29,4 +31,4 @@ Joakim Reuteler and Rudolf Gschwind ([Digital Humanities Lab](http://dhlab.uniba
 
 ## Work-in-Progress Code
 
-[lenticular](lenticular/README.md)
+A pre-alpha of a [modified code](lenticular/README.md) is available for testing purpose.

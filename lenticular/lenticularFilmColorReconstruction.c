@@ -40,8 +40,8 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "doLCE (do Lenticular film Color rEconstruction)\n" );
-  char helpText[] = "doLCE [-help] [-highRes] [-profileRelThickness (float)] [-profileRelPosY (float)] [-relaxRaster] [-rasterSpacing (float)] [-troubleshoot] 'inputDir' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n";
+  sprintf( greetingText, "modified doLCE (do Lenticular film Color rEconstruction)\n" );
+  char helpText[] = "doLCE [-help] [-highRes] [-profileRelThickness (float)]\n  [-profileRelPosY (float)] [-relaxRaster]\n  [-rasterSpacing (float)] [-troubleshoot]\n  'inputDir' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n";
   char inputImageName[128] = "";
   char inputDirName[128] = "";
   char inputBaseName[128] = "";
@@ -254,7 +254,7 @@ int main( int argc, char *argv[] ) {
           }
         }
         if ( status == 0 ) {
-          printf( "Checking grey level dynamic...\n" );
+          printf( "Checking grey-level dynamic...\n" );
           status = get_range_glImage( &glScan, &minGl, &maxGl );
           if ( status == 0 ) {
             printf( "> [% 5d,% 5d] interval of grey levels\n", minGl, maxGl );
@@ -420,7 +420,7 @@ int main( int argc, char *argv[] ) {
               if ( status == 0 ) {
                 printf( "> OK\n" );
                 if ( troubleshoot == 1 ) {
-                  printf( ">>> storing well grey-levels to '%s'\n", horProfileLocalMinimaName );
+                  printf( ">>> storing well grey levels to '%s'\n", horProfileLocalMinimaName );
                   write_glProfile( &horProfile, horProfileLocalMinimaName );
                 }
                 if ( lockRasterSpacing == 0 ) {

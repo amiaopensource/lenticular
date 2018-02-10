@@ -1,4 +1,4 @@
-# Digital Reconstruction of Lenticular Colours
+# Digital Restoration of Lenticular Colours from Greyscale Images
 
 ## ☛ **This is a work in progress!** ☚
 
@@ -50,9 +50,34 @@ doLCE
 
 Brew installation and `doLCE` have been successfully tested on the following operating systems:
 
-- **Linux** (Ubuntu 16.04.3 LTS and 14.04.5 LTS; Slackware 14.2)
-- **Mac** (OS X 10.10.5 and 10.11.6; macOS 10.12.6 and 10.13.3)
-- **Windows** Subsystem for Linux (Ubuntu 14.04.4 LTS)
+- **Linux:** Ubuntu 16.04.3 LTS and 14.04.5 LTS; Slackware 14.2; Debian 7.11
+- **Mac:** OS X 10.10.5 and 10.11.6; macOS 10.12.6 and 10.13.3
+- **Windows:** Subsystem for Linux (aka Ubuntu 14.04.4 LTS)
+
+### Parameters
+
+```
+modified doLCE (do Lenticular film Color rEconstruction)
+
+doLCE [-help] [-highRes] [-profileRelThickness (float)]
+  [-profileRelPosY (float)] [-relaxRaster]
+  [-rasterSpacing (float)] [-troubleshoot]
+  'inputDir' 'inputBaseName' 'startNo' 'endNo' 'outputDir'
+```
+
+- **inputDir:** path to the input directory, e.g. `~/TEST/SOURCE_FILES/`
+- **inputBaseName:** input base filename without the numbering, e.g. `greyscale_`
+- **startNo:** number of the first file, e.g. `0001`
+- **endNo:** number of the last file, e.g. `0057`
+- **outputDir:** output directory, e.g. `NEW_FILES`
+
+Please note that, like in the original code, also in the current version:
+
+- the file extension must be `.tif` and the extension `.tiff` is not allowed
+- in the example above the first input file is `~/TEST/SOURCE_FILES/greyscale_0001.tif`
+- the output directory must be nested inside the input directory
+- only the name of the output folder must be given
+- in the example above the first output file is `~/TEST/SOURCE_FILES/NEW_FILES/rgb_greyscale_0001.tif`
 
 ---
 
