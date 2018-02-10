@@ -22,7 +22,7 @@ Joakim Reuteler and Rudolf Gschwind ([Digital Humanities Lab](http://dhlab.uniba
 ### Caveats
 
 - The original code is buggy.
-- The original code can process TIFF images only and extension must be `.tif`, not `.tiff`.
+- The original code can process TIFF images only and the extension must be `.tif`, not `.tiff`.
 - The original code can process Kodacolor, Kodak’s flavour of lenticular film, but not [Agfacolor](http://zauberklang.ch/filmcolors/timeline-entry/1262/), Agfa’s flavour.
 
 ---
