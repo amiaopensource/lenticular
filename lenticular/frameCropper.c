@@ -1,21 +1,15 @@
-//
-// doLCE - do Lenticular film Color rEconstruction -
-// Copyright (C) 2012 Joakim Reuteler
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License.
-
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// _______________________________________________________________________
-
 /******************************************************************************
+ *
+ * frameCropper.c
+ *
+ * this is part of:
+ *
+ * doLCE (do Lenticular film Color rEconstruction)
+ * Copyright (c) 2012 Joakim Reuteler
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 3 as published
+ * by the Free Software Foundation.
  *
  * HISTORY
  *   2018-02-05 purge code
@@ -39,9 +33,7 @@ int main( int argc, char *argv[] ) {
   // constants
   char greetingText[128] = "";
   sprintf( greetingText, "*\n**\n*** frameCropper - crop center part of rgb frames ***\n**\n*   [%s ~ %s]\n\n", __DATE__, __TIME__);
-  char copyrightText[200] = "This program is free software under the terms of the GNU General Public License version 3.\nSee <http://www.gnu.org/licenses/>.\n\n";
   char helpText[] = "frameCropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n";
-
   char inputImageName[128] = "";
   char inputBaseName[128] =  "";
   char startNoStr[16] = "";
@@ -50,7 +42,6 @@ int main( int argc, char *argv[] ) {
   int endNo;
   char outputDirName[128] = "";
   char outputImageName[132] = "";
-
   int frameNo;
   char frameNoFormat[8] = "";
   char frameNoStr[16] = "";
@@ -71,9 +62,7 @@ int main( int argc, char *argv[] ) {
   rgbImage_t outImg;
   outImg.img = NULL;
   outImg.memState = 0;
-
   printf( "%s", greetingText );
-  printf( "%s", copyrightText );
   if ( argc < 7 ) {
     status = -1;
     printf( "Too few arguments.\n" );
@@ -107,7 +96,7 @@ int main( int argc, char *argv[] ) {
         sprintf( frameNoFormat, "%%0%dd", (int)strlen(startNoStr) );
       }
     } else {
-      if ( strlen(startNoStr)>1 && startNoStr[0] == 0 ) {
+      if ( strlen(startNoStr) > 1 && startNoStr[0] == 0 ) {
         status = -1;
         printf( "ERROR: Cannot handle this kind of numbering\n" );
         printf( "startNoStr[0] == 0\n" );
@@ -131,7 +120,7 @@ int main( int argc, char *argv[] ) {
         if ( status == 0 ) {
           printf( "> % 5d samples per pixel \n> % 5d bits per sample\n", spp, bps );
           printf( "> % 5d pixels wide\n> % 5d pixels high\n", width, height );
-          if ( inImg.memState==1 && (inImg.width!=width || inImg.height!=height) ) {
+          if ( inImg.memState == 1 && (inImg.width!=width || inImg.height!=height) ) {
             delete_rgbImage( &inImg );
             printf( "inImg.memState = %d\n", inImg.memState );
           }
@@ -177,7 +166,6 @@ int main( int argc, char *argv[] ) {
     delete_rgbImage( &inImg );
     printf( "### freed memory 'inImg.memState = %d'\n", inImg.memState );
   }
-
   printf( "\nStatus at end : %d\n", status );
   return status;
 }

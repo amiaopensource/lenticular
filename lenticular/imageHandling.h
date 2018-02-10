@@ -1,21 +1,18 @@
-//
-// doLCE - do Lenticular film Color rEconstruction -
-// Copyright (C) 2012 Joakim Reuteler
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License version 3 as
-// published by the Free Software Foundation.
-
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// _______________________________________________________________________
-
 /******************************************************************************
+ *
+ * imageHandling.h
+ * - define structures to hold gray level and RGB images
+ * - memory handling
+ * - read and write TIFF images
+ *
+ * this is part of:
+ *
+ * doLCE (do Lenticular film Color rEconstruction)
+ * Copyright (c) 2012 Joakim Reuteler
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 3 as published
+ * by the Free Software Foundation.
  *
  * HISTORY
  *   2018-02-05 purge code
@@ -24,37 +21,33 @@
 
 
 
-// imageHandling.h
-// - definitions of structures to hold gray level and rgb images
-// - methods to allocate and free memory
-// - reading and writing TIFF images
-
 /*
  ideas pursued in this code:
+
  0. No additional comments, aim is to have the code itself understandable
  1. new_...() only allocates memory, values are not set
  2. new_..() operates only if data containing arrays point to NULL
- 3. delete_...() releases memory and sets pointers on data containing fields to NULL
+ 3. delete_...() releases memory and sets pointers on data containing fields
+    to NULL
  4. methods do not allocate or release memory (reentrance safe?)
  5. pixel coordinates are ordered as in mathematics: x,y
- 6. using a memState_objectXY varibale to keep track of allocation and freeing memory in the main() is advised!
+ 6. using a memState_objectXY varibale to keep track of allocation and
+    freeing memory in the main() is advised!
  7. return value 0 <-> OK, other <-> ERROR
- 8. methods only report in case of problems, they are quiet in case of success (main() shall decide when to report success)
+ 8. methods only report in case of problems, they are quiet in case of
+    success (main() shall decide when to report success)
 
-The code is based on the one used for the "Monolith 2" project conducted IML, University of Basel. The code here is an extensively reorganized version of that code.
+ The code is based on the one used for the "Monolith 2" project conducted
+ IML, University of Basel. The code here is an extensively reorganized
+ version of that code.
 */
 
-// imageHandling.h
-// - declaration of types to hold images
-// - ceclaration of methods for handling of such images
-// - declaration of methods for reading from and writing to TIFF
 #ifndef doLCE_imageHandling_h
 #define doLCE_imageHandling_h
 
 
 
-// *** imageTypes.h ***
-// **************************************
+// imageTypes.h
 
 typedef struct {
   int width, height;
@@ -76,8 +69,8 @@ int delete_rgbImage( rgbImage_t *rgbImage );
 
 
 
-// *** handlingTIFF.h ***
-// **********************
+// handlingTIFF.h
+
 int check_TIFF( char *TIFFname, short *spp, short *bps, int *width, int *height );
 int read_TIFF_glImage( char *fromTIFFname, glImage_t *glImage );
 int read_16bitTIFF_glImage( char *fromTIFFname, glImage_t *glImage );
@@ -90,11 +83,13 @@ int write_3x16bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFName );
 
 
 
-// *** geometryTypes.h ***
-// **********************************************
+// geometryTypes.h
+
 typedef struct {
   int x, y;
 } point_t;
+
+
 
 // to do: line, rectangle
 
@@ -109,9 +104,9 @@ int delete_positionList( positionList_t *positions );
 
 
 
-// *** grayLevelAnalysis.h ***
-// ****************************************
-int minMax_glImage( glImage_t *glImage, int *minGl, int *maxGl ); // should be called get_range_glImage()
+// grayLevelAnalysis.h
+
+int get_range_glImage( glImage_t *glImage, int *minGl, int *maxGl );
 int get_range_rgbImage( rgbImage_t *rgbImage, int minValue[3], int maxValue[3] );
 
 typedef struct {
@@ -129,12 +124,12 @@ int write_glHistogram( glHistogram_t *glHist, char *toFileName );
 int write_glHistograms_fourShot( glHistogram_t glHists[4], char *toFileName );
 
 typedef struct {
-  int direction; // 0 <-> along x, 1 <-> along y
+  int direction;  // 0 <-> along x, 1 <-> along y
   point_t p;
   int length;
-  int thickness; // number of pixel summed over in perpendicular direction
-  long *glSum; // need long to avoid overflow!
-  int memState; // 0 <-> not allocated, -1 <-> unknown (error)
+  int thickness;  // number of pixel summed over in perpendicular direction
+  long *glSum;    // need long to avoid overflow!
+  int memState;   // 0 <-> not allocated, -1 <-> unknown (error)
 } glProfile_t;
 
 int new_glProfile( glProfile_t *glProfile, int length );
@@ -155,14 +150,17 @@ int get_peakPositions( glProfile_t *profile, positionList_t *peakPos );
 int correct_oddPeakPositions( positionList_t *peakPos );
 
 
-// *** reconstructing the colors ***
-// *********************************
+
+// reconstructing the colours
+
 int reconstruct_colorFrame( glImage_t *glScan, positionList_t *rasterPos, rgbImage_t *rgbFrame );
 int reconstructInterpolate_colorFrame( glImage_t *glScan, positionList_t *rasterPos, rgbImage_t *rgbFrame );
 int pickColor_interactively( glImage_t *glScan, positionList_t *rasterPos );
 
-// *** drawingInImages.h ***
-// **************************
+
+
+// drawingInImages.h
+
 int draw_verticalLines_rgbImage( rgbImage_t *rgbImage, positionList_t *positions, int color[3] );
 int draw_raster_rgbImage( rgbImage_t *rgbImage, glProfile_t *profile, positionList_t *positions );
 

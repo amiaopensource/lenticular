@@ -1,21 +1,15 @@
-//
-// doLCE - do Lenticular film Color rEconstruction -
-// Copyright (C) 2012 Joakim Reuteler
-
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License.
-
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// _______________________________________________________________________
-
 /******************************************************************************
+ *
+ * interpolationStudy.c
+ *
+ * this is part of:
+ *
+ * doLCE (do Lenticular film Color rEconstruction)
+ * Copyright (c) 2012 Joakim Reuteler
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License version 3 as published
+ * by the Free Software Foundation.
  *
  * HISTORY
  *   2018-02-05 purge code
@@ -59,7 +53,6 @@ int main( int argc, char *argv[] ) {
 
   printf( "%s", greetingText );
   printf( "%s", copyrightText );
-
   if ( argc < 2 ) {
     status = -1;
     printf( "Too few arguments.\n" );
@@ -91,7 +84,7 @@ int main( int argc, char *argv[] ) {
       printf( "> % 5d pixels wide\n> % 5d pixels high\n", width, height );
       if ( spp != 3 || bps != 16 ) {
         status = -1;
-        printf( "ERROR: Input image must be 16bit rgb!\n" );
+        printf( "ERROR: Input image must be 16bit RGB!\n" );
       } else {
         status = new_rgbImage( &inImg, width, height );
         if ( status == 0 ) {
@@ -111,9 +104,9 @@ int main( int argc, char *argv[] ) {
     if ( status == 0 ) {
       printf( "### allocated memory : 'outImg.memState = %d'\n", outImg.memState );
       printf( "Copying pixels with x mod 2 == 1 to 'outImg'...\n" );
-      for ( channel=0; channel<3; channel++ ) {
-        for ( j=0; j<inImg.height; j++ ) {
-          for ( i=0; i<inImg.width; i+=2 ) {
+      for ( channel = 0; channel < 3; channel++ ) {
+        for ( j=0; j < inImg.height; j++ ) {
+          for ( i=0; i < inImg.width; i+=2 ) {
             outImg.img[channel][j][i] = inImg.img[channel][j][i];
             outImg.img[channel][j][i+1] = 0;
           }
@@ -126,9 +119,9 @@ int main( int argc, char *argv[] ) {
     printf( "Now interpolating the lost pixel values...\n" );
     a = 3.0;
     b = 2.0;
-    for ( channel=0; channel<3; channel++ ) {
-      for ( j=1; j<outImg.height-1; j++ ) {
-        for ( i=1; i<outImg.width-1; i+=2 ) {
+    for ( channel = 0; channel < 3; channel++ ) {
+      for ( j=1; j < outImg.height-1; j++ ) {
+        for ( i=1; i < outImg.width-1; i+=2 ) {
           outImg.img[channel][j][i] = (int)((a*(outImg.img[channel][j][i-1]+outImg.img[channel][j][i+1]) + b*(outImg.img[channel][j-1][i-1]+outImg.img[channel][j-1][i+1]+outImg.img[channel][j+1][i-1]+outImg.img[channel][j+1][i+1]))/(2*a+4*b));
         }
       }
@@ -150,7 +143,6 @@ int main( int argc, char *argv[] ) {
     delete_rgbImage( &outImg );
     printf( "### freed memory 'outImg.memState = %d'\n", inImg.memState );
   }
-
   printf( "\nStatus at end : %d\n", status );
   return status;
 }

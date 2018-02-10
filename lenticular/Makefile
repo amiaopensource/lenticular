@@ -1,3 +1,19 @@
+# Makefile
+#
+# this is part of:
+#
+# doLCE (do Lenticular film Color rEconstruction)
+# Copyright (c) 2012 Joakim Reuteler
+#
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License version 3 as published
+# by the Free Software Foundation.
+#
+# HISTORY
+#   2018-02-05 purge code
+
+
+
 CC=gcc
 
 CFLAGS=-Wall

@@ -1,0 +1,61 @@
+doLCE - do Lenticular film Color rEconstruction -
+Copyright (C) 2012 Joakim Reuteler
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License version 3 as 
+published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+_______________________________________________________________________ 
+
+Please acknowledge: Joakim Reuteler and Rudolf Gschwind, Digital Humanities
+Lab, Uni Basel, Switzerland.
+Please cite: J. Reuteler and R. Gschwind, Rundbrief Fotografie, "Die Farben
+des Riffelfilms - Digitale Farbrekonstruktion von Linsenrasterfilm" May 2014
+
+0.  Dependencies
+- libtiff-dev (the exact name may depend on your distribution/OS)
+  Linux: install libtiff-dev using your package manager
+  Mac: install fink and use it to install libtiff-dev
+  Windows: install MinGW and use it to install libtiff-dev
+
+1.  How to install
+- 'unzip' the compressed folder, 'cd' into it
+- build the program from the shell by running 'make' in that directory
+- run the program on the shell by './doLCE'
+
+2.  intended purpose
+- reconstruct color stills from gray level scans of lenticular film material
+  (Kodacolor, ...)
+
+3.  ideas of software (concept):
+  0.  No additional comments, aim is to have the code itself understandable 
+  1.  new_...() only allocates memory, values are not set
+  2.  new_..() operates only if data containing arrays point to NULL
+  3.  delete_...() releases memory and sets pointers on data containing
+      fields to NULL
+  4.  methods do not allocate or release memory (reentrance safe?)
+  5.  pixel coordinates are ordered as in mathematics: x,y
+  6.  using a memState_objectXY variable to keep track of allocation and
+      freeing memory in the main() is advised!
+  7.  return value 0 <-> OK, other <-> ERROR
+  8.  methods only report in case of problems, they are quiet in case of
+      success (main() shall decide when to report success)
+ 
+4.  Remarks
+  1.  The concept of the code is based on the one used for the "Monolith 2"
+      project conducted IML, University of Basel. However, the "doLCE" code
+      was rewritten from scratch. In particular the order of the pixel
+      coordinates in Monolith 2 code is y, x.
+  2.  The program is in an experimental state, there are hard coded
+      parameters, such as the default number of pixels making up one
+      lenticular lens, see line 114 in
+      "lenticularFilmColorReconstruction.c":
+      float subPixelPrecisionRasterSpacing = 19.2;
+      Set this number to a value that fits the resolution of your scans.
