@@ -13,6 +13,7 @@
  *
  * HISTORY
  *   2018-02-05 purge code
+ *   2018-02-11 delete unused variables, unify syntax
  *
  ******************************************************************************/
 
@@ -32,7 +33,7 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "*\n**\n*** frameCropper - crop center part of rgb frames ***\n**\n*   [%s ~ %s]\n\n", __DATE__, __TIME__);
+  sprintf( greetingText, "\nmodified frameCropper 2018-02-12 alpha\n  crop center part of RGB frames\n\n" );
   char helpText[] = "frameCropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n";
   char inputImageName[128] = "";
   char inputBaseName[128] =  "";
@@ -47,13 +48,11 @@ int main( int argc, char *argv[] ) {
   char frameNoStr[16] = "";
 
   // variables
-  int argNo, optNo;
+  int argNo;
   short spp, bps;
   int width, height;
   int crpWidth, crpHeight;
   int xOffset, yOffset;
-  int j, i;
-  int channel;
 
   // data
   rgbImage_t inImg;
@@ -85,24 +84,20 @@ int main( int argc, char *argv[] ) {
   }
   if ( status == 0 ) {
     printf( "\nlog of call : '" );
-    for ( argNo=0; argNo<argc; argNo++ ) {
+    for ( argNo=0; argNo<argc; argNo++ )
       printf( "%s ", argv[argNo] );
-    }
     printf( "'\n" );
     if ( strlen(startNoStr) == strlen(endNoStr) ) {
-      if ( strlen(startNoStr) == 1 ) {
+      if ( strlen(startNoStr) == 1 )
         sprintf( frameNoFormat, "%%d" );
-      } else {
+      else
         sprintf( frameNoFormat, "%%0%dd", (int)strlen(startNoStr) );
-      }
     } else {
       if ( strlen(startNoStr) > 1 && startNoStr[0] == 0 ) {
         status = -1;
         printf( "ERROR: Cannot handle this kind of numbering\n" );
         printf( "startNoStr[0] == 0\n" );
         printf( "startNoStr == %s\n", startNoStr );
-      } else {
-        sprintf( frameNoFormat, "%%d", strlen(startNoStr) );
       }
     }
   }
@@ -131,9 +126,8 @@ int main( int argc, char *argv[] ) {
           if ( inImg.memState == 1 ) {
             printf( "Loading TIFF...\n" );
             status = read_3x8bitTIFF_rgbImage( inputImageName, &inImg );
-            if ( status == 0 ) {
-              printf( "> OK.\n" );
-            }
+            if ( status == 0 )
+              printf( "> OK\n" );
           } else {
             status = -1;
             printf( "ERROR: No memory for loading TIFF available.\n" );
@@ -147,9 +141,8 @@ int main( int argc, char *argv[] ) {
         if ( xOffset>=0 && yOffset>=0 ) {
           printf( "Writing result to disk...\n" );
           status = writeROI_3x8bitTIFF_rgbImage( &inImg, outputImageName, xOffset, yOffset, crpWidth, crpHeight );
-          if ( status == 0 ) {
+          if ( status == 0 )
             printf( "Stored result to '%s'.\n", outputImageName );
-          }
         } else {
           printf( "Skipping image because it is too small.\n" );
         }
@@ -157,9 +150,8 @@ int main( int argc, char *argv[] ) {
       printf( "*** done processing frame No %d\n", frameNo );
       printf( "***************************************************************************\n\n" );
     }
-    if ( status == 0 ) {
+    if ( status == 0 )
       printf( "\n---------------------end loop over frames------------------------\n" );
-    }
   }
   if ( inImg.memState != 0 ) {
     printf( "Cleaning up heap...\n" );

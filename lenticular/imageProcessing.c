@@ -14,6 +14,7 @@
  *
  * HISTORY
  *   2018-02-05 purge code
+ *   2018-02-11 unify syntax
  *
  ******************************************************************************/
 
@@ -32,18 +33,14 @@
 int addGl_glImage( glImage_t *glImage, int gl ) {
   int status = 0;
   int i, j;
-  int minGl, maxGl;
   if ( glImage->img == NULL ) {
     status = -1;
     printf( "ERROR: addGl_glImage(): Cannot add gray level to empty image.\n" );
   }
-  if ( status == 0 ) {
-    for ( j=0; j < glImage->height; j++ ) {
-      for ( i=0; i < glImage->width; i++ ) {
+  if ( status == 0 )
+    for ( j=0; j < glImage->height; j++ )
+      for ( i=0; i < glImage->width; i++ )
         glImage->img[j][i] += gl;
-      }
-    }
-  }
   return status;
 }
 
@@ -62,11 +59,9 @@ int multiplyGl_glImage( glImage_t *glImage, float factor ) {
   }
   if ( status == 0 ) {
     width = glImage->width;
-    for ( j=0; j < glImage->height; j++ ) {
-      for ( i=0; i < width; i++ ) {
+    for ( j=0; j < glImage->height; j++ )
+      for ( i=0; i < width; i++ )
         glImage->img[j][i] = (int)( factor * glImage->img[j][i] );
-      }
-    }
   }
   return status;
 }
@@ -85,11 +80,9 @@ int setValue_rgbImage( rgbImage_t *rgbImage, int value ) {
     width = rgbImage->width;
     height = rgbImage->height;
     for ( c=0; c<3; c++ ) {
-      for ( j=0; j < height; j++ ) {
-        for ( i=0; i < width; i++ ) {
+      for ( j=0; j < height; j++ )
+        for ( i=0; i < width; i++ )
           rgbImage->img[c][j][i] = value;
-        }
-      }
     }
   }
   return status;
@@ -109,11 +102,9 @@ int multiplyVal_rgbImage( rgbImage_t *rgbImage, float factors[3] ) {
     width = rgbImage->width;
     height = rgbImage->height;
     for ( c=0; c<3; c++ ) {
-      for ( j=0; j < height; j++ ) {
-        for ( i=0; i < width; i++ ) {
+      for ( j=0; j < height; j++ )
+        for ( i=0; i < width; i++ )
           rgbImage->img[c][j][i] = (int)(factors[c] * rgbImage->img[c][j][i]);
-        }
-      }
     }
   }
   return status;
@@ -133,11 +124,9 @@ int subtractVal_rgbImage( rgbImage_t *rgbImage, int values[3] ) {
     width = rgbImage->width;
     height = rgbImage->height;
     for ( c=0; c<3; c++ ) {
-      for ( j=0; j < height; j++ ) {
-        for ( i=0; i < width; i++ ) {
+      for ( j=0; j < height; j++ )
+        for ( i=0; i < width; i++ )
           rgbImage->img[c][j][i] -= values[c];
-        }
-      }
     }
   }
   return status;
@@ -166,11 +155,9 @@ int add_glImage_to_rgbImage( glImage_t *glImage, rgbImage_t *rgbImage, int chann
   }
   if ( status == 0 ) {
     width = glImage->width;
-    for ( j=0; j < glImage->height; j++ ) {
-      for ( i=0; i < width; i++ ) {
+    for ( j=0; j < glImage->height; j++ )
+      for ( i=0; i < width; i++ )
         rgbImage->img[channel][j][i] += glImage->img[j][i];
-      }
-    }
   }
   return status;
 }
