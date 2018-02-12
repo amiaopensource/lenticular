@@ -1,6 +1,6 @@
-# Digital Restoration of Lenticular Colours from Greyscale Images
+# Digital Restoration of Lenticular Colours from Greyscale Digitisations
 
-This piece of software restores the colours from digitisations of lenticular movie films (like Kodacolor or Agfacolor), made without applying the RGB filter on the lens, i.e. by using the greyscale images.
+This piece of software restores the colours from digitisations of lenticular movie films (like Kodacolor or Agfacolor). Of course, the films must have been shot with the RBG filter applied on the camera’s lens, but the digitisation is made without the filter, generating regular greyscale images.
 
 This repository contains:
 

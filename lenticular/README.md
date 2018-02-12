@@ -1,4 +1,4 @@
-# Digital Restoration of Lenticular Colours from Greyscale Images
+# Digital Restoration of Lenticular Colours from Greyscale Digitisations
 
 ## ☛ **This is a work in progress** ☚
 
@@ -14,10 +14,13 @@ Thank you!
 ### Short-term goal
 
 - Any idea for a better name than `doLCE` for the modified version?
+- I was told a logo would be important.
 - Understand and document the parameters.
+- Upload test files on GitHub.
 - Use the standard `(x,y)` order of coordinates, instead of the inverted one `(y,x)` used by Monolith 2.
 - Allow full path for both the input and the output folder. In particular, the output folder has not to be nested inside the input folder, but can be e.g. on another hard-disk drive.
 - Allow the file extensions `.tiff`, `.TIF` and `.TIFF` as well.
+- Allow more TIFF flavours to be processed, _in primis_ `rgb48le`, because it seems that currently only `gray16le` is supported.
 - Determine automatically the regex for parsing the greyscale frames of the input folder.
 - The number of the first and of the last frame to process is needed only for testing a subset of the frames in the folder. If these parameters are not provided, the parse all the files in the folder.
 
