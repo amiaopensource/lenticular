@@ -1,21 +1,20 @@
 CC = gcc
 CFLAGS = -Wall -std=c99
 
-TOOLS = imageHandling.o imageProcessing.o
+OBJ = imageHandling.o imageProcessing.o
+BIN: doLCE inStudy frameCropper
 
-all: doLCE inStudy frameCropper
+doLCE: lenticularFilmColorReconstruction.o $(OBJ)
+	$(CC) $(CFLAGS) -ltiff lenticularFilmColorReconstruction.o $(OBJ) -o doLCE
 
-doLCE: lenticularFilmColorReconstruction.o $(TOOLS)
-	$(CC) $(CFLAGS) -ltiff lenticularFilmColorReconstruction.o $(TOOLS) -o doLCE
+inStudy: interpolationStudy.o $(OBJ)
+	$(CC) $(CFLAGS) -ltiff interpolationStudy.o $(OBJ) -o inStudy
 
-inStudy: interpolationStudy.o $(TOOLS)
-	$(CC) $(CFLAGS) -ltiff interpolationStudy.o $(TOOLS) -o inStudy
+frameCropper: frameCropper.o $(OBJ)
+	$(CC) $(CFLAGS) -ltiff frameCropper.o $(OBJ) -o frameCropper
 
-frameCropper: frameCropper.o $(TOOLS)
-	$(CC) $(CFLAGS) -ltiff frameCropper.o $(TOOLS) -o frameCropper
-
-tools: $(TOOLS)
-	$(CC) $(FLAGS) -c tools $(TOOLS)
+obj: $(OBJ)
+	$(CC) $(OBJ) -c tools $(OBJ)
 
 .PHONY: clean
 clean:
