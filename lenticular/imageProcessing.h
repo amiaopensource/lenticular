@@ -32,7 +32,7 @@ int setValue_rgbImage( rgbImage_t *rgbImage, int value );
 int multiplyVal_rgbImage( rgbImage_t *rgbImage, float factors[3] );
 int subtractVal_rgbImage( rgbImage_t *rgbImage, int values[3] );
 
-// binary operations
+// binary operation
 
 int add_glImage_to_rgbImage( glImage_t *glImage, rgbImage_t *rgbImage, int channel );
 

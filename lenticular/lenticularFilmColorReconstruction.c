@@ -17,6 +17,7 @@
  *   2018-02-08 delete unused variables, initialise variables, delete not
  *              used data argument
  *   2018-02-11 unify syntax
+ *   2018-02-16 clean structure
  *
  ******************************************************************************/
 
@@ -41,7 +42,7 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "modified doLCE 2018-02-12 alpha\n" );
+  sprintf( greetingText, "modified doLCE 2018-02-16 alpha\n  digital restoration of lenticular colours from greyscale digitisations\n" );
   char helpText[] = "doLCE [-help] [-highRes] [-profileRelThickness (float)]\n  [-profileRelPosY (float)] [-relaxRaster]\n  [-rasterSpacing (float)] [-troubleshoot]\n  'inputDir' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n";
   char inputImageName[128] = "";
   char inputDirName[128] = "";
@@ -55,8 +56,7 @@ int main( int argc, char *argv[] ) {
 
   // running variables
   int argNo;
-  int channel;
-  int i;
+  int c, i;
   int frameNo;
   char frameNoFormat[8] = "";
   char frameNoStr[16] = "";
@@ -125,14 +125,13 @@ int main( int argc, char *argv[] ) {
 
   printf( "\n%s\n", greetingText );
 
-  // parsing command-line input
+  // parse command-line input
   if ( argc < 6 ) {
     status = -1;
-    printf( "%s", helpText );
-    printf( "\n" );
+    printf( "%s\n", helpText );
   } else {
-    printf( "\tPARSING input arguments\n" );
-    for ( argNo=1; argNo < argc - 5 && status == 0; argNo++ ) {
+    printf( "\nPARSING INPUT ARGUMENTS\n" );
+    for ( argNo = 1; argNo < argc - 5 && status == 0; argNo++ ) {
       if ( strlen(argv[argNo]) == 5 && strncmp(argv[argNo], "-help", 5) == 0 ) {
         status = 0;
         printf( "%s", helpText );
@@ -147,9 +146,9 @@ int main( int argc, char *argv[] ) {
         } else {
           printf( "y-position of upper-left corner of grey-level profile relative to image heigth: %f\n", profileRelPosY );
         }
-      } else if ( strlen(argv[argNo]) == 20 && strncmp(argv[argNo],"-profileRelThickness",20) == 0 ) {
+      } else if ( strlen(argv[argNo]) == 20 && strncmp(argv[argNo], "-profileRelThickness", 20) == 0 ) {
         profileRelThickness = atof( argv[++argNo] );
-        if ( profileRelThickness<0.0 || profileRelThickness>1.0 ) {
+        if ( profileRelThickness < 0.0 || profileRelThickness > 1.0 ) {
           status = -1;
           printf( "ERROR: Invalid value passed by option '-profileRelThickness': 'profileRelThickness = %f < 0.0 || profileRelThickenss = %f > 1.0'\n", profileRelThickness, profileRelThickness );
         } else {
@@ -169,16 +168,16 @@ int main( int argc, char *argv[] ) {
         printf( "'relaxRaster' mode is ON\n" );
       } else {
         status = -1;
-        printf( "ERROR: invalid option '%s'. See '-help'.\n", argv[argNo] );
+        printf( "ERROR: invalid option '%s'.\n\n%s\n", argv[argNo], helpText );
       }
     }
     if ( status == 0 ) {
       if ( argc-argNo < 5 ) {
         status = -1;
-        printf( "ERROR: Not enough arguments. See '-help'.\n" );
+        printf( "ERROR: Not enough arguments.\n%s", helpText );
       } else if (argc-argNo > 5 ) {
         status = -1;
-        printf( "ERROR: Too many arguments. See '-help'.\n" );
+        printf( "ERROR: Too many arguments.\n%s", helpText );
       } else {
         strcpy( inputDirName, argv[argNo] );
         strcpy( inputBaseName, argv[++argNo] );
@@ -187,7 +186,7 @@ int main( int argc, char *argv[] ) {
         strcpy( endNoStr, argv[++argNo] );
         endNo = atoi( argv[argNo] );
         strcpy(  outputDirName, argv[++argNo] );
-        printf( "image sequence to be processed : '%s/%s%s.tif' to '%s/%s%s.tif'\n", inputDirName, inputBaseName, startNoStr, inputDirName, inputBaseName, endNoStr );
+        printf( "image sequence to be processed: '%s/%s%s.tif' to '%s/%s%s.tif'\n", inputDirName, inputBaseName, startNoStr, inputDirName, inputBaseName, endNoStr );
         printf( "reconstructed RGB frames will be stored as '%s/%s/rgb_%s%s.tif' etc.\n", inputDirName, outputDirName, inputBaseName, startNoStr );
         printf( "\nlog of call : '" );
         for ( argNo = 0; argNo < argc; argNo++ )
@@ -199,17 +198,16 @@ int main( int argc, char *argv[] ) {
           else
             sprintf( frameNoFormat, "%%0%dd", (int)strlen(startNoStr) );
         } else {
-          if ( strlen(startNoStr)>1 && startNoStr[0]==0 ) {
+          if ( strlen(startNoStr) > 1 && startNoStr[0] == 0 ) {
             status = -1;
-            printf( "ERROR: Cannot handle this kind of numbering.\n" );
-            printf( "startNoStr[0] == 0\n" );
-            printf( "startNoStr == %s\n", startNoStr );
+            printf( "ERROR: Cannot handle this kind of numbering:\n" );
+            printf( "  startNoStr[0] == 0\n" );
+            printf( "  startNoStr == %s\n", startNoStr );
           }
         }
       }
-      if ( status == 0 ) {
+      if ( status == 0 )
         printf( "\n-------------------loop over frames----------------------\n\n" );
-      }
       for ( frameNo = startNo; frameNo <= endNo && status == 0; frameNo++ ) {
         sprintf( frameNoStr, frameNoFormat, frameNo );
         sprintf( inputImageName, "%s/%s%s.tif", inputDirName, inputBaseName, frameNoStr );
@@ -227,7 +225,7 @@ int main( int argc, char *argv[] ) {
           sprintf( fourShotGlHistsName, "%s/%s/fourShotHistograms_%s%s.txt", inputDirName, outputDirName, inputBaseName, frameNoStr );
         }
         if ( status == 0 ) {
-          printf( "\tANALYZING frame\n" );
+          printf( "ANALYSING FRAME\n" );
           printf( "Checking TIFF...\n" );
           status = check_TIFF( inputImageName, &spp, &bps, &width, &height );
           if ( status == 0 ) {
@@ -275,12 +273,12 @@ int main( int argc, char *argv[] ) {
         }
         if ( status == 0 ) {
           printf( "Looking for film perforation in corners of grey-level scan...\n" );
-          perfAreaWidth = 0.05*glScan.width;
-          perfAreaHeight = 0.15*glScan.height;
+          perfAreaWidth = 0.05 * glScan.width;
+          perfAreaHeight = 0.15 * glScan.height;
           for ( i=0; i<4; i++ ) {
-            if ( perfArea[i].memState == 0 ) {
+            if ( perfArea[i].memState == 0 )
               status = new_glImage( &perfArea[i], perfAreaWidth, perfAreaHeight );
-            } else {
+            else
               if ( perfArea[i].width != perfAreaWidth || perfArea[i].height != perfAreaHeight ) {
                 delete_glImage( &perfArea[i] );
                 if ( perfArea[i].memState == 0 ) {
@@ -290,7 +288,6 @@ int main( int argc, char *argv[] ) {
                   printf( "ERROR: Failed to resize grey-level images for inspection of scan corner to find perforations.\n" );
                 }
               }
-            }
             if ( perfArea[i].memState != 1 ) {
               status = -1;
               printf( "ERROR: Cannot serach for perforation: 'perfAreas.memState != 1'.\n" );
@@ -299,20 +296,19 @@ int main( int argc, char *argv[] ) {
           if ( status == 0 ) {
             for ( perfNoY = 0; perfNoY < 2; perfNoY++ )
               for ( perfNoX = 0; perfNoX < 2; perfNoX++ ) {
-                i_offset = perfNoX*(glScan.width - perfAreaWidth);
-                j_offset = perfNoY*(glScan.height - perfAreaHeight);
+                i_offset = perfNoX * (glScan.width - perfAreaWidth);
+                j_offset = perfNoY * (glScan.height - perfAreaHeight);
                 for ( j=0; j < perfAreaHeight; j++ )
                   for ( i=0; i < perfAreaWidth; i++ )
-                    if ( glScan.img[j+j_offset][i+i_offset] >= (int)(maxGl*perfRelGlThresholds[perfNoX+2*perfNoY]+0.5) )
-                      perfArea[perfNoX+2*perfNoY].img[j][i] = 1;
+                    if ( glScan.img[j + j_offset][i + i_offset] >= (int)(maxGl * perfRelGlThresholds[perfNoX + 2 * perfNoY] + 0.5) )
+                      perfArea[perfNoX + 2 * perfNoY].img[j][i] = 1;
                     else
-                      perfArea[perfNoX+2*perfNoY].img[j][i] = 0;
+                      perfArea[perfNoX + 2 * perfNoY].img[j][i] = 0;
               }
           }
         }
         if ( status == 0 ) {
-          printf( "\n" );
-          printf( "\tPROCESSING frame\n" );
+          printf( "\nPROCESSING frame\n" );
           printf( "Shifting grey levels...\n" );
           status = addGl_glImage( &glScan, -1*minGl );
           if ( status == 0 ) {
@@ -344,8 +340,7 @@ int main( int argc, char *argv[] ) {
           }
         }
         if ( status == 0 ) {
-          printf( "\n" );
-          printf( "\tLOCALIZING RASTER...\n" );
+          printf( "\nLOCALIZING RASTER...\n" );
           printf( "Preparing for getting grey-level profile...\n" );
           printf( "Setting absolute values for y-position and thickness of profile...\n" );
           p.x = 0;
@@ -354,7 +349,7 @@ int main( int argc, char *argv[] ) {
           printf( "> upper left corner at (x,y) = (%d,%d)\n", p.x, p.y );
           printf( "> thickness = %d\n", thickness );
           if ( horProfile.memState == 0 ) {
-            status = new_glProfile( &horProfile, glScan.width-p.x );
+            status = new_glProfile( &horProfile, glScan.width - p.x );
             if ( status == 0 ) {
               printf( "### allocated memory: horProfile.memState = %d\n", horProfile.memState );
               status = new_glProfile( &horProfileCpy, glScan.width-p.x );
@@ -362,13 +357,13 @@ int main( int argc, char *argv[] ) {
                 printf( "### allocated memory: horProfileCpy.memState = %d\n", horProfileCpy.memState );
             }
           } else if ( horProfile.memState == 1 ) {
-            if ( horProfile.length != glScan.width-p.x ) {
+            if ( horProfile.length != glScan.width - p.x ) {
               delete_glProfile( &horProfile );
               delete_glProfile( &horProfileCpy );
               if ( horProfile.memState == 0 ) {
-                status = new_glProfile( &horProfile, glScan.width-p.x );
+                status = new_glProfile( &horProfile, glScan.width - p.x );
                 if ( status == 0 && relaxRaster == 1 )
-                  status = new_glProfile( &horProfileCpy, glScan.width-p.x );
+                  status = new_glProfile( &horProfileCpy, glScan.width - p.x );
               } else {
                 status = -1;
                 printf( "ERROR: Cannot resize memory to suitable size for 'horProfile'.\n" );
@@ -376,10 +371,10 @@ int main( int argc, char *argv[] ) {
             }
           }
           if ( status == 0 && horProfile.memState == 1 ) {
-            printf( "Getting gl profile..." );
+            printf( "Getting grey-level profile..." );
             status = get_glProfile( &glScan, &horProfile, p, 0, thickness );
             if ( status == 0 ) {
-              printf( "> OK.\n" );
+              printf( "> OK\n" );
               if ( relaxRaster == 1 ) {
                 status = copy_glProfile( &horProfile, &horProfileCpy );
                 if ( status == 0 )
@@ -429,12 +424,12 @@ int main( int argc, char *argv[] ) {
                   }
                 }
                 if ( status == 0 ) {
-                  printf( "Checking deviation of determined raster spacing to *currently* hard coded sub pixel precision raster spacing\n");
-                  if ( (rasterSpacing-(int)(subPixelPrecisionRasterSpacing+0.5)) > 1 ) {
-                    rasterSpacing = (int)(subPixelPrecisionRasterSpacing+0.5);
+                  printf( "Checking deviation of determined raster spacing to *currently* hard coded\nsub-pixel precision raster spacing\n");
+                  if ( (rasterSpacing - (int)(subPixelPrecisionRasterSpacing + 0.5)) > 1 ) {
+                    rasterSpacing = (int)(subPixelPrecisionRasterSpacing+ 0.5);
                     printf( "> determined raster spacing too large, have set it to %d\n", rasterSpacing );
-                  } else if ( (rasterSpacing-(int)(subPixelPrecisionRasterSpacing+0.5)) < 1 ) {
-                    rasterSpacing = (int)(subPixelPrecisionRasterSpacing+0.5);
+                  } else if ( (rasterSpacing-(int)(subPixelPrecisionRasterSpacing + 0.5)) < 1 ) {
+                    rasterSpacing = (int)(subPixelPrecisionRasterSpacing + 0.5);
                     printf( "> determined raster spacing too small, have set it to %d\n", rasterSpacing );
                   }
                 }
@@ -494,15 +489,14 @@ int main( int argc, char *argv[] ) {
           }
         }
         if ( status == 0 ) {
-          printf( "\n" );
-          printf( "\tRECONSTRUCTING COLORS...\n" );
+          printf( "\nRECONSTRUCTING COLORS...\n" );
           printf( "Computing image dimensions for color reconstructed frame...\n" );
           if ( highRes == 1 ) {
-            rgbFrameWidth = 2*(rasterSize-1)-1;
-            rgbFrameHeight = ((rgbFrameWidth)*(glScan.height))/glScan.width;
+            rgbFrameWidth = 2 * (rasterSize - 1) - 1;
+            rgbFrameHeight = ((rgbFrameWidth) * (glScan.height)) / glScan.width;
           } else {
-            rgbFrameWidth = rasterSize-1;
-            rgbFrameHeight = (rasterSize*glScan.height/glScan.width)+1;
+            rgbFrameWidth = rasterSize - 1;
+            rgbFrameHeight = (rasterSize * glScan.height / glScan.width) + 1;
           }
           printf( "rgbFrame.width = %d, rgbFrame.height = %d\n", rgbFrameWidth, rgbFrameHeight );
           if ( rgbFrame.memState == 0 ) {
@@ -537,16 +531,16 @@ int main( int argc, char *argv[] ) {
             printf( "Compressing color range of reconstructed color frame...\n" );
             status = get_range_rgbImage( &rgbFrame, rgbMinVal, rgbMaxVal );
             printf( "RGB range after reconstruction:\nchannel\tmin\tmax -> factor\n" );
-            for( channel=0; channel<3; channel++ ) {
-              factors[channel] = 255.0/(rgbMaxVal[channel]-rgbMinVal[channel]);
-              printf( "%d\t%d\t%d -> factor %f\n", channel, rgbMinVal[channel], rgbMaxVal[channel], factors[channel] );
+            for ( c=0; c<3; c++ ) {
+              factors[c] = 255.0 / (rgbMaxVal[c] - rgbMinVal[c]);
+              printf( "%d\t%d\t%d -> factor %f\n", c, rgbMinVal[c], rgbMaxVal[c], factors[c] );
             }
             status = subtractVal_rgbImage( &rgbFrame, rgbMinVal );
             status = multiplyVal_rgbImage( &rgbFrame, factors );
             status = get_range_rgbImage( &rgbFrame, rgbMinVal, rgbMaxVal );
-            printf( "RGB range after compressing to 8bit:\nchannel\tmin\tmax\n" );
-            for( channel=0; channel<3; channel++ )
-              printf( "%d\t%d\t%d\n", channel, rgbMinVal[channel], rgbMaxVal[channel] );
+            printf( "RGB range after compressing to 8 bit:\nc\tmin\tmax\n" );
+            for ( c=0; c<3; c++ )
+              printf( "%d\t%d\t%d\n", c, rgbMinVal[c], rgbMaxVal[c] );
             if ( status == 0 ) {
               if ( (status = write_3x8bitTIFF_rgbImage( &rgbFrame, rgbFrameName )) == 0 )
                 printf( "> Stored RGB frame to '%s'.\n", rgbFrameName );
@@ -560,7 +554,7 @@ int main( int argc, char *argv[] ) {
                 printf( "### allocated memory: horProfile.memState = %d\n", horProfile.memState );
             }
             if ( rgbImage.memState == 1 ) {
-              if ( rgbImage.width!=glScan.width || rgbImage.height!=glScan.height ) {
+              if ( rgbImage.width != glScan.width || rgbImage.height != glScan.height ) {
                 delete_rgbImage( &rgbImage );
                 if ( rgbImage.memState == 0 ) {
                   status = new_rgbImage( &rgbImage, glScan.width, glScan.height );
@@ -584,8 +578,8 @@ int main( int argc, char *argv[] ) {
               if ( status == 0 ) {
                 status = setValue_rgbImage( &rgbImage, 0 );
                 if ( status == 0 )
-                  for ( channel = 0; channel < 3 && status == 0; channel++ )
-                    status = add_glImage_to_rgbImage( &glScan, &rgbImage, channel );
+                  for ( c = 0; c < 3 && status == 0; c++ )
+                    status = add_glImage_to_rgbImage( &glScan, &rgbImage, c );
               }
               if ( status == 0 ) {
                 status = draw_raster_rgbImage( &rgbImage, &horProfile, &rasterPos );
@@ -622,7 +616,7 @@ int main( int argc, char *argv[] ) {
     }
   }
   if ( glScan.memState != 0 ) {
-    printf( "\n\tCLEANING up heap\n" );
+    printf( "\nCLEANING up heap\n" );
     delete_glImage( &glScan );
     printf( "> freed memory: 'glScan.memState' = %d\n", glScan.memState );
   }

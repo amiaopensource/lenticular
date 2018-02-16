@@ -35,12 +35,12 @@ int addGl_glImage( glImage_t *glImage, int gl ) {
   int i, j;
   if ( glImage->img == NULL ) {
     status = -1;
-    printf( "ERROR: addGl_glImage(): Cannot add gray level to empty image.\n" );
-  }
-  if ( status == 0 )
+    printf( "ERROR: addGl_glImage(): Cannot add grey-level to empty image.\n" );
+  } else {
     for ( j=0; j < glImage->height; j++ )
       for ( i=0; i < glImage->width; i++ )
         glImage->img[j][i] += gl;
+  }
   return status;
 }
 
@@ -48,16 +48,15 @@ int addGl_glImage( glImage_t *glImage, int gl ) {
 
 int multiplyGl_glImage( glImage_t *glImage, float factor ) {
   int status = 0;
-  int width;
   int i, j;
+  int width;
   if ( glImage->img == NULL || glImage->memState != 1 ) {
     status = -1;
     printf ( "ERROR: multiplyGl_glImage(): Invalid argument 'glImage->img == NULL || glImage->memState != 1'.\n" );
   } else if ( factor < 0.0 ) {
     status = -1;
     printf ( "ERROR: multiplyGl_glImage(): Invalid argument 'factor < 0.0'.\n" );
-  }
-  if ( status == 0 ) {
+  } else {
     width = glImage->width;
     for ( j=0; j < glImage->height; j++ )
       for ( i=0; i < width; i++ )
@@ -70,13 +69,12 @@ int multiplyGl_glImage( glImage_t *glImage, float factor ) {
 
 int setValue_rgbImage( rgbImage_t *rgbImage, int value ) {
   int status = 0;
-  int i, j;
-  int width, height, c;
+  int c, i, j;
+  int width, height;
   if ( rgbImage->img == NULL || rgbImage->memState != 1 ) {
     status = -1;
     printf ( "ERROR: setZero_rgbImage(): Invalid argument 'rgbImage->img == NULL || rgbImage->memState != 1'.\n" );
-  }
-  if ( status == 0 ) {
+  } else {
     width = rgbImage->width;
     height = rgbImage->height;
     for ( c=0; c<3; c++ ) {
@@ -92,13 +90,12 @@ int setValue_rgbImage( rgbImage_t *rgbImage, int value ) {
 
 int multiplyVal_rgbImage( rgbImage_t *rgbImage, float factors[3] ) {
   int status = 0;
-  int i, j;
-  int width, height, c;
+  int c, i, j;
+  int width, height;
   if ( rgbImage->img == NULL || rgbImage->memState != 1 ) {
     status = -1;
     printf ( "ERROR: multiplyVal_rgbImage(): Invalid argument 'rgbImage->img == NULL || rgbImage->memState != 1'\n" );
-  }
-  if ( status == 0 ) {
+  } else {
     width = rgbImage->width;
     height = rgbImage->height;
     for ( c=0; c<3; c++ ) {
@@ -114,13 +111,12 @@ int multiplyVal_rgbImage( rgbImage_t *rgbImage, float factors[3] ) {
 
 int subtractVal_rgbImage( rgbImage_t *rgbImage, int values[3] ) {
   int status = 0;
-  int i, j;
-  int width, height, c;
+  int c, i, j;
+  int width, height;
   if ( rgbImage->img == NULL || rgbImage->memState != 1 ) {
     status = -1;
     printf ( "ERROR: subtractVal_rgbImage(): Invalid argument 'rgbImage->img == NULL || rgbImage->memState != 1'\n" );
-  }
-  if ( status == 0 ) {
+  } else {
     width = rgbImage->width;
     height = rgbImage->height;
     for ( c=0; c<3; c++ ) {
@@ -134,7 +130,7 @@ int subtractVal_rgbImage( rgbImage_t *rgbImage, int values[3] ) {
 
 
 
-// binary operations
+// binary operation
 
 int add_glImage_to_rgbImage( glImage_t *glImage, rgbImage_t *rgbImage, int channel ) {
   int status = 0;
@@ -152,8 +148,7 @@ int add_glImage_to_rgbImage( glImage_t *glImage, rgbImage_t *rgbImage, int chann
   } else if ( glImage->width != rgbImage->width || glImage->height != rgbImage->height ) {
     status = -1;
     printf ( "ERROR: add_glImage_to_rgbImage(): Unequal image dimensions.\n" );
-  }
-  if ( status == 0 ) {
+  } else {
     width = glImage->width;
     for ( j=0; j < glImage->height; j++ )
       for ( i=0; i < width; i++ )

@@ -1,7 +1,7 @@
 /******************************************************************************
  *
  * imageHandling.h
- * - define structures to hold gray level and RGB images
+ * - define structures to hold grey-level and RGB images
  * - memory handling
  * - read and write TIFF images
  *
