@@ -7,33 +7,35 @@
 Please:
 
 - keep the [issue tracker](http://github.com/amiaopensource/lenticular/issues) limited to bug reports and feature requests;
-- use the [pull requests](http://github.com/amiaopensource/lenticular/pulls) to submit patches.
+- use the [pull requests](http://github.com/amiaopensource/lenticular/pulls) to submit patches to both the code and its documentation.
 
 Thank you!
 
-### Short-term goal
+### Short-term goals of the project
 
 - Any idea for a better name than `doLCE` for the modified version?
 - I was told that a logo would be important.
 - Understand and document the parameters.
-- Upload test files on GitHub.
+- Upload test files on GitHub. Who can provide some for public usage?
 - Allow full path for both the input and the output folder. In particular, the output folder has not to be nested inside the input folder, but can be chosen freely, e.g. on another hard-disk drive.
+- Allow to choose the name of the output files.
+- Add flags for mandatory parameters and allow free input order.
 - Allow the file extensions `.tiff`, `.TIF` and `.TIFF` as well.
-- Allow more TIFF flavours to be processed, _in primis_ `rgb48le`, because it seems that currently only `gray16le` is supported in `doLCE`. However, the additional `inStudy` tool do work with `rgb48le`.
+- Allow more TIFF flavours to be processed, _in primis_ `rgb48le`, because currently only `gray16le` is supported in `doLCE`. However, the additional `inStudy` tool does work with `rgb48le`. Therefore this should not be too hard to implement.
 - Determine automatically the regex for parsing the greyscale frames of the input folder.
-- The number of the first and of the last frame to process is needed only for testing a subset of the frames in the folder. If these parameters are not provided, the parse all the files in the folder.
-- Always use the standard `(x,y)` order of coordinates, instead of the inverted one `(y,x)` used by Monolith 2.
+- The number of the first and of the last frame to process is needed only for testing a subset of the frames in the folder. If these parameters are not provided, then parse in ascending order all the files in the folder.
+- Change the behaviour of the `-highRes` flag: replace with a resolution parameter and set the default to high resolution.
 
-### Mid-term goal
+### Mid-term goals
 
 - Could this be a project for the next AMIA Hackday?
 - Verify that TIFF is really the best choice as processing format.
 - Process any image format supported by FFmpeg.
 
-### Long-term goals of the project
+### Long-term goals
 
-- **CLI:** A command-line programme with a library that can be used by other software as well. That way, FFmpeg (`ffmpeg` and `ffplay`) or `mpv` could be compiled with, or the restoration software `Diamant` could use it as a plug-in.
-- **GUI:** A stand-alone programme, directly inspired by [AEO-Light](https://usc-imi.github.io/aeo-light/), that allows to generate the colours of digitised lenticular movie films, like _Kodacolor_ and _Agfacolor_.
+- **CLI:** A command-line program that can be used by other softwares as well. That way, for example, FFmpeg (`ffmpeg` and `ffplay`) or `mpv` could be compiled with, or the restoration software `Diamant` could use it as a plug-in. The capability to use a library as a filter on the media player allows to show on-the-fly the lenticular colours while reading a greyscale file.
+- **GUI:** A stand-alone program – directly inspired by [AEO-Light](https://usc-imi.github.io/aeo-light/) – that allows to generate the colours of digitised lenticular movie films, like _Kodacolor_ and _Agfacolor_. This allows to tune the parameters for a better result.
 
 ---
 
@@ -93,10 +95,11 @@ doLCE [-help] [-highRes] [-profileRelThickness (float)]
 
 Please note that, like in the original code, as well as in the current version:
 
+- the parameters must be passed in this order
 - the file extension must be `.tif` and the extension `.tiff` is not allowed
 - in the example above the first input file is `~/TEST/SOURCE_FILES/greyscale_0001.tif`
 - the output folder must be nested inside the input folder
-- only the name of the output folder must be given
+- only the name of the output folder must be entered (with the path from the input folder on, if any, but not the full path)
 - in the example above the last output file is `~/TEST/SOURCE_FILES/NEW_FILES/rgb_greyscale_0057.tif`
 
 #### Optional parameters
@@ -147,7 +150,7 @@ inStudy [--help] 'inputFileName'
 
 Note that:
 
-- the «option '--help' [is] ignored at the moment», as seems to be any option that one may pass;
+- the «option '--help' [is] ignored at the moment», as is any passed flag;
 - **inputFileName:** currently the input file must be at the same level than `inStudy`. Hmm…
 
 #### Frame cropper
