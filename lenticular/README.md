@@ -17,6 +17,7 @@ Thank you!
 - I was told that a logo would be important.
 - Understand and document the parameters.
 - Upload test files on GitHub. Who can provide some for public usage?
+- Fix error handling. In particolar avoid the `Segmentation fault: 11` message, most probably due to wrongly set arrays’ indices.
 - Allow full path for both the input and the output folder. In particular, the output folder has not to be nested inside the input folder, but can be chosen freely, e.g. on another hard-disk drive.
 - Allow to choose the name of the output files.
 - Add flags for mandatory parameters and allow free input order.
@@ -34,8 +35,8 @@ Thank you!
 
 ### Long-term goals
 
-- **CLI:** A command-line program that can be used by other softwares as well. That way, for example, FFmpeg (`ffmpeg` and `ffplay`) or `mpv` could be compiled with, or the restoration software `Diamant` could use it as a plug-in. The capability to use a library as a filter on the media player allows to show on-the-fly the lenticular colours while reading a greyscale file.
-- **GUI:** A stand-alone program – directly inspired by [AEO-Light](https://usc-imi.github.io/aeo-light/) – that allows to generate the colours of digitised lenticular movie films, like _Kodacolor_ and _Agfacolor_. This allows to tune the parameters for a better result.
+- **CLI:** A command-line program that can be used by other software as well. That way, for example, FFmpeg (`ffmpeg` and `ffplay`) or `mpv` could be compiled with, or the restoration software `Diamant` could use it as a plug-in. The capability to use a library as a filter on the media player allows to show on-the-fly the lenticular colours while reading a greyscale file. This may be useull for quickly check if a film has been shot with the RGB filter on the lens or not.
+- **GUI:** A stand-alone program – directly inspired by [AEO-Light](https://usc-imi.github.io/aeo-light/) – that allows to generate the colours of a digitised lenticular movie films, like _Kodacolor_ and _Agfacolor_. This allows to tune the parameters for a better result.
 
 ---
 
@@ -77,7 +78,7 @@ Brew installation and `doLCE` have been successfully tested on the following ope
 ### Parameters
 
 ```
-modified doLCE 2018-02-16 alpha
+modified doLCE 2018-02-18 alpha
 
 doLCE [-help] [-highRes] [-profileRelThickness (float)]
   [-profileRelPosY (float)] [-relaxRaster]
@@ -101,6 +102,7 @@ Please note that, like in the original code, as well as in the current version:
 - the output folder must be nested inside the input folder
 - only the name of the output folder must be entered (with the path from the input folder on, if any, but not the full path)
 - in the example above the last output file is `~/TEST/SOURCE_FILES/NEW_FILES/rgb_greyscale_0057.tif`
+- inconsistent input may provoke a `Segmentation fault: 11` error
 
 #### Optional parameters
 
@@ -116,8 +118,8 @@ Please note that, like in the original code, as well as in the current version:
 
 The original source code comes with the following two additional tools:
 
-- `inStudy`: interpolation study on `rgb48le`
-- `frameCropper`: frame cropper
+- `inStudy`: pixel column interpolation study on `rgb48le`
+- `frameCropper`: crop center part of RGB frames
 
 Note that we just have started to explore the additional tools.
 
@@ -140,10 +142,8 @@ inStudy
 which should give:
 
 ```
-modified inStudy 2018-02-16 alpha
+modified inStudy 2018-02-18 alpha
   RGB image pixel column interpolation study
-
-ERROR: Too few arguments.
 
 inStudy [--help] 'inputFileName'
 ```
@@ -152,6 +152,7 @@ Note that:
 
 - the «option '--help' [is] ignored at the moment», as is any passed flag;
 - **inputFileName:** currently the input file must be at the same level than `inStudy`. Hmm…
+- when only a flag is passed, a `Segmentation fault: 11` occurs
 
 #### Frame cropper
 
@@ -171,20 +172,19 @@ which should give:
 
 
 ```
-modified frameCropper 2018-02-16 alpha
+modified frameCropper 2018-02-18 alpha
   crop center part of RGB frames
-
-ERROR: Too few arguments.
 
 frameCropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'
 ```
 
 ---
 
-## Licence and Disclaimer
+## Copyright, Licence and Disclaimer
 
-The current maintainer is [Reto Kromer](https://github.com/retokromer).
+Copyright (c) 2012 Joakim Reuteler  
+Copyright (c) 2018 AMIA Open Source
 
-This work is released under a [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) Licence.
+The program is released under a [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html) Licence and the documentation is released under a [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) Licence.
 
 This work is provided «as is» without warranty or support of any kind.

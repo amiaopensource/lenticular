@@ -3,10 +3,10 @@
  * interpolationStudy.c
  * - RGB image pixel column interpolation study
  *
- * this is part of:
+ * This file is part of doLCE (do Lenticular film Color rEconstruction).
  *
- * doLCE (do Lenticular film Color rEconstruction)
  * Copyright (c) 2012 Joakim Reuteler
+ * Copyright (c) 2018 AMIA Open Source
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3 as published
@@ -34,7 +34,7 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "\nmodified inStudy 2018-02-16 alpha\n  RGB image pixel column interpolation study\n\n" );
+  sprintf( greetingText, "\nmodified inStudy 2018-02-18 alpha\n  RGB image pixel column interpolation study\n\n" );
   char helpText[] = "inStudy [--help] 'inputFileName'\n\n";
   char inputImageName[128] = "";
   char outputImageName[128] = "";
@@ -52,8 +52,8 @@ int main( int argc, char *argv[] ) {
 
   printf( "%s", greetingText );
   if ( argc < 2 ) {
-    status = -1;
-    printf( "ERROR: Too few arguments.\n\n%s", helpText );
+    printf( "%s", helpText );
+    exit(0);
   } else {
     optNo = 0;
     argNo = 1;
@@ -65,13 +65,11 @@ int main( int argc, char *argv[] ) {
       argNo++;
     }
     if ( optNo + 1 != argc - 1 )
-      printf( "WARNING: Several input images specified, only first one will be read at the moment.\n" );
-    strcat( inputImageName, argv[optNo+1] );
+      printf( "WARNING: Several input images specified, only first one will be read at the\n  moment.\n" );
+    strcat( inputImageName, argv[optNo + 1] );
     printf( "image to load: %s\n", inputImageName );
     sprintf( outputImageName, "study_%s", inputImageName );
     printf( "result will be written to '%s'\n", outputImageName );
-  }
-  if ( status == 0 ) {
     printf( "Checking input image...\n" );
     status = check_TIFF( inputImageName, &spp, &bps, &width, &height );
     if ( status == 0 ) {

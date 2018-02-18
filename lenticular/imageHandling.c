@@ -4,10 +4,10 @@
  * - memory handling for grey-level and RGB images
  * - read and write TIFF images
  *
- * this is part of:
+ * This file is part of doLCE (do Lenticular film Color rEconstruction).
  *
- * doLCE (do Lenticular film Color rEconstruction)
  * Copyright (c) 2012 Joakim Reuteler
+ * Copyright (c) 2018 AMIA Open Source
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3 as published
@@ -492,7 +492,7 @@ int write_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
     TIFFSetField( outTIFF, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     if ( (lineBuffer = malloc( 3*width*sizeof(unsigned char) )) == NULL ) {
       status = -1;
-      printf ( "ERROR : write_3x8bitTIFF_rgbImage(): failed to allocate memory for 'lineBuffer'.\n" );
+      printf ( "ERROR: write_3x8bitTIFF_rgbImage(): failed to allocate memory for 'lineBuffer'.\n" );
     }
     for ( j=0; j < height && status == 0; j++ ) {
       for ( i=0; i < width; i++ )
@@ -500,7 +500,7 @@ int write_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
           lineBuffer[3 * i + c] = (unsigned char)(rgbImage->img[c][j][i]);
       if (TIFFWriteScanline (outTIFF, lineBuffer, j, 0) == -1) {
         status = -1;
-        printf ( "ERROR : write_3x8bitTIFF_rgbImage(): failed to write scan line (%d).\n", j );
+        printf ( "ERROR: write_3x8bitTIFF_rgbImage(): failed to write scan line (%d).\n", j );
       }
     }
     free( lineBuffer );
@@ -549,7 +549,7 @@ int writeROI_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname, int ro
     TIFFSetField( outTIFF, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     if ( (lineBuffer = malloc( 3*width*sizeof(unsigned char) )) == NULL ) {
       status = -1;
-      printf ( "ERROR : writeROI_3x8bitTIFF_rgbImage(): failed to allocate memory for line buffer.\n" );
+      printf ( "ERROR: writeROI_3x8bitTIFF_rgbImage(): failed to allocate memory for line buffer.\n" );
     }
     for ( j=0; j < roiHeight && status == 0; j++ ) {
       for ( i=0; i < roiWidth; i++ )
@@ -557,7 +557,7 @@ int writeROI_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname, int ro
           lineBuffer[3*i+c] = (unsigned char)(rgbImage->img[c][j + roiYpos][i + roiXpos]);
       if (TIFFWriteScanline (outTIFF, lineBuffer, j, 0) == -1) {
         status = -1;
-        printf ( "ERROR : writeROI_3x8bitTIFF_rgbImage(): failed to write scan line (%d).\n", j );
+        printf ( "ERROR: writeROI_3x8bitTIFF_rgbImage(): failed to write scan line (%d).\n", j );
       }
     }
     free( lineBuffer );
@@ -601,7 +601,7 @@ int write_3x16bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
     TIFFSetField( outTIFF, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     if ( (lineBuffer = malloc( (long)(rgbImage->width) * 3 * sizeof(uint16) )) == NULL ) {
       status = -1;
-      printf ( "ERROR : write_3x16bitTIFF_rgbImage(): failed to allocate memory for 'lineBuffer'.\n" );
+      printf ( "ERROR: write_3x16bitTIFF_rgbImage(): failed to allocate memory for 'lineBuffer'.\n" );
     }
     for ( j=0; j < height && status == 0; j++ ) {
       for ( i=0; i < width; i++ )
@@ -609,7 +609,7 @@ int write_3x16bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname ) {
           lineBuffer[3*i+c] = (uint16)(rgbImage->img[c][j][i]);
       if (TIFFWriteScanline (outTIFF, lineBuffer, j, 0) == -1) {
         status = -1;
-        printf ( "ERROR : write_3x8bitTIFF_rgbImage(): failed to write scan line (%d).\n", j );
+        printf ( "ERROR: write_3x8bitTIFF_rgbImage(): failed to write scan line (%d).\n", j );
       }
     }
     free( lineBuffer );

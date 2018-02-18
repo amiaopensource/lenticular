@@ -1,14 +1,14 @@
 /******************************************************************************
  *
  * imageHandling.h
- * - define structures to hold grey-level and RGB images
- * - memory handling
+ * - declare structures to hold both grey-level and RGB images
  * - read and write TIFF images
+ * - memory handling
  *
- * this is part of:
+ * This file is part of doLCE (do Lenticular film Color rEconstruction).
  *
- * doLCE (do Lenticular film Color rEconstruction)
  * Copyright (c) 2012 Joakim Reuteler
+ * Copyright (c) 2018 AMIA Open Source
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3 as published

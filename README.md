@@ -27,8 +27,11 @@ Joakim Reuteler and Rudolf Gschwind ([Digital Humanities Lab](http://dhlab.uniba
 
 An alpha of a [modified code](lenticular/README.md) is available for testing purpose. And contributions are very welcome!
 
-### Licence and Disclaimer
+### Copyright, Licence and Disclaimer
 
-This work is released under a [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) Licence.
+Copyright (c) 2012 Joakim Reuteler  
+Copyright (c) 2018 AMIA Open Source
+
+The program is released under a [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.en.html) Licence and the documentation is released under a [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) Licence.
 
 This work is provided «as is» without warranty or support of any kind.

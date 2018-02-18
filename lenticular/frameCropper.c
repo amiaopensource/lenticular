@@ -3,10 +3,10 @@
  * frameCropper.c
  * - crop center part of RGB frames
  *
- * this is part of:
+ * This file is part of doLCE (do Lenticular film Color rEconstruction).
  *
- * doLCE (do Lenticular film Color rEconstruction)
  * Copyright (c) 2012 Joakim Reuteler
+ * Copyright (c) 2018 AMIA Open Source
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3 as published
@@ -34,7 +34,7 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "\nmodified frameCropper 2018-02-16 alpha\n  crop center part of RGB frames\n\n" );
+  sprintf( greetingText, "\nmodified frameCropper 2018-02-18 alpha\n  crop center part of RGB frames\n\n" );
   char helpText[] = "frameCropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n\n";
   char inputImageName[128] = "";
   char inputBaseName[128] =  "";
@@ -43,7 +43,7 @@ int main( int argc, char *argv[] ) {
   char endNoStr[16] = "";
   int endNo;
   char outputDirName[128] = "";
-  char outputImageName[132] = "";
+  char outputImageName[128] = "";
   int frameNo;
   char frameNoFormat[8] = "";
   char frameNoStr[16] = "";
@@ -64,9 +64,12 @@ int main( int argc, char *argv[] ) {
   outImg.memState = 0;
 
   printf( "%s", greetingText );
-  if ( argc < 7 ) {
-    status = -1;
+  if ( argc < 2 ) {
+    printf( "%s", helpText );
+    exit(0);
+  } else if ( argc < 7 ) {
     printf( "ERROR: Too few arguments.\n\n%s", helpText );
+    exit(1);
   } else {
     argNo = 1;
     printf( "argNo = %d\n", argNo );
@@ -81,12 +84,10 @@ int main( int argc, char *argv[] ) {
     strcpy(  outputDirName, argv[++argNo] );
     printf( "image sequence to be processed: '%s%s.tif' to '%s%s.tif'\n", inputBaseName, startNoStr, inputBaseName, endNoStr );
     printf( "cropped frames will be stored as '%s/crp_%s%s.tif' etc.\n", outputDirName, inputBaseName, startNoStr );
-  }
-  if ( status == 0 ) {
-    printf( "\nlog of call: '" );
+    printf( "\nCOMMAND: " );
     for ( argNo = 0 ; argNo < argc; argNo++ )
       printf( "%s ", argv[argNo] );
-    printf( "'\n" );
+    printf( "\n" );
     if ( strlen(startNoStr) == strlen(endNoStr) ) {
       if ( strlen(startNoStr) == 1 )
         sprintf( frameNoFormat, "%%d" );
@@ -94,14 +95,12 @@ int main( int argc, char *argv[] ) {
         sprintf( frameNoFormat, "%%0%dd", (int)strlen(startNoStr) );
     } else {
       if ( strlen(startNoStr) > 1 && startNoStr[0] == 0 ) {
-        status = -1;
         printf( "ERROR: Cannot handle this kind of numbering:\n" );
         printf( "  startNoStr[0] == 0\n" );
         printf( "  startNoStr == %s\n", startNoStr );
+        exit(1);
       }
     }
-  }
-  if ( status == 0 ) {
     printf( "\n-------------------loop over frames----------------------\n\n" );
     for ( frameNo = startNo; frameNo <= endNo && status == 0; frameNo++ ) {
       sprintf( frameNoStr, frameNoFormat, frameNo );
