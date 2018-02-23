@@ -3,7 +3,7 @@
  * interpolationStudy.c
  * - RGB image pixel column interpolation study
  *
- * This file is part of doLCE (do Lenticular film Color rEconstruction).
+ * This file is part of 'lenticular'.
  *
  * Copyright (c) 2012 Joakim Reuteler
  * Copyright (c) 2018 AMIA Open Source
@@ -11,10 +11,6 @@
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3 as published
  * by the Free Software Foundation.
- *
- * HISTORY
- *   2018-02-05 purge code
- *   2018-02-11 delete unused variables, unify syntax
  *
  ******************************************************************************/
 
@@ -34,7 +30,7 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "\nmodified inStudy 2018-02-18 alpha\n  RGB image pixel column interpolation study\n\n" );
+  sprintf( greetingText, "\nmodified inStudy 2018-02-24 alpha\n  RGB image pixel column interpolation study\n\n" );
   char helpText[] = "inStudy [--help] 'inputFileName'\n\n";
   char inputImageName[128] = "";
   char outputImageName[128] = "";
@@ -76,8 +72,8 @@ int main( int argc, char *argv[] ) {
       printf( "> % 5d samples per pixel\n> % 5d bits per sample\n", spp, bps );
       printf( "> % 5d pixels wide\n> % 5d pixels high\n", width, height );
       if ( spp != 3 || bps != 16 ) {
-        status = -1;
         printf( "ERROR: Input image must be 16-bit RGB.\n" );
+        exit(1);
       } else {
         status = new_rgbImage( &inImg, width, height );
         if ( status == 0 ) {

@@ -1,24 +1,16 @@
 /******************************************************************************
  *
- * lenticularFilmColorRecunstruction.c
- * - main() providing the command line tool 'doLCE'
+ * lenticular.c
+ * - main() providing the command line tool 'lenticular'
  *
- * this is part of:
+ * This file is part of 'lenticular'.
  *
- * doLCE (do Lenticular film Color rEconstruction)
  * Copyright (c) 2012 Joakim Reuteler
  * Copyright (c) 2018 AMIA Open Source
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3 as published
  * by the Free Software Foundation.
- *
- * HISTORY
- *   2018-02-05 purge code
- *   2018-02-08 delete unused variables, initialise variables, delete not
- *              used data arguments
- *   2018-02-11 unify syntax
- *   2018-02-16 clean structure
  *
  ******************************************************************************/
 
@@ -43,8 +35,8 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "modified doLCE 2018-02-18 alpha\n  digital restoration of lenticular colours from greyscale digitisations\n" );
-  char helpText[] = "doLCE [-help] [-highRes] [-profileRelThickness (float)]\n  [-profileRelPosY (float)] [-relaxRaster]\n  [-rasterSpacing (float)] [-troubleshoot]\n  'inputDir' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n";
+  sprintf( greetingText, "lenticular 2018-02-24 alpha\n  digital restoration of lenticular colours from greyscale digitisations\n" );
+  char helpText[] = "lenticular [-help] [-highRes] [-profileRelThickness (float)]\n  [-profileRelPosY (float)] [-relaxRaster]\n  [-rasterSpacing (float)] [-troubleshoot]\n  'inputDir' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n";
   char inputImageName[128] = "";
   char inputDirName[128] = "";
   char inputBaseName[128] = "";
@@ -656,5 +648,6 @@ int main( int argc, char *argv[] ) {
       printf( "> freed memory: 'perfArea[%d].memState' = %d\n", i, perfArea[i].memState );
     }
   }
+
   return status;
 }

@@ -3,7 +3,7 @@
  * imageProcessing.h
  * - declare simple operations on images
  *
- * This file is part of doLCE (do Lenticular film Color rEconstruction).
+ * This file is part of 'lenticular'.
  *
  * Copyright (c) 2012 Joakim Reuteler
  * Copyright (c) 2018 AMIA Open Source
@@ -12,15 +12,12 @@
  * under the terms of the GNU General Public License version 3 as published
  * by the Free Software Foundation.
  *
- * HISTORY
- *   2018-02-05 purge code
- *
  ******************************************************************************/
 
 
 
-#ifndef doLCE_imageProcessing_h
-#define doLCE_imageProcessing_h
+#ifndef imageProcessing
+#define imageProcessing
 
 #include "imageHandling.h"
 

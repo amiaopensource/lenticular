@@ -13,16 +13,16 @@ Thank you!
 
 ### Short-term goals of the project
 
-- Any idea for a better name than `doLCE` for the modified version?
+- Any idea for a better name than `lenticular`?
 - I was told that a logo would be important.
 - Understand and document the parameters.
 - Upload test files on GitHub. Who can provide some for public usage?
-- Fix error handling. In particolar avoid the `Segmentation fault: 11` message, most probably due to wrongly set arrays’ indices.
+- Fix error handling. In particular avoid the `Segmentation fault: 11` message, most probably due to wrongly set arrays’ indices.
 - Allow full path for both the input and the output folder. In particular, the output folder has not to be nested inside the input folder, but can be chosen freely, e.g. on another hard-disk drive.
 - Allow to choose the name of the output files.
 - Add flags for mandatory parameters and allow free input order.
 - Allow the file extensions `.tiff`, `.TIF` and `.TIFF` as well.
-- Allow more TIFF flavours to be processed, _in primis_ `rgb48le`, because currently only `gray16le` is supported in `doLCE`. However, the additional `inStudy` tool does work with `rgb48le`. Therefore this should not be too hard to implement.
+- Allow more TIFF flavours to be processed, _in primis_ `rgb48le`, because currently only `gray16le` is supported in `lenticular`. However, the additional `inStudy` tool does work with `rgb48le`. Therefore this should not be too hard to implement.
 - Determine automatically the regex for parsing the greyscale frames of the input folder.
 - The number of the first and of the last frame to process is needed only for testing a subset of the frames in the folder. If these parameters are not provided, then parse in ascending order all the files in the folder.
 - Change the behaviour of the `-highRes` flag: replace with a resolution parameter and set the default to high resolution.
@@ -53,11 +53,11 @@ Thank you!
 
 1. open the terminal
 1. `cd` into the folder
-1. run `./doLCE`
+1. run `./lenticular`
 
 ### Homebrew and Linuxbrew
 
-Alternatively, you can install the modified `doLCE` tool by using Homebrew or Linuxbrew. Just run the command:
+Alternatively, you can install the modified `lenticular` tool by using Homebrew or Linuxbrew. Just run the command:
 
 ```
 brew install amiaopensource/amiaos/lenticular
@@ -66,10 +66,10 @@ brew install amiaopensource/amiaos/lenticular
 Once installed, run the main tool by the command:
 
 ```
-doLCE
+lenticular
 ```
 
-Brew installation and `doLCE` have been successfully tested on the following operating systems:
+Brew installation and `lenticular` have been successfully tested on the following operating systems:
 
 - **Linux:** Ubuntu 16.04.3 LTS and 14.04.5 LTS; Slackware 14.2; Debian 7.11
 - **Mac:** macOS 10.13.3 and 10.12.6, OS X 10.11.6 and 10.10.5; 
@@ -78,9 +78,9 @@ Brew installation and `doLCE` have been successfully tested on the following ope
 ### Parameters
 
 ```
-modified doLCE 2018-02-18 alpha
+lenticular 2018-02-24 alpha
 
-doLCE [-help] [-highRes] [-profileRelThickness (float)]
+lenticular [-help] [-highRes] [-profileRelThickness (float)]
   [-profileRelPosY (float)] [-relaxRaster]
   [-rasterSpacing (float)] [-troubleshoot]
   'inputDir' 'inputBaseName' 'startNo' 'endNo' 'outputDir'
@@ -142,7 +142,7 @@ inStudy
 which should give:
 
 ```
-modified inStudy 2018-02-18 alpha
+modified inStudy 2018-02-24 alpha
   RGB image pixel column interpolation study
 
 inStudy [--help] 'inputFileName'
@@ -172,7 +172,7 @@ which should give:
 
 
 ```
-modified frameCropper 2018-02-18 alpha
+modified frameCropper 2018-02-24 alpha
   crop center part of RGB frames
 
 frameCropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'

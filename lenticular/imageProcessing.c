@@ -3,7 +3,7 @@
  * imageProcessing.c
  * - simple operations on images
  *
- * This file is part of doLCE (do Lenticular film Color rEconstruction).
+ * This file is part of 'lenticular'.
  *
  * Copyright (c) 2012 Joakim Reuteler
  * Copyright (c) 2018 AMIA Open Source
@@ -11,10 +11,6 @@
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3 as published
  * by the Free Software Foundation.
- *
- * HISTORY
- *   2018-02-05 purge code
- *   2018-02-11 unify syntax
  *
  ******************************************************************************/
 
@@ -33,6 +29,7 @@
 int addGl_glImage( glImage_t *glImage, int gl ) {
   int status = 0;
   int i, j;
+
   if ( glImage->img == NULL ) {
     status = -1;
     printf( "ERROR: addGl_glImage(): Cannot add grey-level to empty image.\n" );
@@ -41,6 +38,7 @@ int addGl_glImage( glImage_t *glImage, int gl ) {
       for ( i=0; i < glImage->width; i++ )
         glImage->img[j][i] += gl;
   }
+
   return status;
 }
 
@@ -50,6 +48,7 @@ int multiplyGl_glImage( glImage_t *glImage, float factor ) {
   int status = 0;
   int i, j;
   int width;
+
   if ( glImage->img == NULL || glImage->memState != 1 ) {
     status = -1;
     printf ( "ERROR: multiplyGl_glImage(): Invalid argument 'glImage->img == NULL || glImage->memState != 1'.\n" );
@@ -62,6 +61,7 @@ int multiplyGl_glImage( glImage_t *glImage, float factor ) {
       for ( i=0; i < width; i++ )
         glImage->img[j][i] = (int)( factor * glImage->img[j][i] );
   }
+
   return status;
 }
 
@@ -71,6 +71,7 @@ int setValue_rgbImage( rgbImage_t *rgbImage, int value ) {
   int status = 0;
   int c, i, j;
   int width, height;
+
   if ( rgbImage->img == NULL || rgbImage->memState != 1 ) {
     status = -1;
     printf ( "ERROR: setZero_rgbImage(): Invalid argument 'rgbImage->img == NULL || rgbImage->memState != 1'.\n" );
@@ -83,6 +84,7 @@ int setValue_rgbImage( rgbImage_t *rgbImage, int value ) {
           rgbImage->img[c][j][i] = value;
     }
   }
+
   return status;
 }
 
@@ -92,6 +94,7 @@ int multiplyVal_rgbImage( rgbImage_t *rgbImage, float factors[3] ) {
   int status = 0;
   int c, i, j;
   int width, height;
+
   if ( rgbImage->img == NULL || rgbImage->memState != 1 ) {
     status = -1;
     printf ( "ERROR: multiplyVal_rgbImage(): Invalid argument 'rgbImage->img == NULL || rgbImage->memState != 1'\n" );
@@ -104,6 +107,7 @@ int multiplyVal_rgbImage( rgbImage_t *rgbImage, float factors[3] ) {
           rgbImage->img[c][j][i] = (int)(factors[c] * rgbImage->img[c][j][i]);
     }
   }
+
   return status;
 }
 
@@ -113,6 +117,7 @@ int subtractVal_rgbImage( rgbImage_t *rgbImage, int values[3] ) {
   int status = 0;
   int c, i, j;
   int width, height;
+
   if ( rgbImage->img == NULL || rgbImage->memState != 1 ) {
     status = -1;
     printf ( "ERROR: subtractVal_rgbImage(): Invalid argument 'rgbImage->img == NULL || rgbImage->memState != 1'\n" );
@@ -125,6 +130,7 @@ int subtractVal_rgbImage( rgbImage_t *rgbImage, int values[3] ) {
           rgbImage->img[c][j][i] -= values[c];
     }
   }
+
   return status;
 }
 
@@ -136,6 +142,7 @@ int add_glImage_to_rgbImage( glImage_t *glImage, rgbImage_t *rgbImage, int chann
   int status = 0;
   int i, j;
   int width;
+
   if ( glImage->img == NULL || glImage->memState != 1 ) {
     status = -1;
     printf ( "ERROR: add_glImage_to_rgbImage(): Invalid argument 'glImage->img == NULL || glImage->memState != 1'.\n" );
@@ -154,5 +161,6 @@ int add_glImage_to_rgbImage( glImage_t *glImage, rgbImage_t *rgbImage, int chann
       for ( i=0; i < width; i++ )
         rgbImage->img[channel][j][i] += glImage->img[j][i];
   }
+
   return status;
 }

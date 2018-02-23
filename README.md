@@ -25,7 +25,7 @@ Joakim Reuteler and Rudolf Gschwind ([Digital Humanities Lab](http://dhlab.uniba
 
 ## Work-in-Progress Source Code
 
-An alpha of a [modified code](lenticular/README.md) is available for testing purpose. And contributions are very welcome!
+An alpha of a modified code, named [lenticular](lenticular/README.md), is available for testing purpose. And contributions are very welcome!
 
 ### Copyright, Licence and Disclaimer
 

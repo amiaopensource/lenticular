@@ -3,7 +3,7 @@
  * frameCropper.c
  * - crop center part of RGB frames
  *
- * This file is part of doLCE (do Lenticular film Color rEconstruction).
+ * This file is part of 'lenticular'.
  *
  * Copyright (c) 2012 Joakim Reuteler
  * Copyright (c) 2018 AMIA Open Source
@@ -11,10 +11,6 @@
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3 as published
  * by the Free Software Foundation.
- *
- * HISTORY
- *   2018-02-05 purge code
- *   2018-02-11 delete unused variables, unify syntax
  *
  ******************************************************************************/
 
@@ -34,7 +30,7 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "\nmodified frameCropper 2018-02-18 alpha\n  crop center part of RGB frames\n\n" );
+  sprintf( greetingText, "\nmodified frameCropper 2018-02-24 alpha\n  crop center part of RGB frames\n\n" );
   char helpText[] = "frameCropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n\n";
   char inputImageName[128] = "";
   char inputBaseName[128] =  "";
@@ -157,5 +153,6 @@ int main( int argc, char *argv[] ) {
     delete_rgbImage( &inImg );
     printf( "### freed memory 'inImg.memState = %d'\n", inImg.memState );
   }
+
   return status;
 }

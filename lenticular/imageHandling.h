@@ -5,7 +5,7 @@
  * - read and write TIFF images
  * - memory handling
  *
- * This file is part of doLCE (do Lenticular film Color rEconstruction).
+ * This file is part of 'lenticular'.
  *
  * Copyright (c) 2012 Joakim Reuteler
  * Copyright (c) 2018 AMIA Open Source
@@ -13,9 +13,6 @@
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 3 as published
  * by the Free Software Foundation.
- *
- * HISTORY
- *   2018-02-05 purge code
  *
  ******************************************************************************/
 
@@ -40,8 +37,8 @@
  version of that code.
 */
 
-#ifndef doLCE_imageHandling_h
-#define doLCE_imageHandling_h
+#ifndef imageHandling
+#define imageHandling
 
 
 
