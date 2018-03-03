@@ -35,7 +35,7 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "lenticular 2018-02-24 alpha\n  digital restoration of lenticular colours from greyscale digitisations\n" );
+  sprintf( greetingText, "lenticular 2018-03-04 alpha\n  digital restoration of lenticular colours from greyscale digitisations\n" );
   char helpText[] = "lenticular [-help] [-highRes] [-profileRelThickness (float)]\n  [-profileRelPosY (float)] [-relaxRaster]\n  [-rasterSpacing (float)] [-troubleshoot]\n  'inputDir' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n";
   char inputImageName[128] = "";
   char inputDirName[128] = "";
@@ -117,8 +117,6 @@ int main( int argc, char *argv[] ) {
   char fourShotGlHistsName[128] = "";
 
   printf( "\n%s\n", greetingText );
-
-  // parse command-line input
   if ( argc < 2 ) {
     printf( "%s\n", helpText );
     exit(0);
@@ -607,6 +605,7 @@ int main( int argc, char *argv[] ) {
     if ( status == 0 )
       printf( "\n---------------------end loop over frames------------------------\n" );
   }
+
   if ( glScan.memState != 0 ) {
     printf( "\nCLEANING up heap\n" );
     delete_glImage( &glScan );

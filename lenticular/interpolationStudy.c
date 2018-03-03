@@ -30,8 +30,8 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "\nmodified inStudy 2018-02-24 alpha\n  RGB image pixel column interpolation study\n\n" );
-  char helpText[] = "inStudy [--help] 'inputFileName'\n\n";
+  sprintf( greetingText, "\ninterpolationstudy 2018-03-04 alpha\n  RGB image pixel column interpolation study\n\n" );
+  char helpText[] = "interpolationstudy [--help] 'inputFileName'\n\n";
   char inputImageName[128] = "";
   char outputImageName[128] = "";
 

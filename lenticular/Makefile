@@ -2,16 +2,16 @@ CC = gcc
 CFLAGS = -Wall -std=c99
 
 OBJ = imageHandling.o imageProcessing.o
-BIN: lenticular inStudy frameCropper
+BIN: lenticular framecropper interpolationstudy
 
 lenticular: lenticular.o $(OBJ)
 	$(CC) $(CFLAGS) -ltiff lenticular.o $(OBJ) -o lenticular
 
-inStudy: interpolationStudy.o $(OBJ)
-	$(CC) $(CFLAGS) -ltiff interpolationStudy.o $(OBJ) -o inStudy
+framecropper: frameCropper.o $(OBJ)
+	$(CC) $(CFLAGS) -ltiff frameCropper.o $(OBJ) -o framecropper
 
-frameCropper: frameCropper.o $(OBJ)
-	$(CC) $(CFLAGS) -ltiff frameCropper.o $(OBJ) -o frameCropper
+interpolationstudy: interpolationStudy.o $(OBJ)
+	$(CC) $(CFLAGS) -ltiff interpolationStudy.o $(OBJ) -o interpolationstudy
 
 obj: $(OBJ)
 	$(CC) $(OBJ) -c $(OBJ)

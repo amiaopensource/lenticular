@@ -22,7 +22,7 @@ Thank you!
 - Allow to choose the name of the output files.
 - Add flags for mandatory parameters and allow free input order.
 - Allow the file extensions `.tiff`, `.TIF` and `.TIFF` as well.
-- Allow more TIFF flavours to be processed, _in primis_ `rgb48le`, because currently only `gray16le` is supported in `lenticular`. However, the additional `inStudy` tool does work with `rgb48le`. Therefore this should not be too hard to implement.
+- Allow more TIFF flavours to be processed, _in primis_ `rgb48le`, because currently only `gray16le` is supported in `lenticular`. However, the additional interpolation-study tool does work with `rgb48le`. Therefore this should not be too hard to implement.
 - Determine automatically the regex for parsing the greyscale frames of the input folder.
 - The number of the first and of the last frame to process is needed only for testing a subset of the frames in the folder. If these parameters are not provided, then parse in ascending order all the files in the folder.
 - Change the behaviour of the `-highRes` flag: replace with a resolution parameter and set the default to high resolution.
@@ -78,7 +78,7 @@ Brew installation and `lenticular` have been successfully tested on the followin
 ### Parameters
 
 ```
-lenticular 2018-02-24 alpha
+lenticular 2018-03-04 alpha
 
 lenticular [-help] [-highRes] [-profileRelThickness (float)]
   [-profileRelPosY (float)] [-relaxRaster]
@@ -98,6 +98,7 @@ Please note that, like in the original code, as well as in the current version:
 
 - the parameters must be passed in this order
 - the file extension must be `.tif` and the extension `.tiff` is not allowed
+- currently only `gray16le` is supported and not `rgb48le`
 - in the example above the first input file is `~/TEST/SOURCE_FILES/greyscale_0001.tif`
 - the output folder must be nested inside the input folder
 - only the name of the output folder must be entered (with the path from the input folder on, if any, but not the full path)
@@ -114,12 +115,38 @@ Please note that, like in the original code, as well as in the current version:
 - **-rasterSpacing (float)**
 - **-troubleshoot**
 
+#### FFmpeg commands to transform input to gray16le
+
+As currently `lenticuar` does only process `gray16le` content, the FFmpeg commands to transcode in this format are provided.
+
+##### Single-image based content
+
+```
+ffmpeg -f image2 -i INPUT_FOLDER/input_file_%08d.ext -pix_fmt gray16le OUTPUT_FOLDER/greyscale_%08d.tif
+```
+
+The following file formats of good digitisations in a 4K resolution give very nice results:
+- TIFF `rgb48le`
+- DPX 16-bit, 12-bit or 10-bit
+- OpenEXR
+
+##### Stream-image based content
+
+```
+ffmpeg -i input_file.ext -pix_fmt gray16le OUTPUT_FOLDER/greyscale_%08d.tif
+```
+
+We have tested so far the following stream-based file formats in 2K resolution:
+- FFV1 `gbrp16le` and `yuv444p`
+- uncompressed 10-bit
+- ProRes 4444 and ProRes 422 HQ
+
 ### Additional tools
 
 The original source code comes with the following two additional tools:
 
-- `inStudy`: pixel column interpolation study on `rgb48le`
-- `frameCropper`: crop center part of RGB frames
+- `interpolationstudy`: pixel column interpolation study on `rgb48le`
+- `framecropper`: crop center part of RGB frames
 
 Note that we just have started to explore the additional tools.
 
@@ -127,55 +154,55 @@ We have added to the Homebrew/Linuxbrew formula options to install one or both o
 
 #### Interpolation study
 
-To install `inStudy` via Homebrew or Linuxbrew, run the command:
+To install the interpolation-study tool via Homebrew or Linuxbrew, run the command:
 
 ```
-brew install amiaopensource/amiaos/lenticular --with-inStudy
+brew install amiaopensource/amiaos/lenticular --with-interpolationstudy
 ```
 
 Once installed, run the main tool by the command:
 
 ```
-inStudy
+interpolationstudy
 ```
 
 which should give:
 
 ```
-modified inStudy 2018-02-24 alpha
+interpolationstudy 2018-03-04 alpha
   RGB image pixel column interpolation study
 
-inStudy [--help] 'inputFileName'
+interpolationstudy [--help] 'inputFileName'
 ```
 
 Note that:
 
 - the «option '--help' [is] ignored at the moment», as is any passed flag;
-- **inputFileName:** currently the input file must be at the same level than `inStudy`. Hmm…
+- **inputFileName:** currently the input file must be at the same level than `interpolationstudy`. Hmm…
 - when only a flag is passed, a `Segmentation fault: 11` occurs
 
 #### Frame cropper
 
-To install `frameCropper` via Homebrew or Linuxbrew, run the command:
+To install the frame-cropper tool via Homebrew or Linuxbrew, run the command:
 
 ```
-brew install amiaopensource/amiaos/lenticular --with-frameCropper
+brew install amiaopensource/amiaos/lenticular --with-framecropper
 ```
 
 Once installed, run the main tool by the command:
 
 ```
-frameCropper
+framecropper
 ```
 
 which should give:
 
 
 ```
-modified frameCropper 2018-02-24 alpha
+framecropper 2018-03-04 alpha
   crop center part of RGB frames
 
-frameCropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'
+framecropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'
 ```
 
 ---

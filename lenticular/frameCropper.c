@@ -30,8 +30,8 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "\nmodified frameCropper 2018-02-24 alpha\n  crop center part of RGB frames\n\n" );
-  char helpText[] = "frameCropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n\n";
+  sprintf( greetingText, "\nframecropper 2018-03-04 alpha\n  crop center part of RGB frames\n\n" );
+  char helpText[] = "framecropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n\n";
   char inputImageName[128] = "";
   char inputBaseName[128] =  "";
   char startNoStr[16] = "";
