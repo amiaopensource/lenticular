@@ -42,6 +42,8 @@ Thank you!
 
 ## An alpha release is available for testing purpose
 
+The program depends on `libtiff`.
+
 ### How to compile the source
 
 1. download the `lenticular` folder
