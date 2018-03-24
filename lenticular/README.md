@@ -80,7 +80,7 @@ Brew installation and `lenticular` have been successfully tested on the followin
 ### Parameters
 
 ```
-lenticular 2018-03-04 alpha
+lenticular 2018-03-24 alpha
 
 lenticular [-help] [-highRes] [-profileRelThickness (float)]
   [-profileRelPosY (float)] [-relaxRaster]
@@ -171,7 +171,7 @@ interpolationstudy
 which should give:
 
 ```
-interpolationstudy 2018-03-04 alpha
+interpolationstudy 2018-03-24 alpha
   RGB image pixel column interpolation study
 
 interpolationstudy [--help] 'inputFileName'
@@ -179,7 +179,7 @@ interpolationstudy [--help] 'inputFileName'
 
 Note that:
 
-- the «option '--help' [is] ignored at the moment», as is any passed flag;
+- the «option '--help' [is] ignored at the moment», as is any passed flag
 - **inputFileName:** currently the input file must be at the same level than `interpolationstudy`. Hmm…
 - when only a flag is passed, a `Segmentation fault: 11` occurs
 
@@ -201,7 +201,7 @@ which should give:
 
 
 ```
-framecropper 2018-03-04 alpha
+framecropper 2018-03-24 alpha
   crop center part of RGB frames
 
 framecropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'

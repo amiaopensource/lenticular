@@ -97,7 +97,7 @@ int multiplyVal_rgbImage( rgbImage_t *rgbImage, float factors[3] ) {
 
   if ( rgbImage->img == NULL || rgbImage->memState != 1 ) {
     status = -1;
-    printf ( "ERROR: multiplyVal_rgbImage(): Invalid argument 'rgbImage->img == NULL || rgbImage->memState != 1'\n" );
+    printf ( "ERROR: multiplyVal_rgbImage(): Invalid argument 'rgbImage->img == NULL || rgbImage->memState != 1'.\n" );
   } else {
     width = rgbImage->width;
     height = rgbImage->height;
@@ -120,7 +120,7 @@ int subtractVal_rgbImage( rgbImage_t *rgbImage, int values[3] ) {
 
   if ( rgbImage->img == NULL || rgbImage->memState != 1 ) {
     status = -1;
-    printf ( "ERROR: subtractVal_rgbImage(): Invalid argument 'rgbImage->img == NULL || rgbImage->memState != 1'\n" );
+    printf ( "ERROR: subtractVal_rgbImage(): Invalid argument 'rgbImage->img == NULL || rgbImage->memState != 1'.\n" );
   } else {
     width = rgbImage->width;
     height = rgbImage->height;

@@ -35,7 +35,7 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "lenticular 2018-03-04 alpha\n  digital restoration of lenticular colours from greyscale digitisations\n" );
+  sprintf( greetingText, "lenticular 2018-03-24 alpha\n  digital restoration of lenticular colours from greyscale digitisations\n" );
   char helpText[] = "lenticular [-help] [-highRes] [-profileRelThickness (float)]\n  [-profileRelPosY (float)] [-relaxRaster]\n  [-rasterSpacing (float)] [-troubleshoot]\n  'inputDir' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n";
   char inputImageName[128] = "";
   char inputDirName[128] = "";
@@ -134,7 +134,7 @@ int main( int argc, char *argv[] ) {
       } else if ( strlen(argv[argNo]) == 15 && strncmp(argv[argNo], "-profileRelPosY", 15) == 0 ) {
         profileRelPosY = atof( argv[++argNo] );
         if ( profileRelPosY < 0.0 || profileRelPosY > 1.0 ) {
-          printf( "ERROR: Invalid value passed by option '-profileRelPosY': 'profileRelPosY = %f < 0.0 || profileRelPosY = %f > 1.0'\n", profileRelPosY, profileRelPosY );
+          printf( "ERROR: Invalid value passed by option '-profileRelPosY': 'profileRelPosY = %f < 0.0 || profileRelPosY = %f > 1.0'.\n", profileRelPosY, profileRelPosY );
           exit(1);
         } else {
           printf( "y-position of upper-left corner of grey-level profile relative to image heigth: %f\n", profileRelPosY );
@@ -142,7 +142,7 @@ int main( int argc, char *argv[] ) {
       } else if ( strlen(argv[argNo]) == 20 && strncmp(argv[argNo], "-profileRelThickness", 20) == 0 ) {
         profileRelThickness = atof( argv[++argNo] );
         if ( profileRelThickness < 0.0 || profileRelThickness > 1.0 ) {
-          printf( "ERROR: Invalid value passed by option '-profileRelThickness': 'profileRelThickness = %f < 0.0 || profileRelThickenss = %f > 1.0'\n", profileRelThickness, profileRelThickness );
+          printf( "ERROR: Invalid value passed by option '-profileRelThickness': 'profileRelThickness = %f < 0.0 || profileRelThickenss = %f > 1.0'.\n", profileRelThickness, profileRelThickness );
           exit(1);
         } else {
           printf( "thickness for grey-level profile relative to image height: %f\n", profileRelThickness );
@@ -160,7 +160,7 @@ int main( int argc, char *argv[] ) {
         relaxRaster = 1;
         printf( "'relaxRaster' mode is ON\n" );
       } else {
-        printf( "ERROR: invalid option '%s'.\n\n%s\n", argv[argNo], helpText );
+        printf( "ERROR: invalid option '%s'.\n%s", argv[argNo], helpText );
         exit(1);
       }
     }
@@ -325,7 +325,7 @@ int main( int argc, char *argv[] ) {
             if ( status == 0 ) {
               status = write_glHistograms_fourShot( fourShotGlHists, fourShotGlHistsName );
               if ( status == 0 )
-                printf( "> wrote four shot grew-level histograms to '%s'\n", fourShotGlHistsName );
+                printf( "> wrote four shot grey-level histograms to '%s'\n", fourShotGlHistsName );
             }
           }
         }
