@@ -119,7 +119,7 @@ Please note that, like in the original code, as well as in the current version:
 
 #### FFmpeg commands to transform input to gray16le
 
-As currently `lenticuar` does only process `gray16le` content, the FFmpeg commands to transcode in this format are provided.
+As currently `lenticular` does only process `gray16le` content, the FFmpeg commands to transcode in this format are provided.
 
 ##### Single-image based content
 
