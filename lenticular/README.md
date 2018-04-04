@@ -107,6 +107,11 @@ Please note that, like in the original code, as well as in the current version:
 - in the example above the last output file is `~/TEST/SOURCE_FILES/NEW_FILES/rgb_greyscale_0057.tif`
 - inconsistent input may provoke a `Segmentation fault: 11` error
 
+The full command line for the example above would be:
+```
+lenticular ~/TEST/SOURCE_FILES/ greyscale_ 0001 0057 NEW_FILES
+```
+
 #### Optional parameters
 
 - **-help**
