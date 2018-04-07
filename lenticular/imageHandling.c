@@ -36,7 +36,7 @@ int new_glImage( glImage_t *glImage, int width, int height ) {
     printf( "ERROR: new_glImage(): Invalid argument 'glImage->img != NULL || glImage->memState != 0'.\n" );
   } else if ( width < 1 || height < 1 ) {
     status = -1;
-    printf( "ERROR: new_glImage(): Invalid argumment 'width < 1 || heigth < 1'.\n" );
+    printf( "ERROR: new_glImage(): Invalid argumment 'width < 1 || height < 1'.\n" );
   }
   if ( status == 0 ) {
     glImage->width = width;
@@ -98,7 +98,7 @@ int new_rgbImage( rgbImage_t *rgbImage, int width, int height ) {
     printf( "ERROR: new_bitstore_rgbImage(): Invalid argument 'rgbImage->img != NULL || rgbImage->memState != 0'.\n" );
   } else if ( width < 1 || height < 1 ) {
     status = -1;
-    printf( "ERROR: Won't allocate memory because 'width < 1 || heigth < 1'.\n" );
+    printf( "ERROR: Won't allocate memory because 'width < 1 || height < 1'.\n" );
   } else {
     rgbImage->width = width;
     rgbImage->height = height;
@@ -219,7 +219,7 @@ int read_glTIFF( char *inputTIFFname, glImage_t *glImage ) {
       status = -1;
       printf( "ERROR: Can't read '%s' because input parameters are inconsistent:\n", inputTIFFname );
       printf( "  actual parameters:   spp=%d, bps=%d, width=%d, height%d\n", spp, bps, width, height );
-      printf( "  expected parameters: spp=%d, bps=%d, width=%d, heigth%d\n", 1, 8, glImage->width, glImage->height );
+      printf( "  expected parameters: spp=%d, bps=%d, width=%d, height%d\n", 1, 8, glImage->width, glImage->height );
     }
   }
   if ( status == 0 ) {
@@ -275,7 +275,7 @@ int read_16bitTIFF_glImage( char *TIFFname, glImage_t *glImage ) {
       status = -1;
       printf( "ERROR: read_16bitTIFF_glImage(): Can't read '%s' because input parameters are inconsistent:\n", TIFFname );
       printf( "  actual parameters:   spp=%d, bps=%d, width=%d, height%d\n", spp, bps, width, height );
-      printf( "  expected parameters: spp=%d, bps=%d, width=%d, heigth%d\n", 1, 16, glImage->width, glImage->height );
+      printf( "  expected parameters: spp=%d, bps=%d, width=%d, height%d\n", 1, 16, glImage->width, glImage->height );
     }
   }
   if ( status == 0 ) {
@@ -331,7 +331,7 @@ int read_3x8bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
       status = -1;
       printf( "ERROR: read_3x8bitTIFF_rgbImage(): Can't read '%s' because input parameters are inconsistent:\n", fromTIFFname );
       printf( "  actual parameters:   spp=%d, bps=%d, width=%d, height%d\n", spp, bps, width, height );
-      printf( "  expected parameters: spp=%d, bps=%d, width=%d, heigth%d\n", 3, 8, rgbImage->width, rgbImage->height );
+      printf( "  expected parameters: spp=%d, bps=%d, width=%d, height%d\n", 3, 8, rgbImage->width, rgbImage->height );
     }
   }
   if ( status == 0 ) {
@@ -389,7 +389,7 @@ int read_3x16bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
       status = -1;
       printf( "ERROR: read_3x16bitTIFF_rgbImage(): Can't read '%s' because input parameters are inconsistent:\n", fromTIFFname );
       printf( "  actual parameters:   spp=%d, bps=%d, width=%d, height%d\n", spp, bps, width, height );
-      printf( "  expected parameters: spp=%d, bps=%d, width=%d, heigth%d\n", 3, 16, rgbImage->width, rgbImage->height );
+      printf( "  expected parameters: spp=%d, bps=%d, width=%d, height%d\n", 3, 16, rgbImage->width, rgbImage->height );
     }
   }
   if ( status == 0 ) {
