@@ -137,7 +137,7 @@ int main( int argc, char *argv[] ) {
           printf( "ERROR: Invalid value passed by option '-profileRelPosY': 'profileRelPosY = %f < 0.0 || profileRelPosY = %f > 1.0'.\n", profileRelPosY, profileRelPosY );
           exit(1);
         } else {
-          printf( "y-position of upper-left corner of grey-level profile relative to image heigth: %f\n", profileRelPosY );
+          printf( "y-position of upper-left corner of grey-level profile relative to image height: %f\n", profileRelPosY );
         }
       } else if ( strlen(argv[argNo]) == 20 && strncmp(argv[argNo], "-profileRelThickness", 20) == 0 ) {
         profileRelThickness = atof( argv[++argNo] );
