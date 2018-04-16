@@ -639,7 +639,7 @@ int main( int argc, char *argv[] ) {
   }
   if ( rasterPos.memState != 0 ) {
     delete_positionList( &rasterPos );
-    printf( "> freed memory: rasterPos.memState = %d\n", rasterPos.memState );
+    printf( "> freed memory: 'rasterPos.memState = %d'\n", rasterPos.memState );
   }
   for ( i=0; i<4; i++ ) {
     if ( perfArea[i].memState != 0 ) {
