@@ -1,6 +1,6 @@
 # Digital Restoration of Lenticular Colours from Greyscale Digitisations
 
-## ☛ **This is a work in progress** ☚
+## ☛ **This is a work in progress: not ready for use IRL!** ☚
 
 ### Contributions are very welcome!
 
