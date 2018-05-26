@@ -35,7 +35,7 @@ int main( int argc, char *argv[] ) {
 
   // constants
   char greetingText[128] = "";
-  sprintf( greetingText, "lenticular 2018-03-24 alpha\n  digital restoration of lenticular colours from greyscale digitisations\n" );
+  sprintf( greetingText, "lenticular 2018-05-26 alpha\n  digital restoration of lenticular colours from greyscale digitisations\n" );
   char helpText[] = "lenticular [-help] [-highRes] [-profileRelThickness (float)]\n  [-profileRelPosY (float)] [-relaxRaster]\n  [-rasterSpacing (float)] [-troubleshoot]\n  'inputDir' 'inputBaseName' 'startNo' 'endNo' 'outputDir'\n";
   char inputImageName[128] = "";
   char inputDirName[128] = "";

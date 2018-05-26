@@ -61,13 +61,13 @@ The program depends on `libtiff`.
 
 Alternatively, you can install the modified `lenticular` tool by using Homebrew or Linuxbrew. Just run the command:
 
-```
+```sh
 brew install amiaopensource/amiaos/lenticular
 ```
 
 Once installed, run the main tool by the command:
 
-```
+```sh
 lenticular
 ```
 
@@ -79,8 +79,8 @@ Brew installation and `lenticular` have been successfully tested on the followin
 
 ### Parameters
 
-```
-lenticular 2018-03-24 alpha
+```sh
+lenticular 2018-05-26 alpha
 
 lenticular [-help] [-highRes] [-profileRelThickness (float)]
   [-profileRelPosY (float)] [-relaxRaster]
@@ -108,7 +108,7 @@ Please note that, like in the original code, as well as in the current version:
 - inconsistent input may provoke a `Segmentation fault: 11` error
 
 The full command line for the example above would be:
-```
+```sh
 lenticular ~/TEST/SOURCE_FILES/ greyscale_ 0001 0057 NEW_FILES
 ```
 
@@ -128,7 +128,7 @@ As currently `lenticular` does only process `gray16le` content, the FFmpeg comma
 
 ##### Single-image based content
 
-```
+```sh
 ffmpeg -f image2 -i INPUT_FOLDER/input_file_%08d.ext -pix_fmt gray16le OUTPUT_FOLDER/greyscale_%08d.tif
 ```
 
@@ -139,7 +139,7 @@ The following file formats of good digitisations in a 4K resolution give very ni
 
 ##### Stream-image based content
 
-```
+```sh
 ffmpeg -i input_file.ext -pix_fmt gray16le OUTPUT_FOLDER/greyscale_%08d.tif
 ```
 
@@ -163,20 +163,20 @@ We have added to the Homebrew/Linuxbrew formula options to install one or both o
 
 To install the interpolation-study tool via Homebrew or Linuxbrew, run the command:
 
-```
+```sh
 brew install amiaopensource/amiaos/lenticular --with-interpolationstudy
 ```
 
 Once installed, run the main tool by the command:
 
-```
+```sh
 interpolationstudy
 ```
 
 which should give:
 
-```
-interpolationstudy 2018-03-24 alpha
+```sh
+interpolationstudy 2018-05-26 alpha
   RGB image pixel column interpolation study
 
 interpolationstudy [--help] 'inputFileName'
@@ -192,21 +192,21 @@ Note that:
 
 To install the frame-cropper tool via Homebrew or Linuxbrew, run the command:
 
-```
+```sh
 brew install amiaopensource/amiaos/lenticular --with-framecropper
 ```
 
 Once installed, run the main tool by the command:
 
-```
+```sh
 framecropper
 ```
 
 which should give:
 
 
-```
-framecropper 2018-03-24 alpha
+```sh
+framecropper 2018-05-26 alpha
   crop center part of RGB frames
 
 framecropper 'width' 'height' 'inputBaseName' 'startNo' 'endNo' 'outputDir'

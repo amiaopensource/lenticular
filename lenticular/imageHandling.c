@@ -217,7 +217,7 @@ int read_glTIFF( char *inputTIFFname, glImage_t *glImage ) {
     TIFFGetField( inTIFF, TIFFTAG_IMAGELENGTH, &height );
     if( spp!=1 || bps!=8 || glImage->width != width || glImage->height != height ) {
       status = -1;
-      printf( "ERROR: Can't read '%s' because input parameters are inconsistent:\n", inputTIFFname );
+      printf( "ERROR: Cannot read '%s' because input parameters are inconsistent:\n", inputTIFFname );
       printf( "  actual parameters:   spp=%d, bps=%d, width=%d, height%d\n", spp, bps, width, height );
       printf( "  expected parameters: spp=%d, bps=%d, width=%d, height%d\n", 1, 8, glImage->width, glImage->height );
     }
@@ -226,7 +226,7 @@ int read_glTIFF( char *inputTIFFname, glImage_t *glImage ) {
     lineBuffer = malloc( (long)(glImage->width)*sizeof(unsigned char) );
     if ( lineBuffer == NULL ) {
       status = -1;
-      printf( "ERROR: Failed to allocate memory for lineBuffer.\n" );
+      printf( "ERROR: Failed to allocate memory for 'lineBuffer'.\n" );
     } else {
       for ( j=0; j < glImage->height; j++ ) {
         if ( TIFFReadScanline( inTIFF, lineBuffer, j, 0 ) == -1 ) {
@@ -273,7 +273,7 @@ int read_16bitTIFF_glImage( char *TIFFname, glImage_t *glImage ) {
     TIFFGetField( inTIFF, TIFFTAG_IMAGELENGTH, &height );
     if( spp!=1 || bps!=16 || glImage->width != width || glImage->height != height ) {
       status = -1;
-      printf( "ERROR: read_16bitTIFF_glImage(): Can't read '%s' because input parameters are inconsistent:\n", TIFFname );
+      printf( "ERROR: read_16bitTIFF_glImage(): Cannot read '%s' because input parameters are inconsistent:\n", TIFFname );
       printf( "  actual parameters:   spp=%d, bps=%d, width=%d, height%d\n", spp, bps, width, height );
       printf( "  expected parameters: spp=%d, bps=%d, width=%d, height%d\n", 1, 16, glImage->width, glImage->height );
     }
@@ -329,7 +329,7 @@ int read_3x8bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
     TIFFGetField( inTIFF, TIFFTAG_IMAGELENGTH, &height );
     if( spp!=3 || bps!=8 || rgbImage->width != width || rgbImage->height != height ) {
       status = -1;
-      printf( "ERROR: read_3x8bitTIFF_rgbImage(): Can't read '%s' because input parameters are inconsistent:\n", fromTIFFname );
+      printf( "ERROR: read_3x8bitTIFF_rgbImage(): Cannot read '%s' because input parameters are inconsistent:\n", fromTIFFname );
       printf( "  actual parameters:   spp=%d, bps=%d, width=%d, height%d\n", spp, bps, width, height );
       printf( "  expected parameters: spp=%d, bps=%d, width=%d, height%d\n", 3, 8, rgbImage->width, rgbImage->height );
     }
@@ -387,7 +387,7 @@ int read_3x16bitTIFF_rgbImage( char *fromTIFFname, rgbImage_t *rgbImage ) {
     TIFFGetField( inTIFF, TIFFTAG_IMAGELENGTH, &height );
     if( spp!=3 || bps!=16 || rgbImage->width != width || rgbImage->height != height ) {
       status = -1;
-      printf( "ERROR: read_3x16bitTIFF_rgbImage(): Can't read '%s' because input parameters are inconsistent:\n", fromTIFFname );
+      printf( "ERROR: read_3x16bitTIFF_rgbImage(): Cannot read '%s' because input parameters are inconsistent:\n", fromTIFFname );
       printf( "  actual parameters:   spp=%d, bps=%d, width=%d, height%d\n", spp, bps, width, height );
       printf( "  expected parameters: spp=%d, bps=%d, width=%d, height%d\n", 3, 16, rgbImage->width, rgbImage->height );
     }
@@ -567,7 +567,7 @@ int writeROI_3x8bitTIFF_rgbImage( rgbImage_t *rgbImage, char *toTIFFname, int ro
     TIFFSetField( outTIFF, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
     if ( (lineBuffer = malloc( 3*width*sizeof(unsigned char) )) == NULL ) {
       status = -1;
-      printf ( "ERROR: writeROI_3x8bitTIFF_rgbImage(): Failed to allocate memory for line buffer.\n" );
+      printf ( "ERROR: writeROI_3x8bitTIFF_rgbImage(): Failed to allocate memory for 'line buffer'.\n" );
     }
     for ( j=0; j < roiHeight && status == 0; j++ ) {
       for ( i=0; i < roiWidth; i++ )
@@ -649,7 +649,7 @@ int get_range_glImage( glImage_t *glImage, int *minGl, int *maxGl ) {
 
   if ( glImage->img == NULL ) {
     status = -1;
-    printf( "ERROR: get_range_glImage(): Can't determine mix/max for an empty grey-level image.\n" );
+    printf( "ERROR: get_range_glImage(): Cannot determine mix/max for an empty grey-level image.\n" );
   }
   *minGl = glImage->img[0][0];
   *maxGl = *minGl;
@@ -806,10 +806,10 @@ int write_glHistogram( glHistogram_t *hist, char *fileName ) {
 
   if ( hist->freq == NULL ) {
     status = -1;
-    printf( "ERROR: write_glHistogram(): Can't write empty histogram to disk.\n" );
+    printf( "ERROR: write_glHistogram(): Cannot write empty histogram to disk.\n" );
   } else if ( (hist->minGl == hist->maxGl) && (hist->freq[hist->maxGl] == 0) ) {
     status = -1;
-    printf( "ERROR: write_glHistogram(): Can't write empty histogram to disk.\n" );
+    printf( "ERROR: write_glHistogram(): Cannot write empty histogram to disk.\n" );
   } else {
     if ( (histFile = fopen( fileName, "w" )) == NULL ) {
       status = -1;
@@ -844,7 +844,7 @@ int write_glHistograms_fourShot( glHistogram_t glHists[4], char *toFileName ) {
       printf( "ERROR: write_glHistograms_fourShot(): Invalid grey-level histogram: 'glHists[%d].freq == NULL || glHists[%d].memState != 1'.\n", s, s );
     } else if ( (glHists[s].minGl == glHists[s].maxGl) && (glHists[s].freq[glHists[s].maxGl] == 0) ) {
       status = -1;
-      printf( "ERROR: write_glHistograms_fourShot(): Can't write empty histogram to disk (shot %d).\n", s );
+      printf( "ERROR: write_glHistograms_fourShot(): Cannot write empty histogram to disk (shot %d).\n", s );
     }
   }
   if ( status == 0 ) {
@@ -1539,7 +1539,7 @@ int relax_regPeakRaster( glProfile_t *glProfile, glProfile_t *regPeakProfile ) {
   }
   if ( glProfile->length != regPeakProfile->length ) {
     status = -1;
-    printf( "ERROR: relax_regPeakRaster(): Inconsistent profile length ' glProfile->length != regPeakProfile->length'.\n" );
+    printf( "ERROR: relax_regPeakRaster(): Inconsistent profile length 'glProfile->length != regPeakProfile->length'.\n" );
   } else {
     for ( i = maxDist; i < regPeakProfile->length-maxDist; i++ )
       if ( regPeakProfile->glSum[i] > 0 ) {
