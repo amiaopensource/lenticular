@@ -57,12 +57,13 @@ The program depends on `libtiff`.
 1. `cd` into the folder
 1. run `./lenticular`
 
-### Homebrew and Linuxbrew
+### Homebrew
 
-Alternatively, you can install the modified `lenticular` tool by using Homebrew or Linuxbrew. Just run the command:
+Alternatively, you can install the modified `lenticular` tool by using Homebrew. Just run the two commands:
 
 ```sh
-brew install amiaopensource/amiaos/lenticular
+brew tap amiaopensource/amiaos
+brew install lenticular
 ```
 
 Once installed, run the main tool by the command:
@@ -157,14 +158,15 @@ The original source code comes with the following two additional tools:
 
 Note that we just have started to explore the additional tools.
 
-We have added to the Homebrew/Linuxbrew formula options to install one or both of them. And, most importantly, please [report](../CONTRIBUTING.md) any findings.
+We have added to the Homebrew formula options to install one or both of them. And, most importantly, please [report](../CONTRIBUTING.md) any findings.
 
 #### Interpolation study
 
-To install the interpolation-study tool via Homebrew or Linuxbrew, run the command:
+To install the interpolation-study tool via Homebrew, run the two commands:
 
 ```sh
-brew install amiaopensource/amiaos/lenticular --with-interpolationstudy
+brew tap amiaopensource/amiaos
+brew install lenticular --with-interpolationstudy
 ```
 
 Once installed, run the main tool by the command:
@@ -190,10 +192,11 @@ Note that:
 
 #### Frame cropper
 
-To install the frame-cropper tool via Homebrew or Linuxbrew, run the command:
+To install the frame-cropper tool via Homebrew, run the two commands:
 
 ```sh
-brew install amiaopensource/amiaos/lenticular --with-framecropper
+brew tap amiaopensource
+brew install lenticular --with-framecropper
 ```
 
 Once installed, run the main tool by the command:
